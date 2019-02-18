@@ -70,4 +70,4 @@ ggplotly(gg)
 
 ## Zasady zaliczania
 
-Strona przedmiotu:
+Strona przedmiotu: https://github.com/michbur/WizualizacjaDanych2018.
