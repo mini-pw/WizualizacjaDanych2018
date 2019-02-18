@@ -20,7 +20,7 @@ ggplot(data = countries, aes(x = continent, y = death.rate)) +
 
 set.seed(1410)
 ggplot(data = countries, aes(x = continent, y = death.rate)) +
-  geom_point(position = "jitter")
+  geom_point(position = position_jitter(width = 0.2))
 
 ggplot(data = countries, aes(x = continent, y = death.rate)) +
   geom_point(alpha = 0.2)
@@ -178,7 +178,7 @@ ggplot(countries, aes(x = birth.rate, y = death.rate)) +
 ggplot(countries, aes(x = birth.rate, y = death.rate)) +
   stat_density2d(aes(fill = ..level..), color = "black", contour = TRUE, geom = "polygon") +
   facet_wrap(~ continent) +
-  scale_fill_gradient(low = "pink", high = "red")
+  scale_fill_gradient(high = "orange", low = "blue")
 
 # wykresy zyskuja poprzez pokazanie linii trendu
 
