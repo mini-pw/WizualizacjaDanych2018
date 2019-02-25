@@ -1,6 +1,7 @@
 Tutaj umieść rozwiązania zadania proton()
 
 ```R
-install.packages("BetaBit"")
-BetaBit::proton()
+install.packages("BetaBit")
+library(BetaBit)
+proton()
 ```
