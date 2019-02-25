@@ -26,7 +26,7 @@ Materiały dodatkowe:
  - [A Brief History of Data Visualization - Jeffrey Heer](https://www.youtube.com/watch?v=N00g9Q9stBo).
  - [A Brief History of Data Visualization - Michael Friendly](http://datavis.ca/papers/hbook.pdf).
 
-**P**: [Praca domowa 1]
+**P**: [Praca domowa 1](https://github.com/michbur/WizualizacjaDanych2018/tree/master/PraceDomowe/PD1).
 
 ## S3 4.03
 
