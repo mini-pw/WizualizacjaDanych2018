@@ -7,7 +7,7 @@ Strona przedmiotu Wizualizacja Danych na wydziale MiNI PW
 
 **W**: Narzędzia do wizualizacji danych.
 
-**L**: [ggplot2 - pierwsza krew](https://pbiecek.gitbooks.io/przewodnik/content/Wizualizacja/jak_tworzyc_wykresy_ggplot2.html). 
+**L**: [dplyr - przetwarzanie danych](). [ggplot2 - pierwsza krew](https://pbiecek.gitbooks.io/przewodnik/content/Wizualizacja/jak_tworzyc_wykresy_ggplot2.html). 
 
 Materiały dodatkowe:
 
@@ -17,7 +17,7 @@ Materiały dodatkowe:
 
 ## S2 25.02
 
-**W**: [Historia grafiki statystycznej](http://biecek.pl/Eseje/indexHistoria.html).
+**W**: [Historia grafiki statystycznej](http://biecek.pl/Eseje/indexHistoria.html). 
 
 **L**: [ggplot2 - skale, statystyki, koordynaty](https://pbiecek.gitbooks.io/przewodnik/content/Wizualizacja/jak_tworzyc_wykresy_ggplot2.html).
 
@@ -26,11 +26,18 @@ Materiały dodatkowe:
  - [A Brief History of Data Visualization - Jeffrey Heer](https://www.youtube.com/watch?v=N00g9Q9stBo).
  - [A Brief History of Data Visualization - Michael Friendly](http://datavis.ca/papers/hbook.pdf).
 
+**P**: [Praca domowa 1]
+
 ## S3 4.03
 
-**W**: [Gramatyka grafiki](http://biecek.pl/Eseje/indexGramatyka.html), [Standardy w komunikacji](http://www.ibcs-a.org/);
+**W**: [Gramatyka grafiki](http://biecek.pl/Eseje/indexGramatyka.html). [Standardy w komunikacji](http://www.ibcs-a.org/);
 
 **L**: [wizualizacja danych z Eurostatu i mapy](https://journal.r-project.org/archive/2017/RJ-2017-019/index.html)
+
+Materiały dodatkowe:
+
+ - [Theory of the Grammar of Graphics - Jonathan Dinu](https://www.youtube.com/watch?v=CxSyXXU60W0).
+ - [A Brief History of Data Visualization - Michael Friendly](http://datavis.ca/papers/hbook.pdf).
 
 ## S4 11.03
 
