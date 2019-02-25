@@ -1,9 +1,9 @@
 ---
-title: "Prognoza wynagrodzeñ na rok 2040"
+title: "Prognoza wynagrodzen na rok 2040"
 output: html_notebook
 ---
 
-Link do Ÿród³owego artyku³u: https://bezprawnik.pl/wzrost-wynagrodzen-w-polsce/
+Link do zrodlowego artykulu: https://bezprawnik.pl/wzrost-wynagrodzen-w-polsce/
 
 
 ```{r Code, echo=TRUE}
@@ -23,11 +23,11 @@ p1 <- ggplot(data = dat1, aes(x = kraj, y = wzrost_pensji)) +
   coord_flip( )+
   theme(legend.position = "none") +
   xlab("") + ylab("") +
-  ggtitle("Przyrost œrednich wynagrodzeñ w ci¹gu najbli¿szych 20 lat")
+  ggtitle("Przyrost srednich wynagrodzen w ciagu najblizszych 20 lat")
 
 p1 <- p1 + theme(plot.title = element_text(size = 14, hjust = 0.5))
 
-countries2 <- c("Korea Po³udniowa", "USA", "Niemcy", "Francja", "UK", "Hiszpania", "W³ochy", "RPA", "Polska")
+countries2 <- c("Korea Poludniowa", "USA", "Niemcy", "Francja", "UK", "Hiszpania", "Wlochy", "RPA", "Polska")
 values2 <- c(5500, 5000, 4600, 4000, 4000, 3700, 3500, 3500, 3000)
 dat2 <- data.frame(kraj = countries2, pensja = values2)
 
@@ -39,7 +39,7 @@ p2 <- ggplot(data = dat2, aes(x = kraj, y = pensja)) +
   coord_flip() +
   theme(legend.position = "none") +
   xlab("") + ylab("") +
-  ggtitle("Œrednie wynagrodzenia w 2040 roku")
+  ggtitle("Srednie wynagrodzenia w 2040 roku")
 
 p2 <- p2 + theme(plot.title = element_text(size = 14, hjust = 0.5))
 
