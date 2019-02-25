@@ -1,6 +1,6 @@
 ---
 title: "Prognoza wynagrodzen na rok 2040"
-output: html_notebook
+output: github_document
 ---
 
 Link do zrodlowego artykulu: https://bezprawnik.pl/wzrost-wynagrodzen-w-polsce/
