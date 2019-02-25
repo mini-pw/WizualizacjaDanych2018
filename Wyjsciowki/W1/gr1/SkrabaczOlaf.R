@@ -1,5 +1,6 @@
 library(ggplot2)
 library(dplyr)
+library(SmarterPoland)
 library(magrittr)
 library(ggthemes)
 death_density <- ggplot(data = na.omit(countries), aes(x = death.rate, fill = continent)) +
