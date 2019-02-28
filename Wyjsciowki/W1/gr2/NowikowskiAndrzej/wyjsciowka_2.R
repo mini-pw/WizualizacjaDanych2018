@@ -8,6 +8,11 @@ library(patchwork)
 
 zig <- countries %>% 
   filter(continent == "Africa" | continent == "Europe")
-  
+
 p <- ggplot(data=zig, aes(x = population, fill=continent)) + 
-  geom_density(alpha = 0.5)
+  geom_density()
+
+(p + scale_fill_manual(values=c('red','blue')) + 
+    p + scale_fill_manual(values=c('blue','orange')))/(
+      p + scale_fill_manual(values=c('#c0feee','#d3d3d3')) +
+        p + scale_fill_manual(values=c('black','white')))
