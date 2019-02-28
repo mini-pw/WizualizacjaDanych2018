@@ -1,5 +1,5 @@
 library(ggplot2)
-library(SmarterPoland)
+library(SmarterPoland) #install.packages("SmarterPoland")
 library(dplyr)
 
 # 1. Mapowanie --------------------------------------------
@@ -20,7 +20,7 @@ ggplot(data = countries, aes(x = continent, y = death.rate)) +
 
 set.seed(1410)
 ggplot(data = countries, aes(x = continent, y = death.rate)) +
-  geom_point(position = "jitter")
+  geom_point(position = position_jitter(width = 0.2))
 
 ggplot(data = countries, aes(x = continent, y = death.rate)) +
   geom_point(alpha = 0.2)
@@ -38,7 +38,8 @@ ggplot(data = countries, aes(x = continent, y = death.rate)) +
   geom_violin()
 
 # dane mozna przypisywac nie tylko do osi, ale rowniez do innych atrybutow graficznych 
-ggplot(data = countries, aes(x = birth.rate, y = death.rate, color = continent)) +
+ggplot(data = countries, aes(x = birth.rate, y = death.rate, 
+                             color = continent)) +
   geom_point()
 
 # niektore geometrie wymagaja konkretnych atrybutow graficznych
@@ -94,11 +95,12 @@ ggplot(continents, aes(x = birth.rate, y = death.rate, size = population, color 
 ggplot(continents, aes(x = birth.rate, y = death.rate, size = population, color = n.countries)) +
   geom_point() +
   scale_size_continuous(range = c(4, 12)) +
-  scale_x_continuous("Birth rate", expand = c(0.2, 0.2))
+  scale_x_continuous("Birth rate", expand = c(0.5, 0.5))
 
 # geometrie automatycznie wykorzystują okreslone atrybuty graficzne.
 # w tym przypadku atrybut size automatycznie jest przypisany zarowno do geom_point i geom_text
-ggplot(continents, aes(x = birth.rate, y = death.rate, size = population, label = continent)) +
+ggplot(continents, aes(x = birth.rate, y = death.rate, 
+                       size = population, label = continent)) +
   geom_point() +
   geom_text(vjust = -1)
 
@@ -176,7 +178,7 @@ ggplot(countries, aes(x = birth.rate, y = death.rate)) +
 ggplot(countries, aes(x = birth.rate, y = death.rate)) +
   stat_density2d(aes(fill = ..level..), color = "black", contour = TRUE, geom = "polygon") +
   facet_wrap(~ continent) +
-  scale_fill_gradient(low = "navyblue", high = "red")
+  scale_fill_gradient(high = "orange", low = "blue")
 
 # wykresy zyskuja poprzez pokazanie linii trendu
 
