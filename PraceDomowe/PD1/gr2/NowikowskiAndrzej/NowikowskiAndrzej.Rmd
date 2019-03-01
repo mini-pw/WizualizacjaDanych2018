@@ -1,0 +1,81 @@
+---
+title: 'Praca domowa - 1'
+author: 'Andrzej Nowikowski'
+date: '1 marca 2019'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Zebranie danych
+
+Do zebrania danych został wykorzystany pakiet *rvest*. Pozwala on na w miarę proste pobieranie danych ze stron ze statyczną zawartością i ładnie uporządkowanym HTMLem. 
+
+Artykuł pochodzi ze strony Forbes'a i jest dostępny pod: https://www.forbes.pl/rankingi/ranking-najlepiej-zarabiajacy-koszykarze-nba-2019/20eryf5
+
+Ze strony została wyciągnięta tabelka z rankingiem zawodników, następnie pierwsza kolumna została podzielona na kolumnę z imieniem i nazwiskiem zawodnika oraz na kolumnę klubem zawodnika oraz została wyciągnięta kolumna z całkowitymi dochodami.
+
+```{r}
+library('xml2') # required by rvest
+library('rvest')
+url <- 'https://www.forbes.pl/rankingi/ranking-najlepiej-zarabiajacy-koszykarze-nba-2019/20eryf5'
+webpage <- read_html(url)
+
+rows = tail(html_nodes(webpage,'.rankTable > tr'), -1)
+
+names <- vector(mode='character', length=0)
+clubs <- vector(mode='character', length=0)
+incomes <- vector(mode='numeric', length=0)
+
+for (row in rows) {
+  cols <- html_nodes(row, 'td')
+  texts <- trimws(html_text(cols))
+  parts <- unlist(strsplit(texts[[2]],'\\s+'))
+  
+  name <- paste0(parts[1:2], collapse=' ')
+  club <- paste0(parts[3:length(parts)], collapse=' ')
+  club <- gsub('\\(|\\)', '', club) # remove parentheses
+  income = as.numeric(gsub(',', '.', gsub('\\.', '', texts[[3]]))) # replace comma with dot
+  
+  names <- c(names, name)
+  clubs <- c(clubs, club)
+  incomes <- c(incomes, income)
+}
+
+df <- data.frame(player=names,club=clubs, income=incomes)
+
+head(df, 2)
+```
+
+## Stworzenie wykresu
+
+Wykres prezentuje pokazane dochody zawodników NBA w roku 2019. Wykres został uporządkowany malejąco pod względem osiąganych dochodów, dodatkowo zawodnicy tych samych klubów zostali zaznaczeni tym samym kolorem.
+
+```{r, echo=FALSE, message=FALSE, fig.width=10, fig.height=4}
+library('dplyr')
+library('ggplot2')
+library('RColorBrewer')
+
+order <- df %>% 
+  arrange(income) %>% 
+  pull(player)
+  
+bold11 <- element_text(size=11,face='bold')
+bold10 <- element_text(size=10,face='bold')
+
+ggplot(data=df, aes(x=player, y=income,fill=clubs)) + 
+  scale_x_discrete(limits = order) +
+  coord_flip() + 
+  geom_bar(stat='identity') + 
+  ggtitle('Najlepiej zarabiający zawodnicy NBA 2019') + 
+  xlab('') +
+  ylab('Dochody (w mln $)') +
+  scale_fill_brewer(palette='Set1', name='Kluby') +
+  theme(plot.title = element_text(hjust=0.5),
+    legend.title = bold11,
+    axis.title.x = bold11,
+    axis.text = bold10)
+```
+
