@@ -17,15 +17,18 @@ library(dplyr)
 library(ggplot2)
 data <- read.csv('data.csv', stringsAsFactors=FALSE)
 data <- data[,-ncol(data)] %>% 
-        filter(GEO != 'Switzerland' & TIME==2017 & grepl('Total environmental taxes',TAX) & grepl('total revenues',UNIT)) %>% 
+        filter(GEO != 'Switzerland' & grepl('Total environmental taxes',TAX) & grepl('total revenues',UNIT)) %>% 
         mutate(Value = as.numeric(Value)) %>% 
         na.omit() %>% 
         arrange(desc(Value)) 
+
 data[grepl('FRG',data$GEO),'GEO'] <- 'Germany'
 data[grepl('Union',data$GEO),'GEO'] <- 'European Union'
 data$GEO <- factor(data$GEO, levels = data$GEO)
+
 color <- rep('#2FB0AD',nrow(data))
 color[data$GEO == 'European Union'] <- '#C05297'
+
 p <- ggplot(data = data, aes(x = GEO, y = Value)) + 
   scale_y_discrete(limits = seq(0,12,2), expand = c(0,0)) +
   coord_cartesian(ylim = c(0, 12))+
