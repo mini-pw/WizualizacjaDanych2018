@@ -1,0 +1,110 @@
+---
+title: "Ceny p¹czków w marketach - t³usty czwartek 2019"
+output: html_document
+---
+
+Link do zrodlowego artykulu: http://warszawa.eska.pl/newsy/ceny-paczkow-w-marketach-i-sklepach-na-tlusty-czwartek-2017-przeglad/374570
+
+
+```{r Code1, results = 'hide'}
+library(patchwork)
+library(ggplot2)
+library(dplyr)
+```
+```{r Code2, echo=TRUE}
+stores <- c(
+  "Biedronka", "Biedronka", "Biedronka", "Biedronka",
+  "Lidl", "Lidl", "Lidl",
+  "Auchan", "Auchan", "Auchan", "Auchan",
+  "Tesco", "Tesco", "Tesco", 
+  "Intermarche", 
+  "Netto", 
+  "Kaufland", "Kaufland", "Kaufland", "Kaufland",
+  "Selgros"
+  )
+names <- c(
+  "P¹czek S³odka Kraina", "P¹czek z nadzieniem", "P¹czek z powid³ami œliwkowymi", "P¹czek z adwokatem",
+  "Gniazdko z lukrem", "P¹czek z nadzieniem ró¿anym i skórk¹ pomarañczow¹", "Donut Milka",
+  "P¹czek z nadzieniem w pudrze", "Donut z cukrem", "Donut w polewie", "Gniazdko wiedeñskie w pudrze",
+  "P¹czek wieloowocowy", "P¹czek z konfitur¹ ró¿an¹ z lukrem", "P¹czek z regionalnej cukierni",
+  "P¹czek Nowel z nadzieniem wieloowocowym", 
+  "P¹czek z lokalnej piekarni",
+  "P¹czki z marmolad¹", "P¹czek z nadzieniem toffi", "P¹czek z nadzieniem wiœniowym", "P¹czek z marmolad¹ o smaku ró¿anym",
+  "P¹czki z lokalnej cukierni"
+  )
+weights <- c(
+  80, 95, 75, 90,
+  80, 80, 56,
+  60, 50, 56, 48, 
+  60, 70, 100,
+  60,
+  -1,
+  -1, -1, -1, -1,
+  -1
+)
+prices <- c(
+  0.55, 1.29, 1.59, 1.99,
+  1.79, 1.49, 2.19,
+  0.55, 0.99, 1.49, 1.19,
+  0.58, 1, 1.49,
+  0.59,
+  0.79, 
+  0.79, 1.49, 1.99, 2.49,
+  0.96
+)
+data_doughnuts <- data.frame(Sklep = stores, Nazwa = names, Masa = weights, Cena = prices)
+
+stores_order <- group_by(data_doughnuts, Sklep) %>% 
+  summarise(max_price = max(Cena)) %>%
+  arrange(max_price) %>% 
+  pull(Sklep)
+
+doughnuts_order <- data_doughnuts %>%
+  mutate(Sklep = factor(Sklep, levels = stores_order)) %>% 
+  arrange(Sklep, Cena) %>% 
+  pull(Nazwa)
+
+p1 <- ggplot(data = data_doughnuts, aes(x = Nazwa, y = Cena, fill = Sklep)) +
+  scale_x_discrete(limits = doughnuts_order) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  ggtitle("Zestawienie cen p¹czków w marketach - t³usty czwartek 2019") +  
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_manual(values = c("red", "grey", "black", "navyblue", "green", "yellow", "orange", "purple")) +
+  scale_y_continuous(limits = c(0, 4), labels = scales::number_format(accuracy = 0.01)) +
+  ylab("Cena (w z³)")
+  
+
+
+data_doughnuts100 <- data_doughnuts %>% 
+  filter(Masa > 0) %>% 
+  mutate(Cena100 = Cena / Masa * 100)
+
+stores_order100 <- group_by(data_doughnuts100, Sklep) %>% 
+  summarise(max_price = max(Cena100)) %>%
+  arrange(max_price) %>% 
+  pull(Sklep)
+
+doughnuts_order100 <- data_doughnuts100 %>%
+  mutate(Sklep = factor(Sklep, levels = stores_order100)) %>% 
+  arrange(Sklep, Cena100) %>% 
+  pull(Nazwa)
+
+p2 <- ggplot(data = data_doughnuts100, aes(x = Nazwa, y = Cena100, fill = Sklep)) +
+  scale_x_discrete(limits = doughnuts_order100) +
+  geom_bar(stat="identity") +
+  coord_flip() +
+  ggtitle("Zestawienie cen za 100 g p¹czków w marketach - t³usty czwartek 2019") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  scale_fill_manual(values = c("red", "grey", "black", "green", "purple")) +
+  scale_y_continuous(limits = c(0, 4), labels = scales::number_format(accuracy = 0.01)) +
+  ylab("Cena za 100 g (w z³)")
+
+p_final <- p1 / p2 +
+  plot_layout(heights = c(0.58, 0.42))
+```
+
+```{r, fig.width = 10, fig.height=7}
+p_final
+```
+
