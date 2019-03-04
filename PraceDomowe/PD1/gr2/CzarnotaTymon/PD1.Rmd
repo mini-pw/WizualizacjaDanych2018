@@ -1,0 +1,68 @@
+---
+title: "PD1"
+author: "TymonCzarnota"
+date: "March 3, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Link do artykułu
+
+Why do 37% of older workers retire earlier than planned? 
+
+https://www.marketwatch.com/story/why-do-37-of-older-workers-retire-earlier-than-planned-2019-02-27?mod=newsviewer_click
+
+Solving the mystery of ‘retirement shocks’
+
+
+## Wykres i kod w R
+
+
+```{r,tidy=TRUE,tidy.opts=list(width.cutoff=80), fig.width=15}
+
+library("ggplot2")
+library(patchwork)
+
+Health<-data.frame(
+  "reason"=c("No initial health problems",  "No change in health", "No initial problems or change"), 
+  "value"=c(-3.2, -1.6, -4.8) 
+  )
+
+Employment<-data.frame(
+  "reason"=c("No voluntary switches","No job loss with new job","No job loss without new job"),
+  "value"=c(0.6, 0.3, -2.3) 
+  )
+
+Family_related<-data.frame(
+  "reason"=c("No spouse retirement","No parents moving in"),
+  "value"=c(-0.8,-0.2) 
+)
+
+Financial<-data.frame(
+  "reason"=c("No financial gains","No financial losses"),
+  "value"=c(-0.7,-0.9) 
+)
+
+
+HealthPlot<-ggplot(data = Health, aes(x=reason,y=value)) +
+  geom_col(fill = "red") +
+  labs(y="Value(%)",x="Health") 
+EmploymentPlot<-ggplot(data = Employment, aes(x=reason,y=value)) +
+  geom_col(fill = "red") +
+  labs(y="Value(%)",x="Employment") 
+FamilyPlot<-ggplot(data = Family_related, aes(x=reason,y=value)) +
+  geom_col(fill = "red") +
+  labs(y="Value(%)",x="Family")
+FinancialPlot<-ggplot(data = Financial, aes(x=reason,y=value)) +
+  geom_col(fill = "red",alpha=0.2) +
+  labs(y="Value(%)",x="Financial")
+
+
+HealthPlot+EmploymentPlot+FamilyPlot+FinancialPlot
+
+
+```
+
