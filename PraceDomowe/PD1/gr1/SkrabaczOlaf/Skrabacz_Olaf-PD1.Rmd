@@ -1,0 +1,34 @@
+---
+title: "Skąd rząd bierze pieniądze na 500 plus?"
+author: "Olaf Skrabacz"
+date: "3 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+```
+
+## Artykuł źródłowy
+https://bezprawnik.pl/skad-sie-biora-pieniadze-na-500-plus/
+
+
+## Dane
+
+```{r dane}
+procenty <- c(29,20,25,11,0,15, 37,13,6,3,0,41,
+              55,26,5,9,1,4, 39, 31, 6, 1, 5, 18)
+zrodla <- c("Podatki które ja płacę", "Podatki które płacą inni", "Pieniądze rządowe","Podatki płacone przez firmy", "Inne", "Nie wiem")
+partie <- c("PiS", "Kukiz15", "PO", "Nowoczesna")
+df <- tibble(procenty=procenty, zrodla=factor(rep(zrodla, 4), levels=zrodla),
+             partie=rep(partie, each=6))
+```
+
+## Wykres
+```{r pressure, echo=FALSE}
+ggplot(data=df, aes(x=zrodla, y=procenty)) + 
+geom_bar(stat='identity') + facet_grid(~partie) + coord_flip() + ggtitle("Jakie Twoim zdaniem jest główne źródło pieniędzy na\nwypłaty w ramach programu 500 plus") + scale_x_discrete(limits = rev(levels(df$zrodla)))
+```
+
