@@ -1,0 +1,32 @@
+---
+title: "gajowniczeka-pd1"
+author: "Artur Gajowniczek"
+date: "4 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## Dane
+
+Dane liczbowe z artyku³u:
+https://segmentnext.com/2019/02/19/xbox-one-sales-numbers-make-it-the-worst-selling-console-in-japan-for-2018/
+
+```{r}
+console <- c("Nintendo Switch", "PlayStation 4", "Nintendo 3DS", "PS Vita", "Xbox One")
+consoles_sold <- c(3482388, 1695227, 566420, 181728, 15339)
+df<- data.frame(console, consoles_sold)
+df
+```
+
+## Wykres
+
+```{r, echo=FALSE}
+ggplot(df, aes(x=console, y=consoles_sold)) + 
+  geom_bar(stat="identity") + 
+  ggtitle("Sprzeda¿ konsoli w Japonii w 2018 r.")+
+  labs(y="Liczba sprzedanych konsoli", x = "Konsola")
+```
