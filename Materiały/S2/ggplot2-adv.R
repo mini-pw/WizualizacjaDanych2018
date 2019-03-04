@@ -45,6 +45,24 @@ mutate(countries_f, continent = factor(continent, levels = continent_order),
   geom_point() +
   facet_wrap(~ continent)
 
+cntr_pop <- group_by(countries, continent) %>% 
+  summarise(count = length(continent)) %>% 
+  arrange(desc(count)) %>% 
+  mutate(both = paste0(continent, " (", count, " countries)")) %>% 
+  pull(both)
+
+mutate(countries_f, continent = factor(continent, levels = continent_order, labels = cntr_pop)) %>% 
+  ggplot(aes(x = death.rate, y = birth.rate)) +
+  geom_point() +
+  facet_wrap(~ continent)
+
+
+mutate(countries_f, continent = factor(continent, levels = sapply(strsplit(cntr_pop, " "), first), 
+                                       labels = cntr_pop)) %>% 
+  ggplot(aes(x = death.rate, y = birth.rate)) +
+  geom_point() +
+  facet_wrap(~ continent)
+
 # color brewer: http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3
 # alternatywnie library(RColorBrewer)
 
