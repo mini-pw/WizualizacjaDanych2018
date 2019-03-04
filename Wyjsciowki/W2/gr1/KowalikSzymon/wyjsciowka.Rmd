@@ -1,0 +1,28 @@
+---
+title: "Wyjściówka"
+author: "Szymon Kowalik"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r,warning=FALSE,message=FALSE, fig.width=10, fig.height=10}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("house", type = "table")
+#as.list(s1[4, ])
+t1 <- get_eurostat(s1[4, "code"])
+
+left_join(lp, t1, by = c("geo" = "geo")) %>% 
+  filter(CNTR_CODE == "IT", LEVL_CODE == 2) %>% 
+  na.omit %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  facet_wrap(~ time) +
+  ggtitle(s1[4,1]) +
+  scale_fill_gradient(high = "red", low = "navyblue")
+```
