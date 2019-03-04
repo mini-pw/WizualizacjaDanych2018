@@ -53,13 +53,13 @@ Materiały dodatkowe:
 
 ## S6 25.03
 
-**W**: Prezentacja wyników projektu 1.
+**W**: [Kolory](http://biecek.pl/Eseje/indexKolory.html) i [Skale pomiarowe](http://biecek.pl/Eseje/indexKuchnia.html); 
 
 **L**: [Inkscape 2/2](https://inkscape.org/) lub [Illustrator](https://www.adobe.com/pl/products/illustrator/free-trial-download.html) (w miarę możliwości proszę przynieść własny laptop)
 
 ## S7 01.04
 
-**W**: [Kolory](http://biecek.pl/Eseje/indexKolory.html) i [Skale pomiarowe](http://biecek.pl/Eseje/indexKuchnia.html); 
+**W**: Prezentacja wyników projektu 1.
 
 **L**: [Shiny 1/2](http://pbiecek.github.io/Przewodnik/Programowanie/jak_tworzyc_aplikajce.html) 25.03
 
@@ -120,7 +120,7 @@ W sumie uzyskać można do 100 punktów. 51 punktów zalicza przedmiot.
 Projekty można realizować w zespołach 1-3 osobowych. 
 Każdy projekt należy realizować w innym zespole. 
 
-Termin oddania projektu 1 to **25.03.2019** - wykład.
+Termin oddania projektu 1 to **01.04.2019** - wykład.
 
 Termin oddania projektu 2 to **XXX** - YYY (wykład).
 
