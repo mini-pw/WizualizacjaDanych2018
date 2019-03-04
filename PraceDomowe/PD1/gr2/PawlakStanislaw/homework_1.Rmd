@@ -1,0 +1,59 @@
+---
+title: "Praca Domowa 1"
+author: "Stanisław Pawlak"
+date: "3 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(SmarterPoland)
+#source("https://install-github.me/thomasp85/patchwork")
+library(patchwork)
+
+data = read.table("article_data.csv", header = TRUE, sep = ";", na.strings=c("", "NA"))
+
+a = ggplot(data = data, aes(x = spec_name, y = spec_value, fill = spec_name)) +
+  geom_bar(stat= "identity") +
+  scale_x_discrete(limits = rev(data$spec_name)) +
+  coord_flip() +
+  labs(title = "Procent rekrutowanych osób względem specjalizacji", x = "Specjalizacja", y = "%", fill = "Specjalizacja")+
+  theme(legend.position = "none") 
+  
+
+a2 = ggplot(data = data, aes(x = language, y = language_value, fill = language)) +
+  geom_bar(stat= "identity") +
+  scale_x_discrete(limits = data$language) +
+  labs(title = "Najbardziej cenione języki", x = "", y = "%", fill = "") +
+  theme(legend.position = "none") 
+
+a3 = ggplot(data = data, aes(x = city, y = city_value, fill = city)) +
+  geom_col() +
+  scale_x_discrete(limits = rev(data$city)) +
+  coord_flip() +
+  labs(title = "Procent rekrutowanych osób względem miast", x = "Miasto", y = "%", fill = "") +
+  theme(legend.position = "none") 
+  
+
+cleaned_data=  data %>% na.omit()
+a4 = ggplot(data = cleaned_data, aes(x = age_range, y = age_range_value, fill = age_range)) +
+  geom_col() +
+  scale_x_discrete(limits = cleaned_data$age_range) +
+  labs(title = "Przedziały wiekowe rekrutowanych osób", x = "", y = "%", fill = "") + 
+  theme(legend.position = "none") 
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Link do artykułu
+https://www.pulshr.pl/rekrutacja/raport-golden-line-oto-najbardziej-poszukiwani-pracownicy-w-tym-roku,61184.html
+
+## Wykresy
+
+```{r, echo=FALSE}
+plot(a/a3)
+plot(a2)
+plot(a4)
+```
+
+
