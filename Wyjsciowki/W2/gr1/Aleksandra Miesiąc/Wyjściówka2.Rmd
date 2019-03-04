@@ -1,0 +1,35 @@
+---
+title: "Wyjściówka"
+author: "Aleksandra Miesiąc"
+date: "March 4, 2019"
+output: html_document
+---
+
+---
+title: "Wyjściówka 2"
+output: html_notebook
+---
+
+```{r,include=FALSE}
+library(maps)
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+```
+
+# Kod pobierający dane:
+```{r,message=FALSE,warning=FALSE,error=FALSE}
+s1 <- search_eurostat("urbanisation", type = "table")
+t1 <- get_eurostat(s1[2, "code"])
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+```
+# Wykres
+
+```{r,message=FALSE,warning=FALSE,error=FALSE}
+left_join(lp, t1, by = c("geo" = "geo")) %>%
+  filter(long > 2,long < 17, lat <58,lat > 46) %>% 
+  filter(LEVL_CODE == 0) %>%group_by(geo)%>%mutate(mean = mean(values))%>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = mean)) + 
+  geom_polygon(color = "black") +
+  coord_map()+ggtitle("Level of urbanization in some zones")+ labs(x="Longitude", y = "Latitude")
+```
