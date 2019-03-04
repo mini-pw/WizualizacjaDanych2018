@@ -1,0 +1,61 @@
+---
+title: "Wizualizacji danych"
+author: "Michał Burdukiewicz"
+date: "4 kwietnia 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(ggplot2)
+```
+
+
+## Projekt 1
+
+Projekt JA. Celem jest opracowanie infografiki opisującej aktywność autora/autorów przez pryzmat IoT lub SM (wearables - puls, kroki, inne dane, aktywność na facebook, twitter, mail itp). Przykłady inspiracji: https://flowingdata.com/2008/09/09/winner-of-the-personal-visualization-project-is/
+
+Projekt wykonywać można w grupie do 3 osób. Nie można pracować ponownie ze współpracownikiem z projektu 1 ani z prezentacji.
+
+## Projekt 1 - ocena
+
+Kryteria oceny
+
+Za ten projekt można otrzymać od 0 do 15 punktów, z czego:
+
+5 punktów uzyskuje się za przygotowanie estetycznych wykresów (dwa lub więcej),
+5 punktów uzyskuje się, jeżeli przygotowane wykresy mają wszystkie niezbędne elementy do poprawnego odczytania danych (tytuł, podtytuł, adnotacje na osiach, legenda, jednostki, opis jak czytać wykres),
+5 punktów uzyskuje się za estetykę i pomysłowość aranżacji wykresów i ich opisów w jedną całość, jaką jest plakat.
+
+
+## Gramatyka grafiki
+
+Gramatyka grafiki (grammar of graphics).
+
+Wilkinson, Leland, Anushka Anand, and Robert Grossman. "Graph-theoretic scagnostics." IEEE Symposium on Information Visualization, 2005. INFOVIS 2005.. IEEE, 2005.
+
+## Gramatyka grafiki
+
+<img src="https://blog.gtwang.org/wp-content/uploads/2016/07/ggplot-grammar-of-graphics-stack-1.png" width="700px">
+
+## Gramatyka grafiki
+
+<img src="https://cdn-images-1.medium.com/max/2000/1*mcLnnVdHNg-ikDbHJfHDNA.png" width="700px">
+
+## Złe wizualizacje
+
+<img src="https://undullify.com/wp-content/uploads/2016/05/data-viz-mistakes-4-impossible-comparisons.png" width="400px">
+
+Trudne porównania - niewłaściwie wybrana metoda wizualizacja.
+
+## Złe wizualizacje
+
+<img src="https://deliveryimages.acm.org/10.1145/3240000/3231772/ins03.gif" width="200px">
+
+Niewłaściwie wybrana metoda wizualizacji.
+
+## Złe wizualizacje
+
+<img src="https://www.datapine.com/blog/wp-content/uploads/2015/10/Percent-of-Job-Loses-Relative-to-Peak-Employment-Month.jpg" width="400px">
+
+Zbyt duża ilość informacji na jednym wykresie.

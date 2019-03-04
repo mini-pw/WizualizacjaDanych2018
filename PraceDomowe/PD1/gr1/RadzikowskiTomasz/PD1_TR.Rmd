@@ -1,0 +1,36 @@
+---
+title: Ranking polityków, którym wyborcy najmniej NIE ufaj¹ (o najni¿szym zaufaniu
+  negatywnym)
+author: "Tomek Radzikowski"
+date: "2 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Praca domowa nr 1
+
+Do stworzenia wykresu pos³u¿y³y dane dostêpne w sieci Internet pod adresem: https://wiadomosci.onet.pl/tylko-w-onecie/andrzej-duda-liderem-zaufania-spolecznego-sondaz-ibris-dla-onetu/7wd873w
+
+Zliczono dane sonda¿owe, na podstawie sonda¿u IBRiS dla portalu Onet. Pod uwagê wziêto odpowiedzi respondentów, którzy oceniaj¹ swoje zaufanie do polityka jako "Zdecydowanie nie ufam" oraz "Raczej nie ufam".
+
+Wyniki - sumê wartoœci - przedstawiono na wykresie s³upkowym, sortuj¹c od najmniejszego stopnia nieufnoœci, do najwy¿szego.
+
+```{r data}
+data <- data.frame("Nazwisko" = c("Biedroñ","Kosiniak-Kamysz","Lubnauer", "Kukiz", "Duda","Morawiecki","Kaczyñski","Szyd³o","Ziobro", "Schetyna","Gowin", "Zandberg","Czarzasty"), "Zdecydowanie nie ufam" = c(19.1,12.8,28.1,27.1,37.0,37.8,52.3,46.5,49.3,36.8,34.4,13.6,23.2), "Raczej nie ufam" = c(14.0,16.0,10.9,18.2,10.9,12.1,5.6,11.9,11.4,18.4,17.7,11.4,19.1))
+prep.data<-data.frame(data[1],"suma"=rowSums(data[2:3]))
+prep.data
+```
+
+## Wykresy
+
+Dane przygotowane w formie wizualnej, jako wykres s³upkowy:
+
+```{r prep.data, echo=FALSE}
+library(ggplot2)
+ggplot(data = prep.data, aes(x = reorder(Nazwisko,suma), y = suma)) + geom_bar(stat="identity",fill="#00c29d")+ geom_text(aes(label=suma), vjust=1.6, color="white", size=3.5)+
+  theme_minimal()+theme(axis.text.x=element_text(angle=45,hjust=1))
+```
+
