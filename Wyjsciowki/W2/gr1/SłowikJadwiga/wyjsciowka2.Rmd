@@ -27,7 +27,7 @@ wages <- get_eurostat(a[1, "code"])
 
 ```{r, warning=FALSE, out.width="100%"}
 left_join(lp, wages, by = c("geo" = "geo")) %>% 
-  filter(currency == "EUR", long < 7, long > -1, time == "2010-01-01") %>% 
+  filter(currency == "EUR", long < 7, long > -12, time == "2010-01-01") %>% 
   na.omit %>% 
   ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
   scale_fill_gradient(low="black", high="green") +
