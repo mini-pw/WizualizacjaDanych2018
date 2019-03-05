@@ -1,0 +1,26 @@
+---
+title: "pd1"
+author: "Jacek Myna"
+date: "5 marca 2019"
+output: html_document
+---
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+
+t1 <- get_eurostat("demo_nind")
+
+t2 <- label_eurostat(t1)
+
+t2 %>%
+  filter(time >= '2017-01-01', indic_de == "Crude marriage rate") %>% 
+  na.omit %>%
+  ggplot(aes(x = reorder(geo, -values), y = values)) +
+  ggtitle("Number of marriages per 1000 inhabitants in Europe") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_col(fill = "red") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Countries", y = "Marriages")
+```
