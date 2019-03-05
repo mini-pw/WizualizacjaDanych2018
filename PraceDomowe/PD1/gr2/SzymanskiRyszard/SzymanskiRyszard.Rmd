@@ -1,0 +1,51 @@
+---
+title: "Praca Domowa 1"
+author: "Ryszard Szymański"
+date: "February 28, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggimage)
+library(ggplot2)
+library(readr)
+```
+
+## Źródło danych
+Dane sondażowe pochodzą z artykułu znajdującego się pod linkiem: https://wiadomosci.dziennik.pl/polityka/artykuly/592063,sondaz-wybory-sejm-pis-wiosna.html
+
+## Przygotowanie danych
+```{r}
+survey_data <- read_csv("survey_data.csv", col_types = cols())
+```
+
+## Wykres
+```{r}
+survey_data <- survey_data %>% 
+  mutate(passed_electoral_threshold = factor(voting_percentage > 5,
+                                             levels = c(TRUE, FALSE),
+                                             labels = c("Tak", "Nie")))
+
+survey_data_order <- survey_data %>% 
+  arrange(voting_percentage) %>% 
+  pull(party)
+
+percentage_labels <- sprintf("%s%%", survey_data$voting_percentage)
+  
+  survey_data_plot <- survey_data %>% 
+    ggplot(aes(x = party, y = voting_percentage, fill = passed_electoral_threshold)) + 
+    geom_bar(stat = "identity") + 
+    geom_image(y = -3, aes(image = image_logo_path)) + 
+    expand_limits(y = c(-3, 44)) +
+    scale_x_discrete(limits = survey_data_order) +
+    scale_y_continuous(labels = function(x) paste0(x, "%")) +
+    geom_text(label = percentage_labels, hjust = -0.1) +
+    scale_fill_manual(values = c("#4DAF4A", "#E41A1C")) +
+    theme(legend.position = "top") +
+    labs(y = "Procent poparcia", x = "Partia polityczna", fill = "Przekroczony próg wyborczy") +
+    coord_flip()
+
+  survey_data_plot
+```

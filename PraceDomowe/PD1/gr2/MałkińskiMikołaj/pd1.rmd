@@ -1,0 +1,85 @@
+---
+title: "Wizualizacja danych - Praca domowa 1"
+author: "Mikołaj Małkiński"
+date: "March 3, 2019"
+output: html_document
+---
+
+## Plot recreation using ggplot2
+
+The goal of this report was to recreate a plot found in some article using ```ggplot2```. Recently I've read an interesting blog post about current state of Data Science and Machine Learning, which can be found [here](https://towardsdatascience.com/state-of-data-science-machine-learning-e8bdd4f21b6b).
+
+To create plots, ```ggplot2``` and ```patchwork``` were used. Unfortunately, the latter one isn't present in CRAN so it has to be installed directly from GitHub.
+```{r message=F, warning=F}
+library('ggplot2')
+source("https://install-github.me/thomasp85/patchwork")
+library(patchwork)
+```
+
+All the data will be assigned manually, without using any data sources, to simplify the process.
+```{r}
+counts <- c(3037, 5141, 6159, 3776, 2253, 1360,
+            858, 582, 328, 273, 53, 39)
+ages <- c('18-21', '22-24', '25-29', '30-34', '35-39', '40-44',
+          '45-49', '50-54', '55-59', '60-69', '70-79', '80+')
+df <- data.frame(counts, ages)
+```
+Colors for the original plot look similar to those present in ```brewer.paired(12)``` color scheme, but the order is different.
+```{r}
+colors1 <- c('#1F78B4', '#A6CEE3', '#FF7F00', '#FDBF6F', '#33A02C', '#B2DF8A',
+             '#B15928', '#FFFF99', '#6A3D9A', '#CAB2D6', '#E31A1C', '#FB9A99')
+```
+Let's create the left plot.
+```{r}
+p1 <- ggplot(data=df, aes(x = ages, y = counts, fill = ages)) +
+    geom_bar(stat = 'identity') +
+    geom_text(aes(label = format(counts, big.mark = ',')), vjust = -1) +
+    scale_fill_manual(values = colors1) +
+    scale_y_continuous(
+        breaks = seq(0, 6500, 500),
+        limits = c(0, 7000),
+        expand = c(0, 0)
+    ) +
+    labs(title = 'Age', x = '', y = 'Count of Number of Records') +
+    theme(
+        axis.ticks = element_blank(),
+        axis.text.x = element_text(angle = 90, vjust = 0.5),
+        legend.position = 'none',
+        panel.background = element_blank(),
+        panel.grid.major.y = element_line(color = 'lightgray'),
+        panel.grid.major.x = element_blank()
+    )
+```
+Similarly for the right plot, the data will be loaded manually.
+```{r}
+counts2 <- c(4010, 19430, 340, 79)
+genders <- c('Female', 'Male', 'Prefer not to say', 'Prefer to self-describe')
+df2 <- data.frame(counts2, genders)
+
+colors2 <- c("#1F78B4", "#FF7F00", 'lightgray', 'darkgray')
+```
+Now the second plot will be created.
+```{r}
+p2 <- ggplot(data=df2, aes(x = genders, y = counts2, fill = genders)) +
+    geom_bar(stat = 'identity') +
+    geom_text(aes(label = format(counts2, big.mark = ',')), vjust = -1) +
+    scale_fill_manual(values = colors2) +
+    scale_y_continuous(
+        breaks = seq(0, 20000, 2000),
+        limits = c(0, 21000),
+        expand = c(0, 0),
+        labels = function(x) paste0(round(x/1000), 'k')
+    ) +
+    labs(title = 'Gender', x = '', y = 'Count of Number of Records') +
+    theme(
+        axis.ticks = element_blank(),
+        legend.position = 'none',
+        panel.background = element_blank(),
+        panel.grid.major.y = element_line(color = 'lightgray'),
+        panel.grid.major.x = element_blank()
+    )
+```
+Finally, both plots will be concatenated using *patchwork*.
+```{r}
+p1 + p2
+```
