@@ -8,8 +8,9 @@ head(lp)
 
 num.nuts <- lp %>%
   filter(long > -30, lat > 30) %>% 
+  filter(LEVL_CODE == 1) %>% 
   group_by(CNTR_CODE) %>% 
-  summarise(cx = mean(long), cy = mean(lat), num_nuts=length(unique(LEVL_CODE)))
+  summarise(cx = mean(long), cy = mean(lat), num_nuts=length(unique(NUTS_ID)))
 
 lp %>% 
   filter(long > -30, lat > 30) %>% 
