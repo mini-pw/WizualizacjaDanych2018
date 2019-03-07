@@ -1,0 +1,35 @@
+---
+title: "wyjsciowka"
+author: "Piotr Janus"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+library(mapproj)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+s1 <- search_eurostat("Pollutant", type = "table")
+t1 <- get_eurostat(s1[1, "code"])
+
+a <- left_join(lp, t1, by = c("geo" = "geo")) %>%
+  group_by(geo) %>%  summarise(Zanieszyszczenie = mean(values)) %>% na.omit()
+
+names_df <- filter(lp,  LEVL_CODE == 0, geo %in% a$geo) %>% filter(long > 0,long<20,lat > 45, lat<55) %>% 
+  group_by(NUTS_NAME) %>% 
+  summarise(long = mean(long),
+            lat = mean(lat))
+
+left_join(lp, a, by = c("CNTR_CODE" = "geo")) %>%
+  filter(long > 0,long<20,lat > 45, lat<55) %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = Zanieszyszczenie)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  geom_text(data = names_df, aes(x = long, y = lat, label = NUTS_NAME), inherit.aes = FALSE) +
+  ggtitle('Średnia wartość zanieczyszczenia z transportu od lat 90')
+
+```
+

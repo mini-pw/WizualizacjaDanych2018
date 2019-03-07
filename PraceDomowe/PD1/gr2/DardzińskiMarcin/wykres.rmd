@@ -1,0 +1,33 @@
+---
+title: "Oglądalność telewizji w styczniu"
+author: "Marcin Dardziński"
+output:
+  html_document:
+    df_print: paged
+---
+
+Średnia oglądalność minutowa (AMR) 10 najwiekszych polskich stacji telewizyjnych w styczniu - porównanie lat 2018 i 2019.
+
+
+Źródło: https://www.wirtualnemedia.pl/artykul/ogladalnosc-telewizji-styczen-2019-tvp1-liderem-hity
+
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+library(reshape2)
+library(dplyr)
+
+options(scipen=999)
+csv <- read.csv(file='dane.csv')
+x <- melt(csv, id.vars='station')
+x$variable <- factor(x$variable, levels=c('jan2018', 'jan2019'), labels=c('2018', '2019'))
+
+ordering <- csv %>% arrange(desc(jan2019)) %>% pull(station)
+
+
+ggplot(data = x, aes(x = station, y = value, fill = variable), labels('Rok 2018', 'Rok 2019')) +
+  geom_bar(stat = 'identity',  position = 'dodge') +
+  scale_x_discrete(limits = ordering) +
+  scale_fill_discrete(name = 'Rok') +
+  xlab('Stacja') + 
+  ylab('Oglądalność')
+```

@@ -1,0 +1,31 @@
+---
+title: "Death due to accidents in UK by regions in 2010"
+output:
+  html_document:
+    df_print: paged
+---
+
+Piotr Olesiejuk <br/>
+
+```{r message = FALSE, warning=FALSE}
+library(eurostat)
+library(dplyr)
+library(ggplot2)
+library(mapproj)
+```
+
+```{r warning=FALSE, message=FALSE}
+s <- search_eurostat("accidents", type = "table")
+t1 <- get_eurostat(s[1, "code"])
+
+dat <- as.POSIXlt.character("2010-01-01")
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+left_join(lp, t1, by = c("geo" = "geo")) %>%
+  filter(time >= dat & long > -12 & substr(geo,1,2) == "UK") %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  ggtitle("Death due to accidents in UK by regions in 2010")
+```

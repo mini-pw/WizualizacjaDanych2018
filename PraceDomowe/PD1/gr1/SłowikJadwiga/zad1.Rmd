@@ -1,0 +1,69 @@
+---
+title: "Wizualizacja danych - zadanie domowe nr 1"
+author: "Jadwiga Słowik"
+date: "March 3, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+require(knitr)
+library(ggthemes)
+```
+
+# Cel zadania
+Celem zadania domowego było stworzenie wizualizacji danych znalezionych w gazecie bądź portalu informacyjnym.
+Ów artykuł miał być opublikowany w lutym.
+
+# Opis źródła danych
+Wybrany artykuł pochodzi z portalu `money.pl`:
+
+<https://www.money.pl/gospodarka/ceny-warzyw-mocno-w-gore-rekordy-bija-kapusta-ziemniaki-i-pietruszka-6351486596449921a.html>.
+
+Ów artykuł porównuje ceny warzyw w roku 2018 i 2019.
+
+# Opis ramki danych
+Będziemy wizualizować poniższą ramkę danych (`warzywa`):
+
+```{r echo = FALSE}
+warzywa <- data.frame(warzywo=c(rep("pietruszka", 2), rep("ziemniaki", 2), rep("kapusta biała", 2), rep("kapusta czerwona", 2), rep("kapusta kiszona", 2), rep("cebula", 2), rep("marchew", 2), rep("pory", 2), rep("ogórki", 2)),
+cena=c(3.50, 8.50, 0.5, 1.60, 0.4, 1.75, 0.85, 2.85, 2.5, 3.6, 0.6, 2.10, 1, 1.75, 2.20, 4.3, 9, 9.5), rok=as.factor(rep(c(2018, 2019), 9)))
+knitr::kable(warzywa, align=c('l', 'l', 'l'))
+```
+
+# Wizualizacja
+## Kod źródłowy
+Wykres został stworzony przy pomocy następującego fragmentu kodu:
+
+```{r}
+create_price_label <- function(price) {
+  paste(gsub("[.]", ",", as.character(format(price, nsmall=2))), "zł")
+}
+dodge_value <- -0.7
+max_price <- max(warzywa$cena)
+p <- ggplot(data = warzywa,
+       aes(x = warzywo, y = cena, group = rok, fill = rok, label=create_price_label(cena))) +
+  coord_flip() +
+  geom_col(position = position_dodge(dodge_value),
+           width = 0.6) + 
+  scale_fill_manual(values=c("green", "red")) +
+  scale_x_discrete(expand=expand_scale(0.1, 0)) +
+  scale_y_continuous(limits = c(0, max(warzywa$cena) + 1),
+                     breaks=0:(max(warzywa$cena) + 1)) +
+  geom_text(hjust = -0.1,
+    size = 3,
+    position = position_dodge(dodge_value)) +
+  guides(fill = guide_legend(nrow = 1)) +
+  ylab("cena w zł") +
+  xlab("") +
+  labs(title = "Porównanie cen warzyw \n (20. lutego 2018 vs 20. lutego 2019)") +
+  theme_economist_white()
+
+```
+## Wynik
+Ostateczny wykres wygląda następująco:
+```{r, warning=FALSE, message=FALSE, echo=FALSE, out.width='100%', out.height='100%'}
+p
+```

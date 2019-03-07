@@ -1,0 +1,34 @@
+Ranking najbogatszych polakow - top 10
+--------------------------------------
+
+Artykuł - https://www.forbes.pl/rankingi/100-najbogatszych-polakow-2019-jakie-zmiany-zaszly-w-rankingu-przez-dekade/9dcq9zb
+
+
+### Kod + wykres  
+
+```{r}
+library(ggplot2)
+
+people <- c('Michał Sołowow', 'Zygmunt Solorz', 'Dominika Kulczyk', 'Sebastian Kulczyk', 'Jerzy Starak', 'Tomasz Biernacki',
+           'Dariusz Miłek', 'Paweł Marchewka', 'Zbigniew i Mateusz Juroszek', 'Bogdan i Elżbieta Kaczmarek')
+net.worth <- c(13.331, 10.01, 6.818, 6.818, 6.0, 5.095, 3.883, 3.527, 3.481, 3.137)
+
+
+df <- data.frame(Osoby=people, Majatek=net.worth)
+breaks <- c(0, 2.5, 5, 7.5, 10, 12.5, 15)
+labels <- paste(breaks, ' mld')
+labels[1] <- '0'
+
+
+ggplot(df, aes(x = Osoby, y = Majatek, label = format(round(Majatek, digits=3), nsmall=3))) +
+  geom_bar(stat='identity', fill = "#9999ff") + 
+  scale_x_discrete(limits = rev(people), position = 'top') +
+  scale_y_continuous(breaks = breaks, labels = labels) + 
+  coord_flip() + 
+  geom_text(size = 3, position = position_stack(vjust = 0.5)) +
+  ggtitle('Top 10 najbogatszych Polaków') +
+  xlab('') + ylab('Majątek') +
+  theme(plot.title = element_text(hjust = 0.5, size=15),
+        axis.text.y = element_text(size=12),
+        axis.text.x = element_text(size=10))
+```
