@@ -1,0 +1,46 @@
+---
+title: "Wyjsciowka 2"
+author: "Bartosz Paszko"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Chosen data
+
+Population reporting occurrence of crime, violence or vandalism in their area by poverty status [sdg_16_20]
+
+
+```{r dane, warning=FALSE, message=FALSE}
+library(eurostat)
+library(dplyr)
+library(ggplot2)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("crime", type = "table")
+t1 <- get_eurostat(s1[1, "code"])
+head(t1)
+```
+
+## Plot - difference between years 2007 and 2017
+
+```{r wykres, warning=FALSE, message=FALSE}
+
+left_join(lp, t1, by = c("geo" = "geo")) %>% 
+  filter(long > -25, long < 50, lat < 75, lat > 30) %>%
+  filter(time %in% c(as.Date('2007-01-01'), as.Date('2017-01-01'))) %>% 
+  na.omit %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  labs(fill = '% of population') +
+  scale_fill_gradient(low='yellow', high='red') +
+  ggtitle('Population reporting occurrence of crime') + 
+  facet_wrap(~time) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```

@@ -1,0 +1,45 @@
+---
+title: "W3"
+author: "Jakub Olechowski"
+date: "4 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Podsumowanie
+
+Kod Eurostat: tps00176
+
+## Wykresy
+
+```{r pressure, echo=FALSE, message=FALSE, warning=FALSE}
+
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+library(mapproj)
+library(lubridate)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("migration", type = "table")
+
+t1 <- get_eurostat(s1[4, "code"])
+
+p <- left_join(lp, t1, by = c("geo" = "geo")) %>% 
+  na.omit %>% 
+  filter(long > -30, lat > 25, time == "2006-01-01" | time == "2016-01-01") %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  scale_fill_gradient(low = 'green', high = 'red') +
+  ggtitle("Liczba imigrantów w krajach UE (porównanie lat 2006 i 2016)") +
+  labs(fill = "Liczba imigrantów") +
+  facet_wrap(~time)
+
+plot(p)
+
+```

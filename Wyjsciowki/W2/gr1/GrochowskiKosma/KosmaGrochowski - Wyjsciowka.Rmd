@@ -1,0 +1,33 @@
+---
+title: "Z2"
+author: "Kosma Grochowski"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Kod i wykres
+
+```{r pressure, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+library(mapproj)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+s1 <- search_eurostat("Curative", type = "table")
+t3 <- get_eurostat(s1[1, "code"])
+left_join(lp, t3, by = c("geo" = "geo")) %>%
+  filter(long > -30, lat > 30)  %>% 
+  filter(time == "2005-01-01" | time == "2016-01-01") %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  scale_fill_gradient(low = "red",high = "green") +
+  geom_polygon(color = "black") +
+  coord_map()  +
+  ggtitle("Curative care beds in hospitals in Europe in 2005 against 2016")+
+  facet_wrap(~ time)
+```
+
