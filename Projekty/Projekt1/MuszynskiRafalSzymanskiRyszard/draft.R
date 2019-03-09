@@ -60,3 +60,33 @@ sleep %>%
   geom_line()
 
 
+## messenger data
+
+library(jsonlite)
+library(dplyr)
+library(anytime)
+
+files <- list.files(path="~/messages/inbox", pattern='message.json', full.names=TRUE, recursive=TRUE)
+
+data <- lapply(files, function(filename) {
+  fromJSON(filename)$messages %>%
+    filter(sender_name == "Rafa\u00c5\u0082 Muszy\u00c5\u0084ski") %>%
+    mutate(length = nchar(content), date = anydate(timestamp_ms/1000)) %>%
+    select(length, date)
+})
+
+data <- lapply(files, function(filename) {
+  fromJSON(filename)$messages %>%
+    filter(sender_name == "Rafa\u00c5\u0082 Muszy\u00c5\u0084ski") %>%
+    mutate(date = anydate(timestamp_ms/1000)) %>%
+    group_by(date) %>%
+    summarise(msgCount =  count())
+})
+
+df <- do.call(rbind, data)
+
+df %>%
+  group_by(date) %>%
+  summarise(lengthSum = sum(length))
+
+
