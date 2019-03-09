@@ -1,0 +1,23 @@
+---
+title: "Wyjsciowka 2"
+author: "Patryk Kowalski"
+output: html_notebook
+---
+```{r}
+#s1 <- search_eurostat("marriage", type = "table")
+#wyjsc <- get_eurostat(s1[1, "code"])
+#lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "3")
+
+left_join(lp, wyjsc, by = c("geo" = "geo")) %>% 
+  select(long, lat, group, geo, time, values) %>%
+  filter(long > -25, lat > 33, time == as.Date("2017-01-01")) %>% 
+  na.omit %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  ggtitle("Share of live births outside marriage in 2017") +
+  xlab("") +
+  ylab("") + theme_bw() + scale_fill_gradient(low = "blue", high = "red") + labs(fill = "value [%]")
+```
+
+

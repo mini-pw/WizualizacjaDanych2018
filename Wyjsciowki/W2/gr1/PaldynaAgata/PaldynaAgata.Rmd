@@ -1,0 +1,36 @@
+---
+title: "Wyjsciowka nr 2"
+author: "Agata Paldyna"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{R setup, include = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+```
+
+### Wczytanie danych
+
+```{R, message = FALSE, warning = FALSE}
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+s <- search_eurostat("transport", type = "table")[4,]
+table <- get_eurostat(s[1, "code"])
+s$title
+head(table)
+```
+
+### Wykres
+
+```{R, message = FALSE, warning = FALSE}
+left_join(lp, table, by = c("geo" = "geo")) %>% 
+  filter(CNTR_CODE == "UK", values < 30000, time > "2014-01-01") %>% 
+  na.omit %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  facet_wrap(~ time) +
+  ggtitle(paste0(s$title, " - UK\nyears 2015 - 2016"))
+```

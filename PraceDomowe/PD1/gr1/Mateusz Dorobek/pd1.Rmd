@@ -1,0 +1,31 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+Article: https://ec.europa.eu/eurostat/web/products-eurostat-news/product/-/asset_publisher/c2r9i0eawvMY/content/EDN-20190211-1?inheritRedirect=false&redirect=https%3A%2F%2Fec.europa.eu%2Feurostat%2Fweb%2Fproducts-eurostat-news%2Fproduct%3Fp_p_id%3D101_INSTANCE_c2r9i0eawvMY%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview%26p_p_col_id%3Dcolumn-1%26p_p_col_count%3D1
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+data = read.csv("hrst_st_nsecsex2_1_Data.csv", sep = ";")
+data <- data %>% 
+  mutate(males_percentage = Males/Total)
+data <- data %>% 
+  mutate(females_percentage = 1 - males_percentage)
+sector_order <- group_by(data, Sector) %>% 
+  summarise(females_percentage) %>% 
+  arrange(desc(females_percentage))%>% 
+  pull(Sector)
+
+ggplot(data = data, aes(x=Sector, y = females_percentage, fill=Sector)) + 
+  geom_bar(stat = "identity") + 
+  scale_x_discrete(limits = sector_order, labels = NULL) + 
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = 'Women participation in science and technology', caption = "Data from 2017") +
+  ylab("Women participation") +
+  theme_calc()
+```

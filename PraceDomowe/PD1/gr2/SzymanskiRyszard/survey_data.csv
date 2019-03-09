@@ -1,0 +1,12 @@
+party,voting_percentage,mandate_count,image_logo_path,passed_electoral_threshold
+PiS-Zjednoczona Prawica,41.1,232,images/pis-zjednoczona-prawica.jpeg,Tak
+PO,26.2,145,images/po.jpg,Tak
+Wiosna,9.2,39,images/wiosna.jpg,Tak
+Kukiz'15,7.6,26,images/kukiz15.png,Tak
+PSL,5.6,17,images/psl.jpg,Tak
+SLD,3.9,NA,images/sld.png,Nie
+KORWiN,1.4,NA,images/korwin.png,Nie
+Razem,1.4,NA,images/razem.jpg,Nie
+Ruch Narodowy,1.2,NA,images/ruch narodowy.png,Nie
+Nowoczesna,0.7,NA,images/nowoczesna.png,Nie
+Teraz,0.1,NA,images/teraz.jpg,Nie
