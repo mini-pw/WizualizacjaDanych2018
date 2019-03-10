@@ -74,13 +74,13 @@ data[which(data$x == "Francja"),]$long_m = 3
 
 left_join(lp, data, by = c("geo" = "geo")) %>% 
   na.omit %>% 
-  filter(lat > 25, long > -25) %>%
+  filter(lat > 34, long > -25) %>%
   ggplot(aes(x = long, y = lat, group = group, fill = y)) + 
   geom_polygon(color = "black") +
   geom_text(aes(x = long_m, y = lat_m, label = y), inherit.aes = FALSE, size = 10, color= "green") +
   scale_fill_gradient(low = "blue", high = "red") +
   theme(legend.text = element_text(size = 20), legend.key.size = unit(2, "cm"), legend.title = element_text(size = 40)) + labs(fill = "PPS - parytet siły nabywczej", labx = "", laby = "") +
-  coord_map()
+  coord_map(ylim = c(34, 65), xlim = c(-11,40))
 
 ```
 Jak zdaję sobie sprawę - mankamentami mojego wyboru są trudno czytelne podpisy na państwach, które trudno byłoby poprawić bez nieadekwatnego wkładu czasu. Niektóre z podpisów musiały być pozycjonowane ręcznie, ponieważ metoda uśredniania dł. i szer. geograficznych dawała nieprzewidywalne rezultaty. 
