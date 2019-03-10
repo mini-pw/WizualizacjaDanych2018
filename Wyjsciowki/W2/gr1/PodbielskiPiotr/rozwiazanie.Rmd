@@ -1,0 +1,52 @@
+---
+title: 'Wyjściówka #2'
+author: "Piotr Podbielski"
+date: "March 4, 2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## Code
+
+```{r, error=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+library(mapproj)
+library(ggrepel)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("Pollutant", type = "table")
+
+t1 <- get_eurostat(s1[1, "code"]) %>% 
+  filter(time == "2016-01-01")
+
+lp2 <- filter(lp, LEVL_CODE == 0) %>% 
+  filter(long > -15, lat > 30)
+
+
+names_df <- left_join(lp2, t1, by = c("geo" = "geo")) %>%
+  na.omit() %>%
+  group_by(NUTS_NAME) %>% 
+  summarise(long = median(long),
+            lat = median(lat),
+            values = round(mean(values), 1))
+
+my_plot <- left_join(lp2, t1, by = c("geo" = "geo")) %>% 
+  na.omit() %>%
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "darkgray", alpha=0.5) +
+  scale_fill_gradient( trans = "log", low = "white", high = "blue") +
+  labs(title="Europe countries pollutant emissions from transport in 2016", x="", y="", fill="Metric value") +
+  geom_text(data = names_df, aes(x = long, y = lat, label = values), inherit.aes = FALSE) +
+  coord_map()
+
+```
+
+## Wykres
+
+```{r, echo=FALSE}
+my_plot
+```
