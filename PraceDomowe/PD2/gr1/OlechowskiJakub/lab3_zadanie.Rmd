@@ -1,0 +1,63 @@
+---
+title: "PD2"
+author: "Jakub Olechowski"
+date: "10 marca 12019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+## Źródło danych
+
+<https://stat.gov.pl/infografiki-widzety/infografiki/infografika-cukier-w-polsce,82,1.html>
+
+## Wykorzystane dane
+
+Z powyższego źródła użyto danych:
+
+* Spożycie cukru na mieszkańca (w kg),
+* Średnioroczna cena cukru białego kryształ za 1 kg (w zł)
+
+## Reprezentacja danych
+
+```{r data}
+
+# libraries
+
+library(ggplot2)
+library(patchwork)
+library(gridExtra)
+
+# data preparation
+
+years <-  2010:2017
+sugar_consumption_per_capita <-  c(39.9, 39.4, 42.5, 41.9, 44.3, 40.5, 42.3, 44.5) # in kilograms
+limits1 <- range(sugar_consumption_per_capita)
+sugar_price <-  c(2.73, 4.07, 3.96, 3.60, 2.50, 2.23, 2.87, 3.04) # for 1 kilogram in PLN
+limits2 <- range(sugar_price)
+sugar_in_Poland <-  data.frame(years,
+                             sugar_consumption_per_capita,
+                             sugar_price)
+
+# plotting
+
+p1 <- ggplot(data = sugar_in_Poland, aes(x = years, y = sugar_price, label = sugar_price)) +
+  scale_y_continuous(limits = c(0, ceiling(limits2[2]))) +
+  geom_bar(stat = 'identity', width = 0.5, position = 'dodge') +
+  geom_text(vjust = -0.5) +
+  ylab("Cena za kg (PLN)") +
+  xlab("")
+
+p2 <- ggplot(data = sugar_in_Poland, aes(x = years, y = sugar_consumption_per_capita, label = sugar_consumption_per_capita)) +
+  scale_y_continuous(limits = c(0, ceiling(limits1[2] + 10))) +
+  geom_bar(stat = 'identity', width = 0.5, position = 'dodge') +
+  geom_text(vjust = -0.5) +
+  xlab("Rok") +
+  ylab("Spożycie na mieszkańca (kg)")
+
+grid.arrange(p1,p2, top = 'Średnie ceny cukru białego kryształ oraz spożycie cukru na mieszkańca w kg (lata 2010-2017)')
+             
+```
