@@ -5,10 +5,12 @@ output: html_notebook
 ---
 Krytyka:  
 
-Geometria wykresu kolumnowego z podpisanymi u podstawy państwami jest poprawna, ale w tym wypadku utrudnia pozyskanie informacji o dokładnej wartości PPS, oraz zaburza orientację co z czym jest porównywane. Geometria mapy, tak jak zostało to zaprojektowane w oryginalnym artykule, ułatwia orientację w przestrzeni, ponieważ intuicyjnie wiemy gdzie znajduje się które z państw, pozwala dostrzec związki pomiedzy całymi rejonami geograficznymi jak np. państwa dawnego bloku wschodniego. Zastosowanie etykiet z wartościami na obszarach państw daje informację o dokładnych wartościach.
+Geometria wykresu kolumnowego z podpisanymi u podstawy państwami jest poprawna, ale w tym wypadku utrudnia pozyskanie informacji o dokładnej wartości PPS, oraz zaburza orientację co z czym jest porównywane. Geometria mapy, tak jak zostało to zaprojektowane w oryginalnym artykule, ułatwia orientację w przestrzeni, ponieważ intuicyjnie wiemy gdzie znajduje się które z państw, co pozwala dostrzec związki pomiędzy całymi rejonami geograficznymi jak np. państwa dawnego bloku wschodniego. Zastosowanie etykiet z wartościami na obszarach państw daje informację o dokładnych wartościach.
 Dodatkowo, w ten sposób zorientowałem się, że nie wszystkie kraje z artykułu zostały przedstawione na wykresie.
 
 ### Wykres w formie zamieszczonej przez koleżankę:
+https://www.forbes.pl/gospodarka/najbogatsze-i-najbiedniejsze-regiony-ue-najnowsze-dane-eurostat/nkghh1t
+  ![screen](D:\mgr\wizualizacja_danych\WizualizacjaDanych2018\PraceDomowe\PD2\gr1\KowalskiPatryk\screen_pd1.png)
 
 ```{r, include=FALSE}
 x <- c("Estonia","Malta","Austria","Polska","Dania","Litwa","Bułgaria", "Belgia", "Słowacja", "Finlandia", "Szwecja","Niemcy", "Czechy" ,"Francja", "Luksemburg", "Łotwa", "Rumunia", "Węgry", "Holandia","Chorwacja", "Słowenia", "Włochy","Portugalia","Hiszpania", "Irlandia", "Cypr","Wlk. Brytania","Grecja")
@@ -45,15 +47,6 @@ library(ggplot2)
 library(eurostat)
 library(tidyverse)
 library(maps)
-
-```
-```{r, , fig.width=20, echo=FALSE}
-orders <- dane %>%arrange(desc(y))%>%pull(x)
-  
-(ggplot(dane, aes(x=x, fill=x)) + geom_bar(aes(weight = y)) + scale_x_discrete(limits =orders )
-+ ggtitle("Wysokość przeciętnego dochodu do dyspozycji dla krajów UE w 2017r.")
-+ labs(y="Wysokość dochodu w tys", x=' ') 
-+ theme(axis.text.x=element_text(angle=25,hjust=1,vjust=0.5,size = 15)))
 ```
 
 ### Wykres w mojej wizji:
@@ -83,4 +76,4 @@ left_join(lp, data, by = c("geo" = "geo")) %>%
   coord_map(ylim = c(34, 65), xlim = c(-11,40))
 
 ```
-Jak zdaję sobie sprawę - mankamentami mojego wyboru są trudno czytelne podpisy na państwach, które trudno byłoby poprawić bez nieadekwatnego wkładu czasu. Niektóre z podpisów musiały być pozycjonowane ręcznie, ponieważ metoda uśredniania dł. i szer. geograficznych dawała nieprzewidywalne rezultaty. 
+Jak zdaję sobie sprawę - mankamentami mojego wyboru są trudno czytelne podpisy na państwach, które trudno byłoby poprawić bez nieadekwatnego wkładu czasu. Niektóre z podpisów musiały być pozycjonowane ręcznie, ponieważ metoda uśredniania dłg. i szer. geograficznych dawała nieprzewidywalne rezultaty. 
