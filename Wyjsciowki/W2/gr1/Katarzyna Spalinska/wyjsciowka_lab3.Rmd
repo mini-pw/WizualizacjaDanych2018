@@ -1,0 +1,38 @@
+---
+title: "Wyjściówka lab 3 - Katarzyna Spalińska"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+Eurostat table: Suicide death rate by age group
+
+```{r, warning = FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("death", type = "table")
+suicide_death_rate <- get_eurostat(s1[4, "code"])
+
+levels(suicide_death_rate$age) <- c("15-19", "50-54", "Over 85")
+
+left_join(lp, suicide_death_rate, by = c("geo" = "geo")) %>%
+  na.omit() %>% 
+  filter(values < 100) %>% 
+  filter(long > -30, lat > 30) %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  facet_wrap(~ age) +
+  ggtitle("Suicide death rate by age group") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r, warning = FALSE, error=FALSE, message=FALSE}
+
+
+
+```

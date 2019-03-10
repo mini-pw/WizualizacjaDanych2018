@@ -1,0 +1,55 @@
+---
+title: "Praca domowa 1"
+author: "Piotr Janus"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+ knitr::opts_chunk$set(echo = T, results = 'hide')
+```
+
+Link: https://ec.europa.eu/eurostat/web/products-eurostat-news/-/DDN-20190212-1?inheritRedirect=true&redirect=%2Feurostat%2Fnews%2Fwhats-new
+
+
+
+```{r wykres, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+data <- read.csv('data.csv', stringsAsFactors=FALSE)
+data <- data[,-ncol(data)] %>% 
+        filter(GEO != 'Switzerland' & grepl('Total environmental taxes',TAX) & grepl('total revenues',UNIT)) %>% 
+        mutate(Value = as.numeric(Value)) %>% 
+        na.omit() %>% 
+        arrange(desc(Value)) 
+
+data[grepl('FRG',data$GEO),'GEO'] <- 'Germany'
+data[grepl('Union',data$GEO),'GEO'] <- 'European Union'
+data$GEO <- factor(data$GEO, levels = data$GEO)
+
+color <- rep('#2FB0AD',nrow(data))
+color[data$GEO == 'European Union'] <- '#C05297'
+
+p <- ggplot(data = data, aes(x = GEO, y = Value)) + 
+  scale_y_discrete(limits = seq(0,12,2), expand = c(0,0)) +
+  coord_cartesian(ylim = c(0, 12))+
+  theme_bw()+
+      geom_bar(stat = 'identity', fill = color, width = 0.8 ) + 
+      geom_text(aes(label=formatC(data$Value, digits = 1, format = 'f')),
+                colour ="White", fontface="bold", 
+                size = 3, hjust =1.2,
+                vjust = 0.4,angle = 90) +
+      theme(panel.grid.major.x = element_blank(), 
+            plot.title = element_text(face='bold',hjust = 0.5),
+            plot.margin = margin(0,0,0,0),
+            plot.subtitle = element_text(hjust = 0.5,  margin=margin(0,0,30,0)),
+            axis.text.x = element_text(angle = 90, face='bold', hjust = 1, vjust=0.25), 
+            axis.text.y = element_text(face="bold", size=12),
+            panel.border = element_blank(),
+            axis.line = element_line(size = 0.7),
+            axis.ticks.x = element_blank(),
+            axis.title.x = element_blank(),
+            axis.title.y = element_blank()) +
+      labs(title = 'Share of environmental taxes in the EU Member states, 2017',
+           subtitle = 'as % of total revenues from taxes and social contributions')
+p
+```

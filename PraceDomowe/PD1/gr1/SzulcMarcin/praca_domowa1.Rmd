@@ -1,0 +1,68 @@
+---
+title: "praca_domowa"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(ggthemes)
+library(gridExtra)
+library(grid)
+```
+
+
+Artykuł: 
+https://businessinsider.com.pl/motoryzacja/najbardziej-zakorkowane-miasta-na-swiecie-raport-inrix-2018/l01v73y
+
+## Dane
+
+```{r}
+
+hours_in_congestion = c(272, 254, 246, 237, 237, 227, 226, 
+                        223, 218, 210, 202, 200, 199, 195, 
+                        195, 190, 186, 181, 180, 173)
+
+cities = c("Bogota (Kolumbia)", "Rzym (Włochy)", "Dublin (Irlandia)", "Paryż(Francja)",
+           "Rostów nad Donem (Rosja)", "Londyn (Wlk. Brytania)", "Mediolan (Włochy)", "Bordeaux (Francja)",
+           "Meksyk (Meksyk)", "Moskwa (Rosja)", "Belo Horizonte (Brazylia)", "Sankt Petersburd (Rosja)", 
+           "Rio de Janeiro (Brazylia)", "Florencja (Włochy)", "Bruskela (Belgia)", " Belfast(Wlk. Brytania)",
+           "Neapol (Włochy)", "Guadalajara (Meksyk)", "Niżny Nowogród (Rosja)", "Warszawa (Polska)")
+
+traffic_data <- data.frame("city" = cities, "hours_in_congestion" = hours_in_congestion)
+traffic_data$city <- factor(traffic_data$city, levels = traffic_data$city[length(traffic_data$city):1])
+```
+
+## Wykres
+
+
+```{r}
+highlight <- c("bold", sprintf("plain", 1:(nrow(traffic_data)-1)))
+
+plot <- ggplot(data = traffic_data, aes(x = city, y = hours_in_congestion)) +
+  scale_y_continuous(breaks = seq(0, 300, 50), limits = c(0, 300), expand = c(0, 0), position = "right") + 
+  geom_bar(stat = "identity", fill = "#FFC202") + 
+  coord_flip() + 
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_line(size = 0.3, colour = "#F0F0F0"),
+        panel.grid.major = element_line(size = 0.3, colour = "#F0F0F0"),
+        panel.background = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.line.y = element_line(color="black", size = 0.5),
+        axis.text.y = element_text(face=highlight, colour = "black"),
+        plot.margin = unit(c(0,1,1,1), "cm")) + 
+  geom_text(aes(label = hours_in_congestion), hjust = -0.3, data = traffic_data[c(1, nrow(traffic_data)), ])
+
+title_text <- textGrob("Najbardziej zatłoczone miasta", gp=gpar(fontsize=18, fontface="bold",lineheight=1),
+                  just=c("left", "center"), x=unit(0.05, "npc"), y=unit(0.05, "npc"))
+subtitle_text <- textGrob("Miasta o najdlłuższym średnim czasie spędzonym w korkach podczas \ndo pracy w godzinach szczytu w skali roku",
+  gp=gpar(fontsize=14, lineheight=1), just=c("left", "center"), x=unit(0.05, "npc"))
+
+source_text <- textGrob("Źródło: Inrix, dane za 2018 r.",
+  gp=gpar(fontsize=10, lineheight=1), just=c("left", "center"), x=unit(0.05, "npc"))
+
+grid.arrange(title_text, subtitle_text, plot, source_text, ncol = 1, heights = c(1, 2.5, 10, 1))
+```

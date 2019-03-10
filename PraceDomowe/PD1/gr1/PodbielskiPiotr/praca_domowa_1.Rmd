@@ -1,0 +1,54 @@
+---
+title: 'Praca domowa #1'
+author: "Piotr Podbielski"
+date: "March 3, 2019"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Odnośnik do artykułu
+
+https://www.marca.com/en/football/barcelona/2019/02/21/5c6dbe59ca47419c7e8b4582.html
+
+## Kod
+
+```{r}
+install.packages("ggplot2")
+install.packages("reshape2")
+install.packages("ggrepel")
+library(ggplot2)
+library(reshape2)
+library(ggrepel)
+
+# Utworzenie wektorów z danymi, na podstawie których rysowany będzie wykres
+jornada <- seq(10, 24)
+barcelona <- c(21, 24, 24, 25, 28, 31, 34, 37, 40, 43, 46, 49, 50, 51, 54)
+atletico <- c(19, 20, 23, 24, 25, 28, 31, 34, 35, 38, 41, 44, 44, 44, 47)
+real <- c(14, 17, 20, 20, 23, 26, 29, 30, 30, 33, 36, 39, 42, 45, 45)
+
+# Zebranie danych w data frame
+puntos.data <- data.frame(jornada, barcelona, atletico, real)
+
+# Zebranie pozycji poszczególnych drużyn do jednej kolumny
+puntos.long <- melt(puntos.data, id = "jornada", measure = c("barcelona", "atletico", "real"))
+
+# Rysowanie wykresu
+my_plot <- ggplot(data = puntos.long, aes(jornada, value, colour = variable, label = value)) + # Skąd i co rysować
+  geom_point() + # Rysuj punkty
+  geom_line(alpha=0.4) + # Rysuj linie
+  scale_x_discrete(limits=jornada) + # Oś X podpisana co 1
+  geom_text_repel(size=6, show.legend=FALSE) + # Obok punktów wypisz ile punktów
+  labs(title="Points for top 3 teams in La Liga (after 24th match day)", x="Match day", y="Points", color="Team") + # Zmiana oznaczeń osi i legendy
+  scale_color_manual(labels = c("FC Barcelona", "Atletico Madrid", "Real Madrid"), values=c("blue", "red", "purple")) + # Zmiana oznaczeń drużyn
+  theme_bw() # Wybór stylu
+```
+
+## Wygenerowany wykres
+```{r, echo=FALSE}
+myplot
+```

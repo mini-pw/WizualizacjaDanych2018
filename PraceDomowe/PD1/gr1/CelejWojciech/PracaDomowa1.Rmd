@@ -1,0 +1,86 @@
+---
+title: "PracaDomowa1"
+author: "Wojciech Celej"
+date: "March 3, 2019"
+output:
+  html_document:
+    df_print: paged
+---
+
+
+Wykres przdstawia ranking 10 najbogatszych Polaków rodaków.
+
+Link do artykułu:
+(https://www.forbes.pl/100-najbogatszych-polska/2019)
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+```
+
+
+```{r out.width="100%", fig.align = "center", echo=FALSE}
+names = c("Michał Sołowow",
+          "Zygmunt Solorz",
+          "Dominika Kulczyk",
+          "Sebastian Kulczyk",
+          "Jerzy Starak",
+          "Tomasz Biernacki",
+          "Dariusz Miłek",
+          "Paweł Marchewka",
+          "Zbigniew i Mateusz Juroszek",
+          "Bogdan i Elżbieta Kaczmarek")
+
+values_2019 = c(13.31, 
+           10.01,
+           6.818,
+           6.818,
+           6,
+           5.095,
+           3.883,
+           3.527,
+           3.481,
+           3.137)
+
+changes = c(+16.84,
+           -1.87,
+           -1.89,
+           -1.89,
+           -4.99,
+           +22.04,
+           -22.77,
+           +0,
+           +13.39,
+           -8.86)
+
+top10richest <- data.frame(Name = names, 
+                           Fortune = values_2019 * 1000, 
+                           Change = changes)
+
+top10richest %>% 
+   arrange(Fortune) -> top10richest
+
+changeDisplayFormat <- function(x)
+{  
+   k = ifelse(x > 0, "+", "")
+   paste(k, as.character(x), "%", sep = "")
+}
+
+ggplot(data = top10richest, aes(x = Name, y = Fortune, fill = Change)) +
+   geom_bar(stat =  "identity") +
+   coord_flip() + 
+   geom_text(aes(label = Fortune), position=position_dodge(width=1), hjust = -0.5) +
+   geom_text(aes(label = changeDisplayFormat(Change)), 
+             position=position_dodge(width=1), hjust = 1.5, color = "white") +
+   scale_x_discrete(limits = top10richest$Name) +
+   scale_y_continuous(expand = expand_scale(add = c(0, 500)), limits = c(0, 15000)) +
+   labs(title = "Ranking 10 najbogatszych Polaków", x = "", y = "Majątek w mln PLN", 
+        caption = "Ranking sporządzony przez Forbes'a w 2019 roku") +
+   scale_fill_gradient2(name = "Zmiana majątku w porównaniu\nz rokiem ubiegłym w %", 
+                        low = "red2", high = "green4", mid = "gray55") + 
+   theme_igray() + 
+   theme(legend.position = "bottom", text = element_text(size=12))
+
+```

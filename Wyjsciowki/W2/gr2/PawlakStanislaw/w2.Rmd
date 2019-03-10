@@ -1,0 +1,33 @@
+---
+title: "W_2"
+author: "Stanislaw Pawlak"
+date: "7 marca 2019"
+output: html_document
+---
+
+```{r, include=FALSE}
+library(eurostat)
+library(maps)
+library(mapproj)
+library(dplyr)
+library(ggplot2)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+names_df <- filter(lp, LEVL_CODE == 0) %>%
+  group_by(CNTR_CODE) %>% 
+  summarise(long = mean(long),
+            lat = mean(lat))
+a = filter(lp,  LEVL_CODE == 0) %>%
+  filter(long > -30, lat > 30) %>% 
+  group_by(CNTR_CODE) %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = CNTR_CODE)) + 
+  geom_polygon(color = "black") +
+  geom_text(data = names_df, aes(x = long, y = lat, label = CNTR_CODE),inherit.aes = FALSE) +
+  coord_map()
+
+```
+```{r}
+plot(a)
+```
+
