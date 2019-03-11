@@ -1,0 +1,29 @@
+---
+title: "wyjsciowka2"
+author: "Paulina Tomaszewska"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(eurostat)
+library(dplyr)
+library(maps)
+library(mapproj)
+library(ggplot2)
+```
+
+```{r message=FALSE, warning=FALSE}
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+names_df <- filter(lp,  LEVL_CODE == 0) %>%
+  group_by(NUTS_NAME) %>% 
+  summarise(long = mean(long),
+            lat = mean(lat))
+
+filter(lp, LEVL_CODE == 0) %>%filter(long > -30, lat > 30) %>% 
+  group_by(NUTS_NAME) %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = NUTS_NAME)) + 
+  geom_polygon(color = "black") +
+  geom_text(data = names_df, aes(x = long, y = lat, label = NUTS_NAME), inherit.aes = FALSE) +
+  coord_map()+theme(legend.position = "none")
+```

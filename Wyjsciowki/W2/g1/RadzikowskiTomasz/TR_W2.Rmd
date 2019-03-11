@@ -1,0 +1,39 @@
+---
+title: "Bezrobocie w Niemczech i Polsce"
+author: "Tomasz Radzikowski"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Bezrobocie w Polsce w 2013 i 2015
+
+To są dane nt bezrobocia: Widać wyraźnie spadek bezrobocia w większości obszarów.
+
+```{r unemployment}
+library(ggplot2)
+library(dplyr)
+library(eurostat)
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+sp<-search_eurostat("unemployment", type="table")
+
+ts <-get_eurostat(sp[1,"code"])
+#head(lp)
+
+left_join(lp,ts, by = c("geo" = "geo")) %>% 
+  filter(CNTR_CODE == c("PL"), time %in% as.Date(c("2013-01-01","2015-01-01" )))  %>%
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map()+
+  facet_wrap(~ time)
+
+
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
