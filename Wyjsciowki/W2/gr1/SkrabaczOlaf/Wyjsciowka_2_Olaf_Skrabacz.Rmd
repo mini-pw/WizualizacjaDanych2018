@@ -1,0 +1,37 @@
+---
+title: "Wyjściówka 2 - Olaf Skrabacz"
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+library(lubridate)
+library(magrittr)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Udział energii odnawialnej w całkowitym zużyciu energii per kraj.
+
+## Przygotowanie danych
+
+```{r dane, message=FALSE, warning=FALSE}
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("energy", type = "table")
+df <- get_eurostat(s1[47, "code"]) %>% na.omit()
+df %<>% filter(year(time) == 2004 | year(time) == 2016)
+lp %<>% filter(LEVL_CODE==0)
+```
+
+## Wykres
+
+```{r pressure, echo=FALSE, message=FALSE, warning=FALSE}
+left_join(df, lp, by = c("geo" = "geo")) %>%
+  filter(long > -30, lat > 30) %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() + facet_wrap(~year(time)) +
+  ggtitle("Procentowy udział energii odnawialnej w całkowitym\nzużyciu energii") +
+  guides(fill=guide_legend(title="Procenty"))
+```

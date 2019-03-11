@@ -1,0 +1,45 @@
+## Praca domowa nr 1
+### Tymoteusz Makowski
+
+Oryginalny wykres: `http://stat.gov.pl/infografiki-widzety/infografiki/infografika-walentynki-dzien-zakochanych-14-lutego,50,2.html`
+
+```{r, echo = FALSE, message = FALSE}
+library('ggplot2')
+library('dplyr')
+library('ggrepel')
+
+liczba_malzenstw <- c(282, 267, 244, 280, 307, 255, 211, 228, 193)
+lata <- c(1946, seq(1950, 2010, 10), 2017)
+dane <- as.data.frame(cbind(lata, liczba_malzenstw))
+
+ggplot(dane, aes(x = lata, y = liczba_malzenstw, label = lata)) +#paste0(lata, " (", liczba_malzenstw, " tys.)"))) +
+geom_point() +
+geom_smooth(
+    color = "red",
+    size = 0.5,
+    method = "lm",
+    se = FALSE,
+    show.legend = FALSE
+) +
+geom_text(vjust = -1, size = 3) +
+geom_text_repel(
+    label = liczba_malzenstw,
+    size = 2.5,
+    direction = "y",
+    nudge_x = 2021 - lata,
+    segment.size = 0.1
+) +
+theme_classic()+
+theme(
+    axis.line.x  = element_blank(),
+    axis.text.x  = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.title.x = element_blank()
+) + 
+scale_y_continuous(
+    "Liczba zawartych małżeństw (w tys.)",
+    limits = c(0, max(liczba_malzenstw)*1.05),
+    expand = c(0, 0)
+) + 
+scale_x_continuous(limits = c(1941, 2021), expand = c(0,0))
+```

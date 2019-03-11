@@ -1,0 +1,32 @@
+---
+title: "wyj20190304"
+author: "Jacek Myna"
+date: "4 marca 2019"
+output: html_document
+---
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+s1 <- search_eurostat("migration", type = "table")
+
+t1 <- get_eurostat(s1[4, "code"])
+
+t1
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+left_join(lp, t1, by = c("geo" = "geo")) %>%
+  filter(long > 0, lat > 45, time >= '2012-01-01') %>% 
+  na.omit %>%
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  ggtitle("Immigration to Center and North Europe") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_polygon(color = "black") +
+  coord_map() +
+  facet_wrap(~ time)
+
+
+
+```
