@@ -39,19 +39,17 @@ ggplot(data = data, aes(x = x , y = y, fill= label))+
   scale_y_discrete(limits = seq(0,45,5), expand = c(0,0))+
   coord_cartesian(ylim = c(0, 45))+
   scale_fill_manual(name = 'Struktura przychodów',labels = c("Inne źródło zarobków","Pracujący"), values = c("#599ad3","#f9a65a"))+
-  # cale_fill_discrete(name = "New Legend Title")
   theme_bw()+
   theme(panel.grid.major.x = element_blank(),
-            plot.title = element_text(face="bold", size=10,hjust=0.5),
+            plot.title = element_text(face="bold", size=10, hjust=0.0),
             plot.margin = margin(0,0,0,0),
             axis.text.x = element_text(angle = 0, face='bold', hjust = 0.5,size = 10), 
             axis.text.y = element_text(face="bold", size=12),
             panel.border = element_blank(),
             axis.line = element_line(size = 0.7),
             axis.ticks.x = element_blank(),
-            axis.title.x = element_blank(),
-            axis.title.y = element_blank()) +
-      labs(title = 'Ludność przybyła w latach 2002-2011 z innego miejsca w kraju według źródła utrzymania')
+            axis.title.x = element_blank())+
+      labs(title = 'Ludność przybyła w latach 2002-2011 z innego miejsca w kraju według źródła utrzymania')+ylab("Udział procentowy (%)")
 ```
 
 
