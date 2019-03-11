@@ -7,9 +7,15 @@ output: html_document
 
 ##OPIS
 
-Wykres kołowy jest nieczytelny, pozornie 3d, nie ma zachowanej kolejności(wielkość wycinków)
-Za dużo niepotrzebnych kolorów
-Dodano podział na osoby pracujące i nie
+Wykres kołowy jest nieczytelny, pozornie 3d, nie ma zachowanej kolejności(wielkość wycinków).
+
+Za dużo niepotrzebnych kolorów.
+
+Dodano podział na osoby pracujące i nie.
+
+```{r echo=F, out.width='80%'}
+knitr::include_graphics('Screenshot_2019-03-11_14-50-43.png')
+```
 
 ```{r setup,warning=FALSE,message=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
