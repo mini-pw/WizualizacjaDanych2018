@@ -16,7 +16,7 @@ library(dplyr)
 library(ggplot2)
 library(SmarterPoland)
 library(ggthemes)
-data <- data.frame(wiek = factor(c("Ogó³em", "0-6 lat","7-13","14-16","17-24"), levels = c("Ogó³em", "0-6","7-13","14-16","17-24")), 
+data <- data.frame(wiek = factor(c("Ogó³em", "0-6","7-13","14-16","17-24"), levels = c("Ogó³em", "0-6","7-13","14-16","17-24")), 
                      ld = c( 235.5  , 80.9     , 66.7 , 25.3  , 62.6))
 
 data %>% ggplot(aes(x = wiek, y = ld))+
@@ -27,3 +27,8 @@ data %>% ggplot(aes(x = wiek, y = ld))+
   xlab("Wiek w latach") +
   theme_calc()
 ```
+
+
+Po pierwsze u¿yie tabelki i wykresu ko³owego to nadmiarowaæ w reprezentacji. 
+U¿ycie reprezentacji ko³owej do danych czasowych (wieku dzieci) to te¿ bardzo z³y pomys³. 
+Bior¹c pod uwagê dwa powy¿sze argumenty zdecydowa³em siê u¿yæ wykresu s³upkowego.
