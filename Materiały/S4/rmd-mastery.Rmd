@@ -7,9 +7,12 @@ output: html_document
 
 ## Obrazek
 
-```{r,message=FALSE,warning=FALSE,error=FALSE,echo=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+```{r,include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
+
+```{r,message=FALSE,warning=FALSE,error=FALSE}
 library(dplyr)
 library(ggplot2)
 data(iris)
