@@ -1,0 +1,79 @@
+---
+title: "Praca domowa nr 2"
+author: "Tymoteusz Makowski"
+date: "9 marca 2019 r."
+---
+
+## Wykres, który poprawiałem
+Autor: Piotr Olesiejuk
+
+![](pd1-PiotrOlesiejuk.png)
+
+
+## Moja wersja
+
+Na oryginalnym wykresie kolory słupków sprawiały wrażenie losowego przydzielenia. Dodałem kolorowanie względem kontynentu państwa oraz bardziej wyróżniłem Polskę na obu podwykresach.
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+##### Dane i pakiety #####
+library('ggplot2')
+library('dplyr')
+library('patchwork')
+library('RColorBrewer')
+
+countries1  <- c("Indie", "Malezja", "Indonezja", "Chiny", "Polska", "Niemcy", "Wielka Brytania" , "USA")
+continents1 <- c("Azja", "Azja", "Azja", "Azja", "Europa", "Europa", "Europa", "Ameryka Północna")
+values1     <- c(2.22, 1.84, 1.76, 1.45, 1.41, 0.41, 0.29, 0.21)
+
+countries2  <- c("Korea Południowa", "USA", "Niemcy", "Francja", "UK", "Hiszpania", "Włochy", "RPA", "Polska")
+continents2 <- c("Azja", "Ameryka Północna", "Europa", "Europa", "Europa", "Europa", "Europa", "Afryka", "Europa")
+values2     <- c(5500, 5000, 4600, 4000, 4000, 3700, 3500, 3500, 3000)
+
+df1 <- data.frame(Kraj = countries1, Wartość = values1, Kontynent = continents1)
+
+df2 <- data.frame(Kraj = countries2, Wartość = values2, Kontynent = continents2)
+```
+
+```{r, echo = FALSE, fig.height = 10}
+color_palette <- "Spectral"
+
+p1 <- ggplot(
+    data = df1,
+    aes(
+        x = Kraj, y = Wartość,
+        fill = Kontynent,
+        color = Kraj == "Polska",
+        size = Kraj == "Polska"
+        ) 
+    )+
+geom_bar(stat = "identity") +
+theme_classic() +
+scale_x_discrete(limits = rev(countries1), expand = c(0, 0)) +
+scale_y_continuous(labels = scales::percent, expand = c(0, 0)) +
+scale_color_manual(values = rep("black", 2), guide = FALSE) +
+scale_size_manual(values = c(0.5, 1.25), guide = FALSE) +
+scale_fill_manual(values = brewer.pal(4, color_palette)[-1]) +
+coord_flip() +
+labs(title = "Przyrost średnich wynagrodzeń w ciągu najlepszych 20 lat", x = "", y = "")
+
+p2 <- ggplot(
+    data = df2,
+    aes(
+        x = Kraj, y = Wartość,
+        fill = Kontynent,
+        color = Kraj == "Polska",
+        size = Kraj == "Polska"
+    ) 
+)+
+geom_bar(stat = "identity") +
+theme_classic() +
+scale_x_discrete(limits = rev(countries2), expand = c(0, 0)) +
+scale_y_continuous(expand = c(0, 0)) +
+scale_color_manual(values = rep("black", 2), guide = FALSE) +
+scale_size_manual(values = c(0.5, 1.25), guide = FALSE) +
+scale_fill_manual(values = brewer.pal(4, color_palette)) +
+coord_flip() +
+labs(title = "Średnie wynagrodzenie w 2040 roku", x = "", y = "")
+
+p1 / p2
+```
