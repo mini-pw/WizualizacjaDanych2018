@@ -1,0 +1,45 @@
+---
+title: "Wyjsciowka2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+
+```
+
+## Wykres
+
+
+
+```{r cars}
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+
+names_df <- filter(lp, long > -30, lat > 30, LEVL_CODE == 0) %>%
+  group_by(NUTS_NAME) %>% 
+  summarise(long = mean(long),
+            lat = mean(lat))
+
+
+nuts_levels <- lapply(0L:3, function(ith_code) 
+  filter(lp, long > -30, lat > 30,  LEVL_CODE == ith_code) %>% 
+    ggplot(aes(x = long, y = lat, group = group, fill = NUTS_NAME)) + 
+    geom_polygon(color = "black") +
+    geom_text(data = names_df, aes(x = long, y = lat, label = NUTS_NAME), inherit.aes = FALSE) +
+    ggtitle(paste0("Wyjsciówka 2")) +
+    coord_map() +
+    theme(legend.position = "none")
+)
+
+nuts_levels[[1]]
+
+
+
+```
+
