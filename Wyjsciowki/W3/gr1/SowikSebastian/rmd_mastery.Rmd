@@ -55,3 +55,7 @@ ggplot(work_by_gender, aes(x = płeć, fill = typ, y = share)) +
   geom_text(aes(label = paste0(pct, '%' )), position = position_stack(vjust=0.5), size=3, fontface="bold")
 
 ```
+
+```{r}
+knitr::include_graphics('screen.png')
+```
