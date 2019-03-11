@@ -45,6 +45,11 @@ Materiały dodatkowe:
 
 **L**: [poprawiamy NSP](http://stat.gov.pl/spisy-powszechne/nsp-2011/nsp-2011-wyniki/)
 
+Materiały dodatkowe:
+
+ - [5 Ways Writers Use Misleading Graphs To Manipulate You](https://venngage.com/blog/misleading-graphs/)
+ - [Data is ugly](https://www.reddit.com/r/dataisugly/)
+
 ## S5 18.03
 
 **W**: Infografiki.

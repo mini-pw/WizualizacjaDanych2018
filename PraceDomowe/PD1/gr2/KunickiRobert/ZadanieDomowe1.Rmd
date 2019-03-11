@@ -1,0 +1,41 @@
+---
+title: "Zadanie domowe nr 1"
+author: "Robert Kunicki"
+output: html_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Opis zbioru danych
+
+Dane pochodzą z wykresu umieszczonego na stronie Straży Miejskiej m.st. Warszawy zawierającego informacje o liczbie interwencji własnych strażników miejskich z podziałem na dzielnice w styczniu 2019. Źródło danych: https://strazmiejska.waw.pl/statystyki-temp/statystyki-z-podzialem-na-miesiace/109-nowe-statystyki-miesieczne/7757-2019-01-interwencje-w%C5%82asne-stra%C5%BCnik%C3%B3w-miejskich-z-podzia%C5%82em-na-dzielnice.html
+
+
+
+## Wykres
+
+
+```{r, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+
+Dzielnice <- c('Bemowo', 'Białołęka', 'Bielany', 'Mokotów', 'Ochota', 'Praga-Południe', 'Praga-Północ', 'Rembertów', 'Śródmieście',  'Targówek', 'Ursus', 'Ursynów', 'Wawer', 'Wesoła', 'Wilanów', 'Włochy', 'Wola', 'Żoliborz')
+
+LiczbaInterwencji <- c(177, 295, 623, 578, 532, 838, 564, 88, 1446, 431, 162, 195, 294, 55, 157, 185, 900, 400)
+
+dane <- data.frame(Dzielnice, LiczbaInterwencji)
+dane <- dane %>% mutate(Dzielnica = factor(Dzielnice,levels=rev(unique(Dzielnice))))
+
+ggplot(data=dane, aes(x=Dzielnica, y=LiczbaInterwencji)) + 
+  scale_x_discrete() +
+  scale_y_continuous() + 
+  geom_bar(stat='identity') + 
+  ggtitle('Liczba interwencji Straży Mijeskiej m.st. Warszawy w styczniu 2019 \r\nw podziale na dzielnice') + 
+  xlab('Dzielnice') +
+  ylab('Liczba interwencji')  +
+  coord_flip()
+
+```

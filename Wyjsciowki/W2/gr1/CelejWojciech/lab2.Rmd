@@ -1,0 +1,28 @@
+---
+title: "Zejściówka nr 2"
+author: "Wojciech Celej"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r warning=FALSE, error=FALSE, message=FALSE, out.width="100%"}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("crime", type = "table")
+t1 <- get_eurostat(s1[1, "code"])
+
+left_join(lp, t1, by = c("geo" = "geo")) %>%
+   na.omit() %>% 
+   filter(time > as.Date("2008-12-31"), time < as.Date("2014-12-31")) %>% 
+   filter(long > -30, lat > 30) %>% 
+   ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+   geom_polygon(color = "black") +
+   labs(title = as.character(s1[1,"title"])) +
+   coord_map() +
+   facet_wrap(~ time)
+```
+
