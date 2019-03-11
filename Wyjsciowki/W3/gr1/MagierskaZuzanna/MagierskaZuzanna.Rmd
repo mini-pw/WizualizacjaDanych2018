@@ -5,7 +5,7 @@ date: "March 11, 2019"
 output: html_document
 ---
 
-
+![](wykres_stary.png)
 
 ```{r error=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
