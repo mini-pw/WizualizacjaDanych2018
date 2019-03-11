@@ -7,7 +7,12 @@ output: html_document
 
 ## Obrazek
 
-```{r,message=FALSE,warning=FALSE,error=FALSE,echo=FALSE}
+```{r,include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r,message=FALSE,warning=FALSE,error=FALSE}
 library(dplyr)
 library(ggplot2)
 data(iris)
@@ -31,3 +36,12 @@ library(DT)
 datatable(iris)
 ```
 
+## Tabelka DT
+
+```{r}
+library(DT)
+datatable(iris, extensions = 'Buttons', 
+          filter = "top", rownames = FALSE, style = "bootstrap",
+          options = list(dom = "Brtip",
+                         buttons = c("copy", "csv", "excel", "print")))
+```
