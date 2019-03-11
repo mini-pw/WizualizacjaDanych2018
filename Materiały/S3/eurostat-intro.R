@@ -1,6 +1,7 @@
 library(dplyr)
 library(ggplot2)
 library(eurostat)
+library(maps)
 
 lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
 
@@ -28,10 +29,11 @@ nuts_levels <- lapply(0L:3, function(ith_code)
 
 nuts_levels[[4]]
 
-filter(lp, CNTR_CODE == "PL", LEVL_CODE == 3) %>%
+filter(lp, CNTR_CODE == "PL", LEVL_CODE == 2) %>%
   group_by(NUTS_NAME) %>% 
   mutate(nice_label = c(first(NUTS_NAME), rep("", length(NUTS_NAME) - 1))) %>% 
-  ggplot(aes(x = long, y = lat, group = group, fill = NUTS_NAME, label = nice_label)) + 
+  ggplot(aes(x = long, y = lat, group = group, 
+             fill = NUTS_NAME, label = nice_label)) + 
   geom_polygon(color = "black") +
   geom_text() +
   coord_map()
@@ -59,7 +61,6 @@ s1
 as.list(s1[1, ])
 
 t1 <- get_eurostat(s1[1, "code"])
-
 
 left_join(lp, t1, by = c("geo" = "geo")) %>% 
   filter(CNTR_CODE == "PL") %>% 

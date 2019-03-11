@@ -1,12 +1,13 @@
 ---
 title: "Prognoza wynagrodzen na rok 2040"
-output: github_document
+output: html_notebook
 ---
 
+Piotr Olesiejuk <br/>
 Link do zrodlowego artykulu: https://bezprawnik.pl/wzrost-wynagrodzen-w-polsce/
 
 
-```{r Code1, results = 'hide'}
+```{r Code1, warning=FALSE, message=FALSE}
 library(patchwork)
 library(formattable)
 library(ggplot2)
@@ -51,4 +52,3 @@ p_final <- p1 / p2
 ```{r}
 p_final
 ```
-
