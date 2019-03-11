@@ -1,0 +1,33 @@
+---
+title: "Untitled"
+author: "Michał Burdukiewicz"
+date: "11 marca 2019"
+output: html_document
+---
+
+## Obrazek
+
+```{r,message=FALSE,warning=FALSE,error=FALSE,echo=FALSE}
+library(dplyr)
+library(ggplot2)
+data(iris)
+mutate(iris, Sepal.Length = Sepal.Length/max(Sepal.Length),
+       Sepal.Width = Sepal.Width/max(Sepal.Width)) %>% 
+  ggplot(aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point()
+
+```
+
+## Tabelka
+
+```{r}
+knitr::kable(iris)
+```
+
+## Tabelka DT
+
+```{r}
+library(DT)
+datatable(iris)
+```
+
