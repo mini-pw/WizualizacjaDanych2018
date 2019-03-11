@@ -1,0 +1,43 @@
+---
+title: "Praca Domowa 2"
+author: "Ryszard Szymański"
+date: "March 10, 2019"
+output: html_document
+---
+
+## Poprzedni wykres
+
+Wybrano wykres Marcina Dardzińskiego, który dotyczył oglądalności poszczególnych stacji telewizyjnych w Polsce.
+
+![](original_plot.png)
+
+Proponowane modyfikacje:
+
+* Dane w artykule dotyczyły stycznia 2018 oraz stycznia 2019. Jednak powyższy wykres sugeruje, że dane dotyczą pełnych lat.
+
+* Oś pionowa została podpisana jako "Oglądalność" a wykres przedstawia wartości średniej oglądalności minutowej.
+
+* Wartości skali pionowej zawierają wiele zer, co powoduje, że może zostać odczytana zła wartość poprzez wizualne "sklejenie" sie zer.
+
+## Poprawiony wykres
+```{r message=FALSE, warning=FALSE}
+library(ggplot2)
+library(reshape2)
+library(tidyr)
+library(dplyr)
+
+csv <- read.csv(file='dane.csv')
+x <- gather(csv, Data, AMR, jan2018:jan2019)
+x$Data <- factor(x$Data, levels=c('jan2018', 'jan2019'), labels=c('Styczeń 2018r.', 'Styczeń 2019r.'))
+
+ordering <- csv %>% arrange(desc(jan2019)) %>% pull(station)
+
+
+ggplot(data = x, aes(x = station, y = AMR, fill = Data), labels('Rok 2019', 'Rok 2018')) +
+  geom_col(stat = 'identity', position = "dodge") +
+  scale_x_discrete(limits = ordering) +
+  scale_fill_discrete(name = 'Okres badania') +
+  scale_y_continuous(labels = function(x) sprintf("%s tys.", x / 1000)) + 
+  xlab('Stacja') + 
+  ylab('Średnia oglądalność minutowa')
+```
