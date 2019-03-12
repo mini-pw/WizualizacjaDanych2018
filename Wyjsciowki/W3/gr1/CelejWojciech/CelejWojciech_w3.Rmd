@@ -1,0 +1,61 @@
+---
+title: "Wyjściówka nr 3"
+author: "Wojciech Celej"
+date: "March 11, 2019"
+output: html_document
+---
+
+```{r}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+# Wykres poprawiany
+![](wykres.jpg)
+
+
+Co jest złe:
+
+* wykres 3D - ciężkie porównanie wartości
+* dodatkowo wykres jest eksplodowany
+* wykres kołowy - kategorie o małych udziałach są niewidoczne
+
+
+# Mój wykres
+```{r out.width="100%"}
+library(ggplot2)
+library(dplyr)
+library(stringr)
+
+names = c("Robotnicy przemysłowi i rzemieślnicy",
+          "Operatorzy i monetrzy maszyn i urządzeń",
+          "Pracownicy przy pracach prostych",
+          "Siły zbrojne",
+          "Zawód nieustalony",
+          "Przedstawiciele władz publicznych,wyżsi urzednicy i kierownicy",
+          "Specjaliści",
+          "Technicy i inny sredni personel",
+          "Pracownicy biurowi",
+          "Pracownicy usług osobistych i sprzedawcy",
+          "Rolnicy, ogrodnicy, leśnicy i rybacy")
+
+names <- str_wrap(names, 30)
+
+values = c(29.3, 8.5, 11.8, 0.2, 1.5, 2.8, 5.7, 10.5, 7.5, 20.4, 1.8)
+df = data.frame(names = names, values = values)
+
+ggplot(data = df, aes(x = reorder(names, +values), y = values)) +
+   geom_bar(stat = "identity") +
+   coord_flip() +
+   scale_y_continuous(expand = expand_scale(add = c(0, 0)), limits = c(0, 35)) +
+   geom_text(aes(label = values), position=position_dodge(width=1), hjust = -0.5) + 
+   labs(title = "Struktura długotrwale bezrobotnych uprzednio pracujących\n (w okresie 2003-2011) według zawodu wykonywanego\n w ostatnim miejscu pracy", x = "", y = "Udział w %", 
+        caption = 'Wykres pochodzi z raportu "Wybrane aspekty aktywności ekonomicznej ludności - NSP 2011"    ')
+```
+
+
+Co zostało zmienione:
+
+* forma wykresu: z kołowego na słupkowy
+* styl wizualny utworu -> z kolorowego na monochromatyczny
+* miary (scale) - kolejność malejąca
+
