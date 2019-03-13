@@ -17,6 +17,8 @@ df = data.frame(country=x,avg_income=y)
 
 ## Oryginalny wykres
 
+Na warsztat został wzięty wykres z pierwszej pracy domowej autorstwa pani Miesiąc  
+https://github.com/mini-pw/WizualizacjaDanych2018/commit/4bcad7d0e9b94198a43656792b92d819eb3acd51
 
 ![](./original_figure.png)
 
