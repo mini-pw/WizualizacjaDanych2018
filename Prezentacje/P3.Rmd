@@ -1,7 +1,7 @@
 ---
 title: "Wizualizacji danych"
 author: "Michał Burdukiewicz"
-date: "4 marca 2019"
+date: "4 kwietnia 2019"
 output: ioslides_presentation
 ---
 
