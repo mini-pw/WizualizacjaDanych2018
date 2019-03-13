@@ -1,0 +1,35 @@
+---
+title: "W3_TR"
+author: "Tomek Radzikowski"
+date: "11 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r dane}
+procenty=c(73.8,5.4,4.3,3.1,13.3)
+kat=c("Domy studenckie, asystenckie, s³uchaczy seminariów duchownych","Klasztory, domy zakonne", "hotele pracownicze","internaty, bursy","pozosta³e obiekty zbiorowego zakwaterowania")
+dt <- data.frame("Kategoria"=kat, "procenty"=procenty)
+```
+
+## Including Plots
+![wykres ze strony GUS](wykres.png)
+
+## Wykres poprawiony
+```{r aa, echo=FALSE, warning=FALSE}
+library(ggplot2)
+library(stringr)
+dt$Kategoria<-str_wrap(dt$Kategoria, width = 25)
+ggplot(dt, aes(x = reorder(Kategoria,procenty), y=procenty))+ geom_bar(stat = "identity",fill="#2f7585")+coord_flip()+ geom_text(aes(label=procenty), position = position_stack(vjust = 0.5), color="white", size=4)+labs(title=" Cudzoziemcy w obiektach zbiorowego zakwaterowania
+wed³ug typu obiektu w 2011 roku", subtitle="wersja poprawiona")+ylab("wartoœæ procentowa")+xlab("Kategoria oœrodka")
+```
+
+## Komentarz
+
+Wykres, który wzi¹³em na warsztat mia³ podstawow¹ wadê, jak¹ niew¹tpliwie jest zastosowanie wykresu ko³owego (w jêzyku gramatyki mówimy o zastosowaniu niew³aœciwej formy). Zastosowanie wykresu ko³owego sprawia, ¿e dok³adne porównanie podobnych wartoœci procentowych w sposób wizualny jest praktycznie niemo¿liwe i prawdopodobnie bêdzie generowaæ wœród odbiorców b³êdy w odczycie danych. 
+Dodatkowo poprawi³em etykiety skali: na wykresie ko³owym ich zawijanie by³o nieestetyczne (np. "asys-tenckie" i"s³uchac-zy"). W ramach modyfikacji dekoracji u¿y³em te¿ bia³ego koloru wartoœci procentowej na ka¿dym s³upku, co dobrze komponuje siê z wybranym przeze mnie kolorem s³upków. 
+
