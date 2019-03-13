@@ -1,0 +1,62 @@
+---
+title: "Praca domowa 2"
+author: "Stanislaw Pawlak"
+date: "12 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+Dzielnice <- c('Bemowo', 'Białołęka', 'Bielany', 'Mokotów', 'Ochota', 'Praga-Południe', 'Praga-Północ', 'Rembertów', 'Śródmieście',  'Targówek', 'Ursus', 'Ursynów', 'Wawer', 'Wesoła', 'Wilanów', 'Włochy', 'Wola', 'Żoliborz')
+
+LiczbaInterwencji <- c(177, 295, 623, 578, 532, 838, 564, 88, 1446, 431, 162, 195, 294, 55, 157, 185, 900, 400)
+knitr::opts_chunk$set(echo = TRUE)
+```
+Było:  
+```{r, echo = FALSE}
+dane <- data.frame(Dzielnice, LiczbaInterwencji)
+dane <- dane %>% mutate(Dzielnica = factor(Dzielnice,levels=rev(unique(Dzielnice))))
+
+ggplot(data=dane, aes(x=Dzielnica, y=LiczbaInterwencji)) + 
+  scale_x_discrete() +
+  scale_y_continuous() + 
+  geom_bar(stat='identity') + 
+  ggtitle('Liczba interwencji Straży Mijeskiej m.st. Warszawy w styczniu 2019 \r\nw podziale na dzielnice') + 
+  xlab('Dzielnice') +
+  ylab('Liczba interwencji')  +
+  coord_flip()
+```
+
+Zmiany:  
+1. Kolejność dzielnic zmieniona na malejącą zamiast alfabetycznej - utrudnia to w pierwszej chwili znalezienie pożądanej dzielnicy, ale ułatwia porównywanie liczby interwencji pomiędzy dzielnicami,  
+2. Dodane konkretne liczby interwencji,  
+3. Dodany kolor.  
+
+```{r pressure, echo=FALSE}
+
+dane <- data.frame(Dzielnice, LiczbaInterwencji)
+
+order.districts <- group_by(dane, Dzielnice) %>% 
+  arrange(desc(LiczbaInterwencji)) %>% 
+  pull((Dzielnice))
+
+order.values <- group_by(dane, Dzielnice) %>% 
+  arrange(desc(LiczbaInterwencji)) %>% 
+  pull((LiczbaInterwencji))
+
+dane <- dane %>% 
+  mutate(Dzielnice = factor(order.districts, levels = rev(order.districts))) %>% 
+  mutate(LiczbaInterwencji = order.values)
+
+ggplot(data=dane, aes(x=Dzielnice, y=LiczbaInterwencji, fill = "FF####")) + 
+  scale_x_discrete() +
+  scale_y_continuous() +
+  geom_bar(stat='identity') + 
+  ggtitle('Liczba interwencji Straży Miejskiej m.st. Warszawy w styczniu 2019 \r\nw podziale na dzielnice') + 
+  xlab('Dzielnice') +
+  ylab('Liczba interwencji')  +
+  coord_flip() + 
+  geom_text(label = order.values, hjust = 1.2) +
+  theme(legend.position = "none")
+```
