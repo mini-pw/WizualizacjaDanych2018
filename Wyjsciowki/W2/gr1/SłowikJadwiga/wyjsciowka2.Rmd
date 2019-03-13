@@ -1,0 +1,36 @@
+---
+title: "Wizualizacja danych - wyjściówka nr 2"
+author: "Jadwiga Słowik"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+require(knitr)
+library(dplyr)
+library(eurostat)
+library(maps)
+library(mapproj)
+```
+
+# Wizualizacja danych dotyczących pensji w krajach europejskich
+
+Dane zostały przedstawione dla wybranych krajow, gdzie obowiązuje waluta **euro** (dane z daty `2010-01-01`).
+
+```{r, warning=FALSE, message=FALSE, echo=TRUE}
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+a <- search_eurostat("wages", type = "table")
+wages <- get_eurostat(a[1, "code"])
+```
+
+```{r, warning=FALSE, out.width="100%"}
+left_join(lp, wages, by = c("geo" = "geo")) %>% 
+  filter(currency == "EUR", long < 7, long > -12, time == "2010-01-01") %>% 
+  na.omit %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  scale_fill_gradient(low="black", high="green") +
+  geom_polygon(color = "black") +
+  coord_map() 
+```

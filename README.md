@@ -45,11 +45,21 @@ Materiały dodatkowe:
 
 **L**: [poprawiamy NSP](http://stat.gov.pl/spisy-powszechne/nsp-2011/nsp-2011-wyniki/)
 
+Materiały dodatkowe:
+
+ - [5 Ways Writers Use Misleading Graphs To Manipulate You](https://venngage.com/blog/misleading-graphs/)
+ - [Data is ugly](https://www.reddit.com/r/dataisugly/)
+
 ## S5 18.03
 
 **W**: Infografiki.
 
 **L**: [Inkscape 1/2](https://inkscape.org/) lub [Illustrator](https://www.adobe.com/pl/products/illustrator/free-trial-download.html) (w miarę możliwości proszę przynieść własny laptop)
+
+Materiały dodatkowe:
+
+ - [Inkscape for Beginners: Circle Infographic Tutorial](https://www.youtube.com/watch?v=qvNSounip2Y)
+ - [How To Create An Infographic: (Step-by-Step Tutorial)](http://jugaadanimation.com/create-an-infographic/)
 
 ## S6 25.03
 

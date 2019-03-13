@@ -1,0 +1,37 @@
+---
+title: "Wykres z artykułu"
+author: "Michał Kośmider"
+date: "March 4, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+## Artykuł
+
+https://towardsdatascience.com/deep-learning-framework-power-scores-2018-23607ddf297a
+
+## Wykres
+
+```{r wyk, echo=FALSE}
+
+frameworks  <- c('Tensorflow', 'Keras', 'PyTorch', 'Caffe', 'Theano', 
+                 'MXNET', 'CNTK', 'DL4j', 'Caffe2', 'Chainer', 'FastAI')
+values <- c(6.77, 10, 1.89, 0.82, 0.4, 0.5, 0.17, 0.00, 0.29, 0.02, 0.87) * 1000
+data <- data.frame(frameworks, values)
+
+sorted.frameworks <- data %>% arrange(values) %>% pull(frameworks)
+data$frameworks <- factor(data$frameworks, levels = sorted.frameworks)
+
+ggplot(data, aes(x = frameworks, y = values, fill = frameworks)) + 
+  geom_bar(stat = 'identity') +
+  labs(
+    title = 'Number of Medium Articles per Deep Learning Framework',
+    y = 'Number of Medium Articles', 
+    x='Frameworks'
+  ) +
+  coord_flip() + theme_light() + theme(legend.position = 'none')
+```

@@ -1,0 +1,52 @@
+---
+title: "Praca domowa 1 - Katarzyna Spalinska"
+output:
+  html_document:
+    df_print: paged
+---
+
+https://businessinsider.com.pl/finanse/zarobki-w-nbp-martyna-wojciechowska-i-adam-glapinski-2018-r/7ycde3x
+
+```{r message = FALSE}
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+
+stanowiska <- c("Departament Innowacji Finansowych",
+                "Departament Kadr",
+                "Departament Komunikacji i Promocji",
+                "Departament Koordynacji i Realizacji Zakupów",
+                "Departament Operacji Krajowych",
+                "Departament Operacji Zagranicznych",
+                "Departament Prawny",
+                "Departament Rachunkowości i Finansów",
+                "Departament Rozliczeń Gospodarki Własnej",
+                "Departament Rozliczeń Transakcji Finansowych",
+                "Departament Ryzyka Operacyjnego i Zgodności",
+                "Departament Stabilności Finansowej",
+                "Departament Statystyki",
+                "Departament Systemu Płatniczego",
+                "Departament Zagraniczny"
+)
+
+zarobki <- c(44.971,42.890,49.563,34.486,35.755,37.673,47.331,39.947,33.172,39.158,28.446,41.104,40.366,37.059,38.386)
+
+zarobki_df <- data.frame("Stanowisko" = stanowiska, "Zarobki" = zarobki)
+
+ordered_zarobki_df <- zarobki_df %>% 
+  arrange(desc(Zarobki)) %>%
+  select(Stanowisko, Zarobki)
+
+```
+
+```{r}
+
+wykres <- ggplot(data = ordered_zarobki_df, aes(x = reorder(Stanowisko, Zarobki), Zarobki, label = Zarobki)) +
+  geom_bar(stat="identity", fill='lightblue', color='darkblue') + 
+  labs(title = "Zarobki w NBP", y = "Zarobki (tys. zł)", x = "Stanowisko (dyrektor departamentu)") +
+  geom_text(size = 3, position = position_stack(vjust = 0.93)) + 
+  coord_flip() + theme_bw()
+
+wykres
+
+```

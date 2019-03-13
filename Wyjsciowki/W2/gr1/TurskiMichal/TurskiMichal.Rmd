@@ -1,0 +1,23 @@
+---
+title: "TurskiMichal"
+output: html_document
+---
+
+```{r map, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat) 
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("rain", type = "table")
+t1 <- get_eurostat(s1[1, "code"])
+
+left_join(lp, t1, by = c("geo" = "geo")) %>%
+  filter(long > -30, lat > 30, time >= 2017-01-01, CNTR_CODE == "DE" | CNTR_CODE == "PL") %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  scale_fill_distiller(palette ="RdBu", direction = -1) +
+  coord_map() +
+  ggtitle ("Percentage of early shool leavers in 2017")
+```

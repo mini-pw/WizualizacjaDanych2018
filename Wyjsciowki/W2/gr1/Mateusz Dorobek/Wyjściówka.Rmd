@@ -1,0 +1,31 @@
+---
+title: "Wyjściówka"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r error=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+library(mapproj)
+library(lubridate)
+
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+
+s1 <- search_eurostat("children", type = "table")
+
+t3 <- get_eurostat(s1[1, "code"])
+
+filter(lp, LEVL_CODE == 0) %>%
+  left_join(t3, by = c("CNTR_CODE" = "geo")) %>%
+  # group_by(values) %>% 
+  filter(long > -15, lat > 20) %>% 
+  filter(lat > 35, lat < 65) %>% 
+  filter(time == "2006-01-01") %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  geom_polygon(color = "black") +
+  coord_map() +
+  ggtitle("Liczba dzieci w gospodarstwach domowych, w których nikt nie pracuje.")
+```

@@ -14,7 +14,7 @@ ggplot(data = countries, aes(x = continent, fill = continent, label = ..count..)
   geom_text()
 
 # stat nie jest dziedziczony, kazda geometria ma przypisany wlasny stat
-# dla geom_text domyslny stat to count
+# dla geom_text domyslny stat to identity
 
 geom_text
 
@@ -54,7 +54,6 @@ filter(economics_long, variable %in% c("unemploy", "uempmed")) %>%
   geom_line()
 
 filter(economics_long, variable %in% c("unemploy", "uempmed")) %>% 
-  ggplot(aes(x = as.Date(date), y = value01, linetype = variable)) + 
+  ggplot(aes(x = date, y = value01, linetype = variable)) + 
   geom_line() +
-  scale_x_datetime(date_labels = "%Y")
-
+  scale_x_date(date_labels = "%Y")

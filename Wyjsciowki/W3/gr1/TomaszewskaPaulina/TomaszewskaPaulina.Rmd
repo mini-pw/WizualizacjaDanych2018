@@ -1,0 +1,48 @@
+---
+title: "Wyjściówka"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+#source("https://install-github.me/thomasp85/patchwork")
+library(patchwork)
+library(dplyr)
+
+```
+
+Oryginalny wykres był kołowy, więc zmieniłam geometrię wykresu na geom_bar. 
+Stwierdziłam, że kolor nic nie wnosi w tym przypadku, więc go nie zastosowałam.\n
+![wykres.png](wykres.png)
+
+```{r}
+owners=c('Osoby fizyczne', 'Spółdzielnie mieszkaniowe','Gminy', 'Skarbu Państwa','Zakładu pracy', 'TBS', 'Nieustalona', 'Współwłasność z wyodrębnionymi własnościami','Współwłasność z niewyodrębnionymi własnościami','Pozostałe podmioty')
+
+owners1=c('Osoby fizyczne','Reszta')
+procent1=c(83.3, 100.0-83.3)
+procent =c(83.3,0.4,1.0,0.4,0.5,0.1,4.4, 9.1, 0.7, 0.2)
+spadek=c("-4.8", "-1.4", "-1.0", "-0.2", "-0.3", "+0.01", "+0.1", "+3.5", "-0.2","-0.1")
+label=paste0(spadek, " w p. proc")
+label1=paste0(procent1,"%")
+spadek1=paste0(spadek, " w p. proc")
+
+
+dane = data.frame(owners, procent, label)
+  
+
+dane1=data.frame(owners1,procent1)
+p1<-ggplot(dane1, aes(x=owners1, y=procent1,label=label1))+geom_bar(stat='identity')+coord_flip()+geom_text(hjust=-0.1)+ylim(0,100)+ggtitle("Struktura budynków mieszkalnych zamieszkanych \n według form własności budynku w 2011 r.")+ylab("udział procentowy")+xlab("właściciel")
+
+#pokazuje że jedno góruje nad resztą
+
+
+dane2<-filter(dane, owners !="Osoby fizyczne") %>% mutate(procent_wzgledny=procent*(100-83.3))
+
+p2<-ggplot(dane2, aes(x=owners, y=procent, label=label))+geom_bar(stat='identity')+coord_flip()+geom_text(hjust=-0.1)+ylim(0,15)+
+  labs(caption="*zmienna w porówaniu do roku 2002")+ggtitle("Struktura budynków mieszkalnych zamieszkanych \n według form własności budynku \n w 2011 r. odpowiadająca kategorii Reszta")+ylab("udział procentowy")+xlab("właściciel")
+
+p1/p2
+
+```
+

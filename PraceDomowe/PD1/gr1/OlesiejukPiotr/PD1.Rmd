@@ -1,0 +1,54 @@
+---
+title: "Prognoza wynagrodzen na rok 2040"
+output: html_notebook
+---
+
+Piotr Olesiejuk <br/>
+Link do zrodlowego artykulu: https://bezprawnik.pl/wzrost-wynagrodzen-w-polsce/
+
+
+```{r Code1, warning=FALSE, message=FALSE}
+library(patchwork)
+library(formattable)
+library(ggplot2)
+library(dplyr)
+```
+```{r Code2, echo=TRUE}
+countries1 <- c("Indie", "Malezja", "Indonezja", "Chiny", "Polska", "Niemcy", "Wielka Brytania" , "USA")
+values1 <- c(2.22, 1.84, 1.76, 1.45, 1.41, 0.41, 0.29, 0.21)
+values1 <- percent(values1)
+dat1 <- data.frame(kraj = countries1, wzrost_pensji = values1)
+
+p1 <- ggplot(data = dat1, aes(x = kraj, y = wzrost_pensji)) +
+  scale_x_discrete(limits = rev(countries1)) +
+  geom_bar(stat = "identity", fill = rev(c(rep("#2ca25f", 4), "#43a2ca", rep("#e34a33", 3)))) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 2.5)) +
+  coord_flip( )+
+  theme(legend.position = "none") +
+  xlab("") + ylab("") +
+  ggtitle("Przyrost srednich wynagrodzen w ciagu najblizszych 20 lat")
+
+p1 <- p1 + theme(plot.title = element_text(size = 14, hjust = 0.5))
+
+countries2 <- c("Korea Poludniowa", "USA", "Niemcy", "Francja", "UK", "Hiszpania", "Wlochy", "RPA", "Polska")
+values2 <- c(5500, 5000, 4600, 4000, 4000, 3700, 3500, 3500, 3000)
+dat2 <- data.frame(kraj = countries2, pensja = values2)
+
+
+p2 <- ggplot(data = dat2, aes(x = kraj, y = pensja)) +
+  scale_x_discrete(limits = rev(countries2)) +
+  scale_y_continuous(labels = scales::dollar_format(), limits = c(0, 6000)) +
+  geom_bar(stat = "identity", fill = rev(c(rep("#2ca25f", 8), "#e34a33"))) +
+  coord_flip() +
+  theme(legend.position = "none") +
+  xlab("") + ylab("") +
+  ggtitle("Srednie wynagrodzenia w 2040 roku")
+
+p2 <- p2 + theme(plot.title = element_text(size = 14, hjust = 0.5))
+
+p_final <- p1 / p2 
+```
+
+```{r}
+p_final
+```
