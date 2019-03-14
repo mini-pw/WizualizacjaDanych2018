@@ -1,0 +1,35 @@
+---
+title: "Wyjsciówka 3"
+author: "Patryk Kowalski"
+output: html_notebook
+---
+## Wykres w wersji oryginalnej
+![raport](D:\mgr\wizualizacja_danych\screen_raport_wd3.png)
+
+###Krytyka  
+
+* Specyfika prezentowanych danych nie usprawiedliwia zastosowania wykresu kołowego. Dane sumują się do 100%, a nie do 360 stopni.
+* Wycinki o objętości 0% dezorientują odbiorcę.
+* Zawieszone na kole etykiety wymagają od odbiorcy wzmożonej percepcji, w celu dopasowania ich do konkretnych wycinków.
+
+###Pomysł
+W tym wypadku zastosowanie klasycznego wykresu słupkowego zwiększy zarówno czytelność wykresu, jak i łatwość dopasowania danych do etykiet. Ewentualny problem może pojawic się ze skalowaniem - skrajnie małe wartości zestawione ze skrajnie dużymi - co jednak w tym wypadku nie stanowi problemu istotnego. Zestawienie skrajnych danych dodatkowo podkreśla róznice między kategoriami domów, a dodanie etykiet z wartościami procentowymi rozwiąże problem skali.
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+
+data <- tibble(
+  indykator = c('Obiekty zbiorowego zakwaterowania','Mieszkalne wolnomieszkaniowe','Mieszkalne jednorodzinne', 'Niemieszkalne','Obiekty zbiorowego zakwaterowania','Mieszkalne wolnomieszkaniowe','Mieszkalne jednorodzinne', 'Niemieszkalne'),
+  rejon = c(rep('miasto',4), rep('wieś',4)),
+               val =  c(0.1,20,79.4, 0.5, 0, 2.9, 96.8, 0.3 ))
+
+ggplot(data, aes(x = indykator, y = val/100, fill = rejon)) +
+  geom_col(position="dodge") +
+  coord_flip() +
+  geom_text(aes(label = paste0(val, '%')), position = position_dodge(width = 1)) +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  ggtitle("Budynki zamieszkane według rodzaju budynku w 2011r.") +
+  ylab("") + xlab("") + theme_bw()
+```
+
