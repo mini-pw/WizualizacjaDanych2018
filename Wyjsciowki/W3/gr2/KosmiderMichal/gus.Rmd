@@ -19,10 +19,10 @@ library(scales)
 
 # Poprawiony
 
-* Zmiana geometri
-* Zmiana kolorów
-* Usunięcie efektu 3D
-* Posortowanie
+* Zmiana geometri -- porównywanie kontów vs długości
+* Zmiana kolorów -- nie lubie MS
+* Usunięcie efektu 3D -- czytelność
+* Posortowanie -- szybkie porównanie
 
 ```{r wykres, echo=FALSE}
 categories = c("Białoruś", "Niemcy", "Litwa", "Rosja", "ZSRR",
