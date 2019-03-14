@@ -15,7 +15,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r,message=FALSE,warning=FALSE,error=FALSE}
 library(dplyr)
 library(ggplot2)
-library('SmarterPoland')
 data(iris)
 mutate(iris, Sepal.Length = Sepal.Length/max(Sepal.Length),
        Sepal.Width = Sepal.Width/max(Sepal.Width)) %>% 
@@ -27,21 +26,21 @@ mutate(iris, Sepal.Length = Sepal.Length/max(Sepal.Length),
 ## Tabelka
 
 ```{r}
-knitr::kable(countries)
+knitr::kable(iris)
 ```
 
 ## Tabelka DT
 
 ```{r}
 library(DT)
-datatable(countries)
+datatable(iris)
 ```
 
 ## Tabelka DT
 
 ```{r}
 library(DT)
-datatable(countries, extensions = 'Buttons', 
+datatable(iris, extensions = 'Buttons', 
           filter = "top", rownames = FALSE, style = "bootstrap",
           options = list(dom = "Brtip",
                          buttons = c("copy", "csv", "excel", "print")))
