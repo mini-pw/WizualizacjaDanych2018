@@ -56,6 +56,11 @@ Materiały dodatkowe:
 
 **L**: [Inkscape 1/2](https://inkscape.org/) lub [Illustrator](https://www.adobe.com/pl/products/illustrator/free-trial-download.html) (w miarę możliwości proszę przynieść własny laptop)
 
+Materiały dodatkowe:
+
+ - [Inkscape for Beginners: Circle Infographic Tutorial](https://www.youtube.com/watch?v=qvNSounip2Y)
+ - [How To Create An Infographic: (Step-by-Step Tutorial)](http://jugaadanimation.com/create-an-infographic/)
+
 ## S6 25.03
 
 **W**: [Kolory](http://biecek.pl/Eseje/indexKolory.html) i [Skale pomiarowe](http://biecek.pl/Eseje/indexKuchnia.html); 

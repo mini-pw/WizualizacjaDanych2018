@@ -1,0 +1,47 @@
+---
+title: "W3"
+author: "Jakub Olechowski"
+date: "11 marca 2019"
+output: html_document
+---
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+## Oryginalny wykres
+
+![Oryginalny wykres](screenshot.png)
+
+## Co jest źle
+
+* Użyto diagramu kołowego;
+* Użyto dodatkowego wykresu słupkowego do przedstawienia części wykresu;
+* Dane **zmienna w porównaniu do 2002 w p. proc.** nie jest przedstawiona na wykresie i znacząco utrudnia wizualne porównanie;
+
+## Poprawiony wykres
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+df <- data.frame(ownForm = c('Współwłasność z\nwyodrębnionymi własnościami\nlokali mieszkalnych', 'Współwłasność bez\nwyodrębnionych własności\nlokali mieszkalnych','Osoby fizyczne', 'Spółdzielnie mieszkaniowe', 'Gminy', 'Skarbu Państwa', 'Zakłady pracy', 'TBS', 'Pozostałe podmioty', 'Nieustalona'), share = c(50.2,0.4,41.7,1.8,2.2,0.5,0.7,0.3,0.2,2.0))
+
+dplyr::arrange(df, desc(share)) %>% 
+  mutate(ownForm = factor(ownForm, levels = ownForm), percent = paste(share, '%')) %>% 
+  ggplot(aes(x = ownForm, y = share)) +
+  geom_bar(stat = 'identity') +
+  scale_y_continuous(labels = scales::percent_format(scale = 1), limits = c(0,60)) +
+  geom_text(aes(label = percent), vjust = -0.2) +
+  theme(axis.text.x = element_text(angle = 70, hjust = 1)) +
+  ylab('Udział') +
+  ggtitle('Struktura mieszkań w budynkach mieszkalnych według formy\nwłasności budynku w roku 2011')
+
+```
+
+## Co poprawiono
+
+* Zastosowano wykres słupkowy;
+* Dodano wartości na słupkach (znaczące różnice w wartościach osi **Y** nieco utrudniały odczyt danych);
+* Usunięto dane **zmienna w porównaniu do 2002 w p. proc.** (nie było danych bezwzględnych, aby można je było uwzględnić na wykresie);

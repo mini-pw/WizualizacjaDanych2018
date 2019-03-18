@@ -1,0 +1,68 @@
+---
+title: "Praca domowa 2"
+author: "Piotr Janus"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+
+x <- c("Estonia","Malta","Austria","Polska","Dania","Litwa","Bułgaria","Szwecja","Niemcy","Francja",
+       "Włochy","Portugalia","Hiszpania","Cypr","Wlk. Brytania","Grecja")
+y <- as.numeric(c(14.2,19.9,26,12.7,23.6,12,9.6,22.2,24.0,23.7,18.6,12.9,17.9,19.7,20.2,10.5))
+dane<- data.frame(x,y)
+
+```
+
+
+##Opis zmian
+1. Ze względu na ilość państw przedstawionych na wykresie, przechylenie ich nazw może być nieco nieczytelne. Wegług mnie przedstawienie w pionie jest znacznie bardziej przejrzyste.
+2. Przedstawienie każdego państwa za pomocą innego koloru nie jest dobrym pomysłem, skoro każdy słupek odnosi się do dochodu. Dodatkowo dla osób takich jak ja, niektóre kolory moga się zlewać, przez co stwarza to wrażenie, że takie kraje jak Dania+Cypr lub Portugalia+Szwecja należą do jednej grupy o tym samym kolorze.
+3. Legenda po prawej stronie jest zbędna, skoro słupki są podpisane.
+4. Podziałka na osi OY jest zdecydowanie zbyt duża, przez co stwarza to trudność z oszacowaniem wartości dla konkretnego kraju (dodano także dokładne wartości).  
+5. Uważam, że podpis osi OY oraz tytułu są zbyt małe, dodano również margines.
+6. Pionowa siatka jest niepotrzebna, ze względu na to co znajduje się na osi OX.  
+7. Usunięto zbędną przestrzeń pod słupkami.
+
+
+##Poprzedni wykres
+```{r pressure, echo=FALSE, warning=FALSE,message=FALSE, fig.width=10}
+
+orders <- dane %>%arrange(desc(y))%>%pull(x)
+  
+(ggplot(dane, aes(x=x, fill=x)) + geom_bar(aes(weight = y)) + scale_x_discrete(limits =orders )
++ ggtitle("Wysokość przeciętnego dochodu do dyspozycji dla krajów UE w 2017r.")
++ labs(y="Wysokość dochodu w tys", x=' ') 
++ theme(axis.text.x=element_text(angle=25,hjust=1,vjust=0.5,size = 15)))
+```
+
+#Nowy wykres 
+
+```{r wykres, echo=FALSE, message=FALSE, warning=FALSE, fig.width=9}
+
+dane <- data.frame(x=x,y=y, stringsAsFactors = FALSE)
+orders <- dane %>% arrange(desc(y))
+orders$x <- factor(orders$x, levels = orders$x)
+
+ggplot(data = orders, aes(x = x, y = y)) +
+  # geom_bar(stat = 'identity',fill = 'darkgreen', width = 0.9, position = position_dodge())+
+  geom_col(fill = 'darkgreen', width = 0.9)+
+  scale_y_discrete(limits = seq(0,max(y)+2,4), expand = c(0,0))+
+  coord_cartesian(ylim = c(0, round(max(y)+2)))+
+  geom_text(aes(label=formatC(orders$y, digits = 1, format = 'f')),
+            colour ="White", fontface="bold", 
+            size = 4, hjust =0.5,
+            vjust = 1.5) +
+  theme_bw() +
+  theme(panel.grid.major.x = element_blank(),
+        plot.title = element_text(face='bold', hjust = 0.5, margin = margin(0,0,20,0)),
+        axis.text.x = element_text(angle = 90, face='bold',size=12, hjust = 1, vjust=0.25),
+        axis.text.y = element_text(face="bold", size=12),
+        axis.title.y = element_text(margin = margin(0,10,0,0)), 
+        panel.border = element_blank(),
+        axis.line = element_line(size = 0.7),
+        axis.ticks.x = element_blank())+
+  ggtitle("Wysokość przeciętnego dochodu do dyspozycji dla krajów UE w 2017r.") +
+  labs(y="Wysokość dochodu w tys", x=' ') 
+```
