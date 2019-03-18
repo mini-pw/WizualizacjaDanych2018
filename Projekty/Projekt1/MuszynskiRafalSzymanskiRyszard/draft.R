@@ -5,6 +5,7 @@ library(jsonlite)
 library(lubridate)
 library(readr)
 library(scales)
+library(viridis)
 
 
 #' Step data
@@ -77,16 +78,25 @@ data <- lapply(files, function(filename) {
 df <- do.call(rbind, data)
 
 #'
-df %>% 
+fb_msg_cycle <- df %>% 
   mutate(time = time %>% 
            as.POSIXct(format = "%H:%M:%S") %>%
-           strftime(format = "%H:00:00") %>% 
+           strftime(format = "%H:%M:00") %>% 
            as.POSIXct(format = "%H:%M:%S")
-         ) %>% 
+  ) %>% 
   group_by(time) %>% 
-  summarize(msg_count = n()) %>% 
+  summarize(msg_count = n()) 
+
+fb_msg_cycle %>% 
   ggplot(aes(x = time, y = 0, fill = msg_count)) +
   geom_tile() + 
-  scale_fill_gradient(low = "blue", high = "red") +
+  scale_fill_viridis() +
   scale_x_datetime(labels = date_format("%H"),
-                   date_breaks = "1 hours")
+                   date_breaks = "1 hours") +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank()) +
+  coord_polar(start = -0.38) +
+  labs(fill = "Liczba wiadomości")
+  
