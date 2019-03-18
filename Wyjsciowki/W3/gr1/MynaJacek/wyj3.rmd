@@ -1,0 +1,47 @@
+---
+title: "Wyjściówka nr 3"
+author: "Jacek Myna"
+date: "11 marca 2019"
+output: html_document
+---
+
+## Błędny wykres
+![](bazowy.png)
+
+## Co było nie tak?
+Zły typ wykresu. Do danych procentowych powinno się użyć wykresu kołowego.
+
+Ponadto nie powinno się zaznaczać na jednym wykresie wartości ogółem i z podziałem na płeć. W każdym przypadku powinien być oddzielny wykres.
+
+Na wykresie pominięto całkowicie kategorię "Nie ustalono przyczyny bezdomności".
+
+## Poprawiony wykres
+```{r warning=FALSE, message=FALSE}
+  library(dplyr)
+
+x1 <- c("Wymeldowanie (decyzja administracyjna)","Wypędzenie z mieszkania przez rodzinę/współlokatorów ","Pozostawienie mieszkania rodzinie z własnej inicjatywy","Ucieczka przed przemocą w rodzinie","Utrata noclegów w miejscu byłej pracy","Konieczność opuszczenia domu dziecka na skutek pełnoletniości","Eksmisja","Zadłużenie","Bezrobocie","Opuszczenie zakładu karnego","Nie ustalono przyczyny bezdomności")
+x2 <- as.numeric(c(15.0, 19.3, 11.5, 2.1, 0.8, 0.5, 11.0, 5.2, 9.6, 3.2, 31.0))
+
+x_name <- "reason"
+y_name <- "values"
+
+df <- data.frame(x1,x2)
+colnames(df) <- c(x_name, y_name)
+
+library(ggplot2)
+
+# Source: Frequency table
+df %>%
+  mutate(label=scales::percent(values/100)) %>% 
+  arrange(desc(values)) %>%
+  ggplot(aes(x = "", y=values, fill = reason)) + 
+  geom_bar(width = 1, stat = "identity") +
+  theme(axis.line = element_blank()) +
+  labs(fill="Przyczyna", 
+       x=NULL, 
+       y=NULL, 
+       title=" Przyczyny bezdomności osób bezdomnych I kategorii w 2011 roku (ogółem)") +
+  coord_polar(theta = "y", start=0) +
+  theme(axis.text.x = element_text(color = NA))
+
+```
