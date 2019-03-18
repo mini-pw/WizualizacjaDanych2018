@@ -1,0 +1,72 @@
+---
+title: "Infografiki"
+author: "Michał Burdukiewicz"
+date: "18 marca 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Praca domowa
+
+Wybrać wykres przygotowany w ramach PD2 i poprawić go z wykorzystaniem Inkscape - dodając, usuwając lub modyfikując istniejące elementy wizualizacji. Zadanie powinno zostać oddane w postaci pliku .Rmd i jego skompilowanej wersji w formacie .html. Termin oddania pracy domowej: 25.03.2018. 
+
+## Inkscape
+
+Darmowy i otwarty edytor grafiki wektorowej.
+
+ - [Oficjalny tutorial](https://inkscape.org/en/doc/basic/tutorial-basic.pl.html).
+ - [Inkscape w praktyce](https://pl.wikibooks.org/wiki/Inkscape_w_praktyce).
+
+## Infografiki
+
+Inspiracje: [VennGage](https://venngage.com/)
+
+
+## Czcionki
+
+1. Czcionka do tytułów/nagłówków.
+2. Treść dokumentu.
+3. Wyróżnianie treści.
+
+## Czcionki
+
+<a href="https://cdn.dribbble.com/users/18730/screenshots/1593976/attachments/246597/full_pixels.png"><img src="https://cdn.dribbble.com/users/18730/screenshots/1593976/attachments/246597/full_pixels.png" width="700px"></a>
+
+## Kolory
+
+<a href="https://venngage-wordpress.s3.amazonaws.com/uploads/2016/08/true-colors.png"><img src="https://venngage-wordpress.s3.amazonaws.com/uploads/2016/08/true-colors.png" width="700px"></a>
+
+## Kolory
+
+Kolory mogą nawiązywać do treści wizualizacji...
+
+<a href="https://venngage-wordpress.s3.amazonaws.com/uploads/2015/10/6fb75103-db4f-4cb5-ab51-d61be9ea7b2d-1.png"><img src="https://venngage-wordpress.s3.amazonaws.com/uploads/2015/10/6fb75103-db4f-4cb5-ab51-d61be9ea7b2d-1.png" width="700px"></a>
+
+## Kolory
+
+... ale schemat kolorystyczny powinien być utrzymany w całej infografice.
+
+<a href="https://technofaq.org/wp-content/uploads/2015/04/Uber-Vs-Hailo-The-Battle-of-the-Taxi-Apps.jpg"><img src="https://technofaq.org/wp-content/uploads/2015/04/Uber-Vs-Hailo-The-Battle-of-the-Taxi-Apps.jpg" width="700px"></a>
+
+
+
+## Prostota
+
+Infografika może zawierać tylko jeden wykres, co nie przekłada się na łatwość jej zrozumienia.
+
+## Prostota
+
+<a href="http://s3.amazonaws.com/wp_media-prod/app/uploads/2015/09/24112730/Infographic_Design_Example_GOOD.jpeg"><img src="http://s3.amazonaws.com/wp_media-prod/app/uploads/2015/09/24112730/Infographic_Design_Example_GOOD.jpeg" width="700px"></a>
+
+
+## Grafiki
+
+Elementy graficzne nawiązujące do treści wzmacniają przekaz i pozwalają lepiej zrozumieć dane.
+
+## Grafiki
+
+<a href="http://s3.amazonaws.com/wp_media-prod/app/uploads/2015/09/24112845/Infographic_Design_Example_Captora.jpg"><img src="http://s3.amazonaws.com/wp_media-prod/app/uploads/2015/09/24112845/Infographic_Design_Example_Captora.jpg" width="700px"></a>
+

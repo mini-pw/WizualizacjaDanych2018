@@ -1,0 +1,73 @@
+---
+title: "PD2"
+author: "Artur Gajowniczek"
+output: html_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Autor oryginalny: Robert Kunicki
+
+Dane pochodzπ z wykresu umieszczonego na stronie Straøy Miejskiej m.st. Warszawy zawierajπcego informacje o liczbie interwencji w≥asnych straønikÛw miejskich z podzia≥em na dzielnice w styczniu 2019. èrÛd≥o danych: https://strazmiejska.waw.pl/statystyki-temp/statystyki-z-podzialem-na-miesiace/109-nowe-statystyki-miesieczne/7757-2019-01-interwencje-w%C5%82asne-stra%C5%BCnik%C3%B3w-miejskich-z-podzia%C5%82em-na-dzielnice.html
+
+## Oryginalny wykres
+
+
+```{r, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+
+Dzielnice <- c('Bemowo', 'Bia≥o≥Íka', 'Bielany', 'MokotÛw', 'Ochota', 'Praga-Po≥udnie', 'Praga-PÛ≥noc', 'RembertÛw', 'årÛdmieúcie',  'TargÛwek', 'Ursus', 'UrsynÛw', 'Wawer', 'Weso≥a', 'WilanÛw', 'W≥ochy', 'Wola', 'Øoliborz')
+
+LiczbaInterwencji <- c(177, 295, 623, 578, 532, 838, 564, 88, 1446, 431, 162, 195, 294, 55, 157, 185, 900, 400)
+
+dane <- data.frame(Dzielnice, LiczbaInterwencji)
+dane <- dane %>% mutate(Dzielnica = factor(Dzielnice,levels=rev(unique(Dzielnice))))
+
+ggplot(data=dane, aes(x=Dzielnica, y=LiczbaInterwencji)) + 
+  scale_x_discrete() +
+  scale_y_continuous() + 
+  geom_bar(stat='identity') + 
+  ggtitle('Liczba interwencji Straøy Mijeskiej m.st. Warszawy w styczniu 2019 \r\nw podziale na dzielnice') + 
+  xlab('Dzielnice') +
+  ylab('Liczba interwencji')  +
+  coord_flip()
+
+```
+
+## Zmiany
+
+* S≥upki uporzπdkowane malejπco.
+* Dodano konkretne wartoúci przy kaødym s≥upku.
+* Modyfikacja tytu≥u.
+* Zmieniono styl graficzny.
+
+## Wykres
+
+
+```{r, echo=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+
+Dzielnice <- c('Bemowo', 'Bia≥o≥Íka', 'Bielany', 'MokotÛw', 'Ochota', 'Praga-Po≥udnie', 'Praga-PÛ≥noc', 'RembertÛw', 'årÛdmieúcie',  'TargÛwek', 'Ursus', 'UrsynÛw', 'Wawer', 'Weso≥a', 'WilanÛw', 'W≥ochy', 'Wola', 'Øoliborz')
+
+LiczbaInterwencji <- c(177, 295, 623, 578, 532, 838, 564, 88, 1446, 431, 162, 195, 294, 55, 157, 185, 900, 400)
+
+dane <- data.frame(Dzielnice, LiczbaInterwencji)
+dane <- dane %>% mutate(Dzielnica = factor(Dzielnice,levels=rev(unique(Dzielnice))))
+
+ggplot(data=dane, aes(x=reorder(Dzielnica, LiczbaInterwencji), y=LiczbaInterwencji)) + 
+  geom_bar(stat='identity') + 
+  geom_text(aes(label=LiczbaInterwencji), hjust = -0.5, size = 3, position = position_dodge(width = 1)) + 
+  scale_x_discrete() +
+  scale_y_continuous(expand = c(.1, .1)) + 
+  ggtitle('Liczba interwencji Straøy Miejskiej m.st. Warszawy w styczniu 2019 r.') + 
+  xlab('Dzielnice') +
+  ylab('Liczba interwencji')  +
+  coord_flip() +
+  theme_bw()
+
+```

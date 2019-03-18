@@ -1,0 +1,48 @@
+---
+title: "w3"
+author: "Stanislaw Pawlak"
+date: "14 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(ggplot2)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+![Stan z raportu](do_poprawy.png)  
+Poprawa:  
+
+1) Zmiana geometrii bar chart,
+2) opisanie kategorii nazwą kraju przy odpowiednim słupku,
+3) dodanie procentów przy słupkach  
+
+```{r, echo=FALSE}
+countries = c("Ukraina", "Białoruś", "Niemcy", "Litwa", "Rosja", "ZSRR", "Kazachstan", "Chiny", "Francja", "Stany Zjednoczone", "Pozostałe kraje")
+
+proc = c(37.5, 13.2, 7.9, 7.5, 4.1, 3.0, 3.0, 2.7, 2.2, 1.4, 17.5)
+
+common_acommodation = data.frame(countries, proc)
+
+order.countries <- group_by(common_acommodation, countries) %>% 
+  arrange(desc(proc)) %>% 
+  pull((countries))
+
+order.values <- group_by(common_acommodation, proc) %>% 
+  arrange(desc(proc)) %>% 
+  pull((proc))
+
+
+common_acommodation = common_acommodation %>% 
+  mutate(countries = factor(order.countries, levels = rev(order.countries))) %>% 
+  mutate(w = factor(order.values))
+
+ggplot(data = common_acommodation,  aes(x = countries, y = w, fill = "##FFFF")) +
+  geom_bar(stat= "identity") +
+  scale_x_discrete() +
+  coord_flip() +
+  labs(title = "Mieszkańcy obiektów zbiorowego zakwaterowania\n urodzeni za granicą według kraju urodzenia w 2011 roku", x = "Kraj urodzenia", y ="%")+
+  geom_text(label = paste0(order.values, " %"), hjust = 1.1) +
+  theme(legend.position = "none") 
+```

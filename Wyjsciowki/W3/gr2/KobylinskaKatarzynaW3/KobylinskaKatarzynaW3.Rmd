@@ -1,0 +1,44 @@
+---
+title: "Wyjsciówka3"
+author: "Katarzyna Kobylińska"
+date: "14 03 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Zmieniłam ze względu:
+
+- niepotrzebnie użyty trójwymiar
+
+- ciężkie porównanie Mężczyzn i Kobiet bo nie są obok siebie
+
+- źle dobrane kolory (mało rozróżnialne)
+
+
+![Oryginalny Wykres z Raportu Aktywność ekonomiczna](oryginalnyW3.png)
+
+```{r,message=FALSE,warning=FALSE,error=FALSE}
+library(ggplot2)
+
+library(forecast)
+
+produkcyjnosc<-c("produkcyjny mobilny","produkcyjny niemobilny","przedprodukcyjny", "poprodukcyjny","produkcyjny mobilny","produkcyjny niemobilny", "przedprodukcyjny","poprodukcyjny") 
+wartosc<-c(68.8,30.8, 0.2,0.2, 72.8,26.3,0.2,0.7 )
+Płeć<-c("Mężczyźni", "Mężczyźni","Mężczyźni","Mężczyźni","Kobiety","Kobiety","Kobiety","Kobiety")
+dane<-data.frame(produkcyjnosc, wartosc, Płeć)
+
+
+ggplot(dane,aes(x=produkcyjnosc, y= wartosc, fill = Płeć, label= paste0(wartosc,"%")))+   scale_x_discrete() +
+  scale_y_continuous() +  
+  geom_bar(stat='identity',position='dodge') +
+  labs(title='Struktura bezrobotnych wg płci', x="", y="") + 
+  theme_classic() +
+  geom_text(position = position_dodge(width = 0.85), size = 3.7,vjust = 0)
+
+
+```
+
+
+
