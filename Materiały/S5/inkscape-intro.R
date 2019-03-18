@@ -55,6 +55,11 @@ mutate(countries, continent = as.character(continent)) %>%
 # alternatywa: 
 # https://github.com/hrbrmstr/waffle
 
+# łatwe annotacje wykresow ---------------------------
+
+library(bbplot)
+
+
 # praca z inkscape: przygotowanie obrazka ----------------------
 
 library(SmarterPoland)
@@ -79,7 +84,7 @@ cairo_ps("learning-inkscape.eps", height = 7.5, width = 8)
 dev.off()
 
 # alternatywa: eksport do svg pakietem gridSVG
-
+# albo ggplot2::ggsave
 library(gridSVG)
 
 svg("learning-inkscape.svg", height = 7.5, width = 8)
