@@ -26,13 +26,15 @@ Materiały dodatkowe:
  - [A Brief History of Data Visualization - Jeffrey Heer](https://www.youtube.com/watch?v=N00g9Q9stBo).
  - [A Brief History of Data Visualization - Michael Friendly](http://datavis.ca/papers/hbook.pdf).
 
-**P**: [Praca domowa 1](https://github.com/michbur/WizualizacjaDanych2018/tree/master/PraceDomowe/PD1).
+**P**: [Praca domowa 1](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD1).
 
 ## S3 4.03
 
 **W**: [Gramatyka grafiki](http://biecek.pl/Eseje/indexGramatyka.html). [Standardy w komunikacji](http://www.ibcs-a.org/);
 
-**L**: [wizualizacja danych z Eurostatu i mapy](https://journal.r-project.org/archive/2017/RJ-2017-019/index.html)
+**L**: [wizualizacja danych z Eurostatu i mapy](https://journal.r-project.org/archive/2017/RJ-2017-019/index.html).
+
+**P**: [Praca domowa 2](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD2).
 
 Materiały dodatkowe:
 
@@ -43,13 +45,25 @@ Materiały dodatkowe:
 
 **W**: [Nie rób tego w domu](http://biecek.pl/Eseje/indexPomylka.html); 
 
-**L**: [poprawiamy NSP](http://stat.gov.pl/spisy-powszechne/nsp-2011/nsp-2011-wyniki/)
+**L**: [poprawiamy NSP](http://stat.gov.pl/spisy-powszechne/nsp-2011/nsp-2011-wyniki/).
+
+Materiały dodatkowe:
+
+ - [5 Ways Writers Use Misleading Graphs To Manipulate You](https://venngage.com/blog/misleading-graphs/)
+ - [Data is ugly](https://www.reddit.com/r/dataisugly/)
 
 ## S5 18.03
 
 **W**: Infografiki.
 
-**L**: [Inkscape 1/2](https://inkscape.org/) lub [Illustrator](https://www.adobe.com/pl/products/illustrator/free-trial-download.html) (w miarę możliwości proszę przynieść własny laptop)
+**L**: [Inkscape 1/2](https://inkscape.org/) lub [Illustrator](https://www.adobe.com/pl/products/illustrator/free-trial-download.html) (w miarę możliwości proszę przynieść własny laptop), PD3.
+
+**P**: [Praca domowa 3](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
+
+Materiały dodatkowe:
+
+ - [Inkscape for Beginners: Circle Infographic Tutorial](https://www.youtube.com/watch?v=qvNSounip2Y)
+ - [How To Create An Infographic: (Step-by-Step Tutorial)](http://jugaadanimation.com/create-an-infographic/)
 
 ## S6 25.03
 
@@ -61,25 +75,31 @@ Materiały dodatkowe:
 
 **W**: Prezentacja wyników projektu 1.
 
-**L**: [Shiny 1/2](http://pbiecek.github.io/Przewodnik/Programowanie/jak_tworzyc_aplikajce.html) 25.03
+**L**: [Shiny 1/2, Wstęp do tworzenia aplikacji](http://pbiecek.github.io/Przewodnik/Programowanie/jak_tworzyc_aplikajce.html).
+
+**P**: [Praca domowa 4](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
 
 ## S8 08.04
 
-**W**: Prezentacje studentów 1/1.
+**W**: Wizualizacje statyczne i interaktywne. 
 
-**L**: [Shiny 2/2](http://pbiecek.github.io/Przewodnik/Programowanie/jak_tworzyc_aplikajce.html) 1.04
+**L**: [Shiny 2/2, Interaktywne wizualizacje w shiny](https://shiny.rstudio.com/articles/plot-interaction.html).
 
 ## S9 15.04
 
-**W**: Prezentacje studentów 2/2
+**W**: Prezentacje studentów 1/1.
 
 **L**: Dashboardy w shiny: shinydashboards
 
+**P**: [Praca domowa 5](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
+
 ## S10 29.04
 
-**W**: Wizualizacje statyczne i interaktywne. 
+**W**: Prezentacje studentów 2/2.
 
 **L**: Tableau (w miarę możliwości proszę przynieść własny komputer) 
+
+**P**: [Praca domowa 6](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
 
 ## S11 06.05
 
@@ -87,24 +107,27 @@ Materiały dodatkowe:
 
 **L**: [Grafika interaktywna i r2d3](http://pbiecek.github.io/Przewodnik/Wizualizacja/jak_tworzyc_interaktywne_wykresy.html) 
 
+**P**: [Praca domowa 7](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
+
 ## S12 13.05.
 
 **W**: Przegląd konferencji z tematu DataVis; 
 
 **L**: [RBokeh](http://hafen.github.io/rbokeh/#preview) / [ggiraph](https://github.com/davidgohel/ggiraph), [vegalite1](https://github.com/hrbrmstr/vegalite), [vegalite2](https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf), [googleVis](http://www.magesblog.com/2016/09/googlevis-061-on-cran.html), [r2d3](https://github.com/rstudio/r2d3), [choinki](http://smarterpoland.pl/index.php/2017/12/christmas-trees/) 
 
+**P**: [Praca domowa 8](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
+
 ## S13 20.05
 
-[Wstęp do D3](http://vadim.ogievetsky.com/IntroD3/#1), [fiddle](https://jsfiddle.net/) 
-
+[Wstęp do D3](http://vadim.ogievetsky.com/IntroD3/#1), [fiddle](https://jsfiddle.net/)
 
 # Zasady zaliczenia
 
 Zaliczenie jest oparte o cztery składowe:
 
-* Punkty z prac domowych (10 prac domowych, każda praca to od 0 do 4 punktów). 
+* Punkty z prac domowych (8 prac domowych, każda praca to od 0 do 4 punktów). 
 * Punkty z wyjściówek (10 wyjściówek, każda oddana wyjściówka to od 0 do 3 punktów). 
-* Punkty z projektów. W semestrze wykonać należy dwa projekty. Każdy projekt to od 0 do 15 punktów. 
+* Punkty z projektów. W semestrze wykonać należy dwa projekty. Każdy projekt to od 0 do 19 punktów. 
 * Punkty z prezentacji wybranego tematu. Poprawnie wykonana prezentacja to od 0 do 8 punktów.
 
 W sumie uzyskać można do 100 punktów. 51 punktów zalicza przedmiot.
@@ -122,7 +145,7 @@ Każdy projekt należy realizować w innym zespole.
 
 Termin oddania projektu 1 to **01.04.2019** - wykład.
 
-Termin oddania projektu 2 to **XXX** - YYY (wykład).
+Termin oddania projektu 2 to **20.05.2019** - wykład.
 
 ## Prezentacje studentów
 
