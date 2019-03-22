@@ -145,7 +145,7 @@ Każdy projekt należy realizować w innym zespole.
 
 Termin oddania projektu 1 to **01.04.2019** - wykład.
 
-Termin oddania projektu 2 to **XXX** - YYY (wykład).
+Termin oddania projektu 2 to **20.05.2019** - wykład.
 
 ## Prezentacje studentów
 
