@@ -26,6 +26,7 @@ p + annotation_raster(as.raster(mini_mini), 0.75, 1.25, 400, 800)
 
 # obrazki w geometriach ------------------------------
 
+library(rsvg)
 library(ggimage)
 
 dat <- data.frame(kraj = c("Niemcy", "Polska", "Dania"),
