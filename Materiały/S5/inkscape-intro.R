@@ -57,8 +57,18 @@ mutate(countries, continent = as.character(continent)) %>%
 
 # łatwe annotacje wykresow ---------------------------
 
+# devtools::install_github("bbc/bbplot")
 library(bbplot)
 
+p <- ggplot(data = countries, aes(x = continent, y = death.rate, color = continent)) +
+  geom_boxplot() +
+  bbc_style()
+
+finalise_plot(plot_name = p,
+              source = "Source: PW",
+              save_filepath = "bbplot.png",
+              width_pixels = 640,
+              height_pixels = 550)
 
 # praca z inkscape: przygotowanie obrazka ----------------------
 
@@ -68,8 +78,8 @@ library(latex2exp)
 
 p1 <- ggplot(data = countries, aes(x = continent, y = death.rate, color = continent)) +
   geom_boxplot() +
-  scale_x_discrete("ĄĘŻŹĆ") +
-  scale_y_continuous(TeX("$\\frac{\\alpha}{\\beta \\times \\log 10}$"))
+  scale_x_discrete("ĄĘŻŹĆ") #+
+  #scale_y_continuous(TeX("$\\frac{\\alpha}{\\beta \\times \\log 10}$"))
 
 set.seed(1410)
 p2 <- ggplot(data = countries, aes(x = continent, y = death.rate, color = continent)) +
@@ -78,9 +88,13 @@ p2 <- ggplot(data = countries, aes(x = continent, y = death.rate, color = contin
 p3 <- ggplot(data = countries, aes(x = continent, fill = continent)) +
   geom_bar()
 
+loadfonts(device = "svg")
+p <- ((p1 + p2) / p3) * theme_bw() * 
+  theme(legend.background = element_rect(fill = "green"),
+        text=element_text(family="Times New Roman", face = "bold"))
 
 cairo_ps("learning-inkscape.eps", height = 7.5, width = 8)
-((p1 + p2) / p3) * theme_bw() * theme(legend.background = element_rect(fill = "green"))
+p
 dev.off()
 
 # alternatywa: eksport do svg pakietem gridSVG
@@ -88,5 +102,11 @@ dev.off()
 library(gridSVG)
 
 svg("learning-inkscape.svg", height = 7.5, width = 8)
-((p1 + p2) / p3) * theme_bw() * theme(legend.background = element_rect(fill = "green"))
+p
+dev.off()
+
+library(RSvgDevice)
+
+devSVG("learning-inkscape.svg", height = 7.5, width = 8)
+p
 dev.off()
