@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Praca domowa
 
-Wybrać wykres przygotowany w ramach PD2 i poprawić go z wykorzystaniem Inkscape - dodając, usuwając lub modyfikując istniejące elementy wizualizacji. Zadanie powinno zostać oddane w postaci pliku .Rmd i jego skompilowanej wersji w formacie .html. Termin oddania pracy domowej: 25.03.2018. 
+Wybrać wykres przygotowany w ramach PD2 i poprawić go z wykorzystaniem Inkscape - dodając, usuwając lub modyfikując istniejące elementy wizualizacji. Zadanie powinno zostać oddane w postaci pliku .Rmd i jego skompilowanej wersji w formacie .html. Termin oddania pracy domowej: 05.04.2019. 
 
 ## Inkscape
 
