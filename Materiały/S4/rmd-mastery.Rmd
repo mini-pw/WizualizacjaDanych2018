@@ -5,7 +5,7 @@ date: "11 marca 2019"
 output: html_document
 ---
 
-## Obrazek
+# Obrazek
 
 ```{r,include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -23,7 +23,7 @@ mutate(iris, Sepal.Length = Sepal.Length/max(Sepal.Length),
 
 ```
 
-## Tabelka
+# Tabelka
 
 ```{r}
 knitr::kable(iris)
