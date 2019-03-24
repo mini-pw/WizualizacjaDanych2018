@@ -27,6 +27,8 @@ activity_plot <- ggplot(data = activity_by_week,
   scale_fill_viridis_d(begin = 0.8, end = 0.1) +
   xlab("Date") +
   ylab("Average number of steps") +
+  geom_hline(yintercept = 8000, color = 'red') + 
+  geom_text(x=as.Date('2019-02-10'), y = 8000,label = 'recommended', vjust = -1, size = 5) +
   theme_minimal(base_size = 22)
 
 
@@ -46,31 +48,34 @@ sleep <- read_csv("~/mi-dane/SLEEP/SLEEP_1551727501867.csv")
 # > 11 too much
 sleepBreaks <- c(6,7,9,11)
 
+getSleepQuality <- function(duration){
+  sapply(duration, function(duration){
+    if(duration < 6 || duration > 11){
+      return('Bad')
+    } else if(duration < 7 || duration > 9) {
+      return('Poor')
+    } else
+      return('Good')
+  })
+}
+
 sleepDensity <-
   sleep %>% filter(deepSleepTime > 0 & shallowSleepTime > 0) %>%
   mutate(total = (deepSleepTime + shallowSleepTime) / 60) %>%
   pull(total) %>%
   density()
 
-scale_fill_manual(values = c('red','orange','green','orange','red'))
-
 sleep_plot <- data.frame(x=sleepDensity$x, y=sleepDensity$y) %>%
-  mutate(quality = factor(findInterval(x, sleepBreaks))) %>%
-  ggplot(aes(x,y)) +
+  mutate(Quality = factor(getSleepQuality(x), levels = c('Bad','Poor','Good'))) %>%
+  mutate(groups = factor(findInterval(x, sleepBreaks))) %>%
+  ggplot(aes(x,y, group = groups)) +
   geom_line() +
-  geom_ribbon(aes(ymin=0, ymax=y, fill=quality), color = NA) +
-  scale_x_continuous(breaks=sleepBreaks, name = 'Sleep length') +
-  scale_fill_manual(values = c('red','orange','green','orange','red')) +
-  scale_y_continuous(labels = NULL) +
-  theme(axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank(), 
-        panel.background = element_rect(fill = "white",
-                                        colour = "white",
-                                        size = 0.5, linetype = "solid"),
-        panel.grid.major = element_blank(),  
-        panel.grid.minor = element_blank()) +
+  geom_ribbon(aes(ymin=0, ymax=y, fill=Quality), color = NA) +
+  scale_x_continuous(breaks=sleepBreaks, name = 'Hours of sleep') +
+  scale_fill_viridis_d(begin = 0.1, end = 0.8) +
+  scale_y_continuous(labels = NULL, name = NULL) +
   theme_minimal(base_size = 22)
+
 
 svg("~/sleep_plot.svg", bg = "transparent", height = 4.5, width = 7)
 sleep_plot
