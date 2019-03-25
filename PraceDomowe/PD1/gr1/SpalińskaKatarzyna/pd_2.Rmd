@@ -1,0 +1,58 @@
+---
+title: "Praca domowa 2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(ggthemes)
+library(gridExtra)
+library(grid)
+library(dplyr)
+```
+
+## Oryginalny wykres:
+
+![](Rplot_poprawiany.png)
+
+## Zmiany wprowadzone w oryginalnym kodzie:
+* rozdzielenie miast i krajów
+* wprowadzenie różnych kolorów
+* podpisanie osi x
+
+```{r}
+hours_in_congestion = c(272, 254, 246, 237, 237, 227, 226, 
+                        223, 218, 210, 202, 200, 199, 195, 
+                        195, 190, 186, 181, 180, 173)
+
+cities = c("Bogota", "Rzym", "Dublin", "Paryż",
+           "Rostów nad Donem", "Londyn", "Mediolan", "Bordeaux",
+           "Meksyk", "Moskwa", "Belo Horizonte", "Sankt Petersburg", 
+           "Rio de Janeiro", "Florencja", "Bruskela", " Belfast",
+           "Neapol", "Guadalajara", "Niżny Nowogród", "Warszawa")
+
+countries = c("Kolumbia","Włochy","Irlandia","Francja","Rosja","Wlk. Brytania","Włochy","Francja","Meksyk",
+              "Rosja","Brazylia","Rosja","Brazylia","Włochy","Belgia","Wlk. Brytania","Włochy","Meksyk","Rosja","Polska")
+
+traffic_data <- data.frame("city" = cities, "hours_in_congestion" = hours_in_congestion, "country" = countries)
+
+mycolors = c("lightsalmon4","darkgreen","palegreen3","khaki2","orange","pink2","violetred4","darkblue","dodgerblue3","lightblue")
+
+plot <- ggplot(data = traffic_data, aes(x = reorder(city, hours_in_congestion), y = hours_in_congestion, fill = country)) +
+  geom_bar(stat = "identity") +
+  labs(y = "Liczba godzin spędzonych w korkach [h]", x = "", fill = "Kraj") +
+  geom_text(aes(label = hours_in_congestion), hjust = 1.2, data = traffic_data[c(1, nrow(traffic_data)), ]) +
+  scale_y_continuous(expand = c(0.01, 0)) +
+  scale_fill_manual(values = mycolors) +
+  coord_flip()
+
+title_text <- textGrob("Najbardziej zatłoczone miasta", gp=gpar(fontsize=18, fontface="bold",lineheight=1),
+                       just=c("left", "center"), x=unit(0.05, "npc"), y=unit(0.05, "npc"))
+subtitle_text <- textGrob("Miasta o najdlłuższym średnim czasie spędzonym w korkach podczas \ndo pracy w godzinach szczytu w skali roku", gp=gpar(fontsize=14, lineheight=1), just=c("left", "center"), x=unit(0.05, "npc"))
+
+source_text <- textGrob("Źródło: Inrix, dane za 2018 r.",
+                        gp=gpar(fontsize=10, lineheight=1), just=c("left", "center"), x=unit(0.05, "npc"))
+
+grid.arrange(title_text, subtitle_text, plot, source_text, ncol = 1, heights = c(1, 2.5, 10, 1))
+```
