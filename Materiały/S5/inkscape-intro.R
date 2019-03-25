@@ -79,7 +79,7 @@ library(latex2exp)
 
 p1 <- ggplot(data = countries, aes(x = continent, y = death.rate, color = continent)) +
   geom_boxplot() +
-  scale_x_discrete("ĄĘŻŹĆ") #+
+  scale_x_discrete("ĄĘŻŹĆ") +
   scale_y_continuous(TeX("$\\frac{\\alpha}{\\beta \\times \\log 10}$"))
 
 set.seed(1410)
@@ -91,11 +91,15 @@ p3 <- ggplot(data = countries, aes(x = continent, fill = continent)) +
 
 p <- ((p1 + p2) / p3) * theme_bw() * 
   theme(legend.background = element_rect(fill = "green"),
-        text=element_text(family="Times New Roman", face = "bold"))
+        text=element_text(family="Dyuthi"))
 
-cairo_ps("learning-inkscape.eps", height = 7.5, width = 8)
+#library(extrafont)
+
+cairo_ps("learning-inkscape.eps", height = 7.5, width = 8, family = "Dyuthi")
 p
 dev.off()
+
+ggsave(filename = "tmp.eps", plot = p, device = "eps")
 
 # alternatywa: eksport do svg pakietem gridSVG
 # albo ggplot2::ggsave
