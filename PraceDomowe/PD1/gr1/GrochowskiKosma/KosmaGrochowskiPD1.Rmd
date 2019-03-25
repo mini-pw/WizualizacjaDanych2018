@@ -1,0 +1,85 @@
+---
+title: "PD1"
+author: "Kosma Grochowski"
+date: "3 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Źródło 
+https://www.wnp.pl/parlamentarny/sondaze/sondaz-w-wyborach-do-sejmu-pis-41-1-proc-po-26-proc-wiosna-9-2-proc,440.html
+
+
+## Kod źródłowy i wykres
+
+
+```{r pressure,fig.width=10, fig.height=6 }
+library(ggplot2)
+partyPlusPerc <- function(party, perc) {
+  percWithSign <- paste(as.character(perc), '%')
+  return (paste(party , percWithSign, sep = '\n'))
+}
+
+partiesNames <-
+  c(
+    'PiS',
+    'PO',
+    'Wiosna',
+    "Kukiz'15",
+    'PSL',
+    'SLD',
+    'KORWiN',
+    'Razem',
+    'RN',
+    '.Nowoczesna',
+    'Teraz!'
+  )
+partiesPopularity <-
+  c(41.1, 26.2, 9.2, 7.6, 5.6, 3.9, 1.4, 1.4, 1.2, 0.7, 0.1)
+
+parties <-
+  data.frame(names = factor(partiesNames, levels = partiesNames),
+             popularity = partiesPopularity)
+p <-
+  ggplot(data = parties, aes(
+    x =  reorder(names, -popularity),
+    y = popularity,
+    fill = names
+  ))
+p + geom_bar(stat = "identity",
+             width = 0.4,
+             position = position_dodge(width = 0.5)) +
+  scale_fill_manual(
+    "",
+    guide = FALSE,
+    values =
+      c(
+        "blue",
+        "orange",
+        "blueviolet",
+        "gray69",
+        "green3",
+        "red2",
+        "yellow",
+        "deeppink4",
+        "grey0",
+        "dodgerblue1",
+        "navyblue"
+      )
+  ) +
+  xlab("") + ylab("")  +
+  ggtitle("Sondaż Estymatora z 21 lutego 2019 r.") + coord_cartesian(ylim = c(1.8, 40)) +
+  scale_y_continuous(breaks = seq(0, 40, 5))  + scale_x_discrete(labels =
+                                                                   mapply(partyPlusPerc, partiesNames, partiesPopularity)) +
+  theme(axis.text.x = element_text(
+    face = "plain",
+    color = "#000000",
+    size =
+      13,
+    angle = 0
+  ))
+```
+

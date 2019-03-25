@@ -1,0 +1,35 @@
+---
+title: "wyjsciowka2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(eurostat)
+library(maps)
+library(mapproj)
+```
+
+## Ammonia emissions from agriculture in 2015 and 2015
+
+
+
+```{r warning=FALSE, message=FALSE}
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "all")
+s1 <- search_eurostat("agriculture", type = "table")
+as.list(s1[1, ])
+
+t1 <- get_eurostat(s1[4, "code"])
+
+left_join(lp, t1, by = c("geo" = "geo")) %>% 
+  filter(long > -25, lat > 35, time == "2015-01-01" | time == "2005-01-01") %>% 
+  na.omit %>% 
+  ggplot(aes(x = long, y = lat, group = group, fill = values)) + 
+  scale_fill_gradient(low='green', high='red') +
+  geom_polygon(color = "black") +
+  coord_map() +
+  ggtitle("Ammonia emissions from agriculture") +
+  facet_wrap(~ time)
+```

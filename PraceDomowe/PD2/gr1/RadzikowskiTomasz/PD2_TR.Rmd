@@ -1,0 +1,45 @@
+---
+title: "Sk¹d rz¹d bierze pieni¹dze na 500 plus?"
+author: "Tomasz Radzikowski"
+date: "3 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+```
+
+## Artyku³ Ÿród³owy
+https://bezprawnik.pl/skad-sie-biora-pieniadze-na-500-plus/
+
+##Komentarz do poprawek:
+Na warsztat wzi¹³em pracê Kolegi Olafa Skrabacza, który zaprezentowa³ dane na temat œwiadomoœci obywateli polskich sk¹d pochodz¹ pieni¹dze na œwiadczenia socjalne (w tym przypadku program 500+)
+
+Zaprezentowany przez Kolegê sposób przedstawienia danych nie by³ w ¿aden sposób przek³amany, ale uwa¿am, ¿e informacje na nim zawarte mo¿na przekazaæ w lepszy sposób. 
+
+Moje modyfikacje sprowadzi³y siê do usuniêcia fasetów, które co prawda pozwala³y porównywaæ ile procent wyborców danej partii opowiada siê za konkretn¹ odpowiedzi¹, ale "gubi³y" informacje ca³oœciowe, tj. jak rozk³adaj¹ siê pogl¹dy wyborców ka¿dej partii na ka¿d¹ z zaproponowanych przez ankieterów opcji. 
+Dziêki mojej modyfikacji mo¿na wnioskowaæ o ogólnym podejœciu wyborców danego ugrupowania politycznego do wizji gospodarki. Na przyk³ad, mimo ¿e pogl¹d "podatki, które ja p³acê" jest wysoko notowany dla ka¿dego ugrupowania, to ju¿ opcja "pieni¹dze rz¹dowe" jest wybierana g³ównie przez wyborców PiSu, co mo¿e byæ odbiciem ich poparcia dla idei silnego, quasi socjalistycznego pañstwa, które ma pieczê nad wszystkim i wszystkimi. Prowadz¹c tê argumentacjê na temat przedstawienia danych na jednym wyrkesie dalej, widaæ, ¿e wyborcy PO maj¹ przekonanie, i¿ pieni¹dze na program 500+ pochodz¹ z podatków osób prywatnych. Pozosta³e opcje w ankiecie zdoby³y znacznie mniejsz¹ popularnoœæ. To pozwala wysnuæ wniosek o wolnorynkowych pogl¹dach tych¿e wyborców i przeœwiadczeniu, ¿e ¿adne œwiadczenie nie jest darmowe, lecz p³ac¹ za nie obywatele. Tak samo analiza wszystkich odpowiedzi na jednym wykresie pozwala odkryæ niepokoj¹cy fakt, i¿ wyborcy partii Kukiz15 s¹ mocno podzieleni i prawie po³owa z nich nie ma nawet przekonañ i przemyœleñ, co do tego, sk¹d bior¹ siê pieni¹dze publiczne.
+
+## Dane
+
+```{r dane}
+procenty <- c(29,20,25,11,0,15, 37,13,6,3,0,41,
+              55,26,5,9,1,4, 39, 31, 6, 1, 5, 18)
+zrodla <- c("Podatki które ja p³acê", "Podatki które p³ac¹ inni", "Pieni¹dze rz¹dowe","Podatki p³acone przez firmy", "Inne", "Nie wiem")
+partie <- c("PiS", "Kukiz15", "PO", "Nowoczesna")
+df <- tibble(procenty=procenty, zrodla=factor(rep(zrodla, 4), levels=zrodla),
+             partie=rep(partie, each=6))
+```
+## Wykres oryginalny
+```{r oldwykres, echo=FALSE}
+ggplot(data=df, aes(x=zrodla, y=procenty)) + 
+geom_bar(stat='identity') + facet_grid(~partie) + coord_flip() + ggtitle("Jakie Twoim zdaniem jest g³ówne Ÿród³o pieniêdzy na\nwyp³aty w ramach programu 500 plus") + scale_x_discrete(limits = rev(levels(df$zrodla)))
+```
+
+## Wykres poprawiony
+```{r newchart, echo=FALSE}
+ggplot(data=df, aes(x=zrodla, y=procenty, fill=partie)) + 
+geom_bar(stat='identity', position=position_dodge()) + ggtitle("Jakie Twoim zdaniem jest g³ówne Ÿród³o pieniêdzy na\nwyp³aty w ramach programu 500 plus") +theme(axis.text.x=element_text(angle=45,hjust=1))
+```

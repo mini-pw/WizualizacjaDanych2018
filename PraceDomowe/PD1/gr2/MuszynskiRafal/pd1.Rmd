@@ -1,0 +1,42 @@
+---
+title: "Praca Domowa 1"
+author: "Rafał Muszyński"
+date: "March 4, 2019"
+output: html_document
+---
+
+UK's top trading partners 2017. Source: https://www.bbc.com/news/uk-47213842
+
+## setup
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(ggrepel)
+```
+
+## load data
+```{r trading}
+trading <- read.csv(file='trading.csv', header = TRUE, sep=',')
+```
+
+## plots
+
+```{r trading plot}
+countries.order = c('US','Germany','Netherlands','France', 'China', 'Ireland', 'Spain','Belgium','Italy','Switzerland')
+
+trading.m <- melt(trading, id.vars = 'country')
+trading.plot <- ggplot(trading.m, aes(x = country, y = value, fill = variable, label = value)) +
+  geom_col(position = 'dodge') +
+  coord_flip() +
+  scale_y_continuous(limits = c(0, max(trading.m$value) + 10)) + 
+  scale_x_discrete(limits = rev(countries.order)) +
+  scale_fill_manual("legend", values = c('import' = 'blue', 'export' = 'orange'), labels = c('UK import (£bn)', 'UK export (£bn)')) +
+  geom_text(position = position_dodge(.9), hjust = -0.3) +
+  theme(legend.position = 'top', panel.grid = element_blank(), panel.background = element_blank(),
+        axis.text.x = element_blank(), axis.ticks.x = element_blank(), axis.title = element_blank())+
+  ggtitle('UK\'s top 10 trading partners (2017)')
+
+trading.plot
+```

@@ -1,0 +1,79 @@
+---
+title: "praca domowa 2"
+author: "Patryk Kowalski"
+output: html_notebook
+---
+Krytyka:  
+
+Geometria wykresu kolumnowego z podpisanymi u podstawy państwami jest poprawna, ale w tym wypadku utrudnia pozyskanie informacji o dokładnej wartości PPS, oraz zaburza orientację co z czym jest porównywane. Geometria mapy, tak jak zostało to zaprojektowane w oryginalnym artykule, ułatwia orientację w przestrzeni, ponieważ intuicyjnie wiemy gdzie znajduje się które z państw, co pozwala dostrzec związki pomiędzy całymi rejonami geograficznymi jak np. państwa dawnego bloku wschodniego. Zastosowanie etykiet z wartościami na obszarach państw daje informację o dokładnych wartościach.
+Dodatkowo, w ten sposób zorientowałem się, że nie wszystkie kraje z artykułu zostały przedstawione na wykresie.
+
+### Wykres w formie zamieszczonej przez koleżankę:
+https://www.forbes.pl/gospodarka/najbogatsze-i-najbiedniejsze-regiony-ue-najnowsze-dane-eurostat/nkghh1t
+  ![screen](D:\mgr\wizualizacja_danych\WizualizacjaDanych2018\PraceDomowe\PD2\gr1\KowalskiPatryk\screen_pd1.png)
+
+```{r, include=FALSE}
+x <- c("Estonia","Malta","Austria","Polska","Dania","Litwa","Bułgaria", "Belgia", "Słowacja", "Finlandia", "Szwecja","Niemcy", "Czechy" ,"Francja", "Luksemburg", "Łotwa", "Rumunia", "Węgry", "Holandia","Chorwacja", "Słowenia", "Włochy","Portugalia","Hiszpania", "Irlandia", "Cypr","Wlk. Brytania","Grecja")
+y <- as.numeric(c(14.2,
+                  19.9,
+                  26,
+                  12.7,
+                  23.6,
+                  12,
+                  9.6,
+                  22.4,
+                  11,
+                  22,
+                  22.2,
+                  24.0,
+                  14.1,
+                  23.7,
+                  33.2,
+                  11,
+                  5.8,
+                  9.4,
+                  23.7,
+                  10.4,
+                  16.2,
+                  18.6,
+                  12.9,
+                  17.9,
+                  20.9,
+                  19.7,
+                  20.2,
+                  10.5))
+dane<- data.frame(x,y)
+library(ggplot2)
+library(eurostat)
+library(tidyverse)
+library(maps)
+```
+
+### Wykres w mojej wizji:
+```{r, echo=FALSE, fig.height=20, fig.width=20, results=FALSE}
+#lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "0")
+
+pos_df <- group_by(lp, geo) %>% 
+  summarise(long_m = mean(long),
+            lat_m = mean(lat))
+
+country_codes <- tibble(kraj = x, geo = c('EE', 'MT', 'AT', 'PL', 'DK', 'LT', 'BG', 'BE', 'SK', 'FI', 'SE', 'DE', "CZ", 'FR', 'LU', 'LV', 'RO', 'HU', 'NL', 'HR','SI', 'IT', 'PT', 'ES', 'IE', 'CY', 'UK', 'EL'))
+data <- left_join(dane, country_codes, by = c('x' = 'kraj')) %>% left_join(pos_df, by = c("geo" = "geo"))
+data[which(data$x == "Portugalia"),]$long_m = -9
+data[which(data$x == "Francja"),]$lat_m = 45
+data[which(data$x == "Francja"),]$long_m = 3
+
+
+
+left_join(lp, data, by = c("geo" = "geo")) %>% 
+  na.omit %>% 
+  filter(lat > 34, long > -25) %>%
+  ggplot(aes(x = long, y = lat, group = group, fill = y)) + 
+  geom_polygon(color = "black") +
+  geom_text(aes(x = long_m, y = lat_m, label = y), inherit.aes = FALSE, size = 10, color= "green") +
+  scale_fill_gradient(low = "blue", high = "red") +
+  theme(legend.text = element_text(size = 20), legend.key.size = unit(2, "cm"), legend.title = element_text(size = 40)) + labs(fill = "PPS - parytet siły nabywczej", labx = "", laby = "") +
+  coord_map(ylim = c(34, 65), xlim = c(-11,40))
+
+```
+Jak zdaję sobie sprawę - mankamentami mojego wyboru są trudno czytelne podpisy na państwach, które trudno byłoby poprawić bez nieadekwatnego wkładu czasu. Niektóre z podpisów musiały być pozycjonowane ręcznie, ponieważ metoda uśredniania dłg. i szer. geograficznych dawała nieprzewidywalne rezultaty. 
