@@ -1,0 +1,49 @@
+---
+title: "Kolory"
+author: "Michał Burdukiewicz"
+date: "25 marca 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Prezentacje projektów
+
+ - ok. 3 min na 1 projekt,
+ - prezentuje jedna osoba z zespołu,
+ - formularz będzie udostępniony we wtorek (26.03),
+ - przed wykładem wszystkie prezentacje muszą być umieszczone w repozytorium projektu.
+
+## Kolory - typowe błędy
+
+<a href="http://www.asawicki.info/files/Rules%20to%20Make%20Image%20Looking%20Good%20on%20Projector%201.jpg"><img src="http://www.asawicki.info/files/Rules%20to%20Make%20Image%20Looking%20Good%20on%20Projector%201.jpg" width="700px"></a>
+
+## Kolory - typowe błędy
+
+<a href="http://www.asawicki.info/files/Rules%20to%20Make%20Image%20Looking%20Good%20on%20Projector%202.jpg"><img src="http://www.asawicki.info/files/Rules%20to%20Make%20Image%20Looking%20Good%20on%20Projector%202.jpg" width="700px"></a>
+
+## Kolory - typowe błędy
+
+<a href="http://www.asawicki.info/files/Rules%20to%20Make%20Image%20Looking%20Good%20on%20Projector%203.jpg"><img src="http://www.asawicki.info/files/Rules%20to%20Make%20Image%20Looking%20Good%20on%20Projector%203.jpg" width="700px"></a>
+
+## Widzenie barwne
+
+https://www.color-blindness.com/coblis-color-blindness-simulator/
+
+## Widzenie barwne
+
+[ggthemes::colorblind_pal()](https://rdrr.io/cran/ggthemes/man/colorblind.html)
+[dichromat](https://cran.r-project.org/package=dichromat)
+
+## Widzenie barwne
+
+```{r,echo=TRUE}
+library("ggplot2");library("scales")
+show_col(ggthemes::colorblind_pal()(8))
+```
+
+## Kolory
+
+RColorBrewer i [http://colorbrewer2.org/](http://colorbrewer2.org/).
