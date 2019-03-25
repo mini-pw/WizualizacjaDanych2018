@@ -1,0 +1,73 @@
+---
+title: "wyjsciowka_3"
+author: "Katarzyna Spalinska"
+date: "March 11, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Poprawiany wykres
+
+![Źródło: http://stat.gov.pl/spisy-powszechne/nsp-2011/nsp-2011-wyniki/ludnosc-stan-i-struktura-demograficzno-spoleczna-nsp-2011,16,1.html](screenshot.png)
+
+## Opis błędów zawartych w wykresie
+1. Wykres przedstawia przyczyny bezdomności według płci, jednak tak naprawdę przedstawione są trzy kategorie: mężczyźni, kobiety i "ogół", który właściwie nie został sprecyzowany, ale można się domyślać że chodzi o procentowy udział danej przyczyny bez podziału na płeć.
+Propozycja poprawy: rozdzielenie "ogółu" jako jeden panel, a "mężczyźni" i "kobiety" jako drugi panel
+2. Słupki które nie zaczynają się od zera są całkowicie nieczytelne.
+Propozycja poprawy: narysowanie słupków w różnych kolorach OBOK siebie, a nie za sobą
+3. Legenda nachodzi na liczby obok osi, a oznaczenie "w %" jest w dziwnym miejscu
+
+
+``` {r}
+przyczyny <- c("Wypędzenie z mieszkania przez rodzinę/współlokatorów",
+                "Wymeldowanie (decyzja administracyjna)",
+                "Pozostawienie mieszkania rodzinie",
+                "Eksmisja",
+                "Bezrobocie",
+                "Zadłużenie",
+                "Opuszczenie zakładu karnego",
+                "Ucieczka przed przemocą w rodzinie",
+                "Utrata noclegów w miejscu byłej pracy",
+                "Konieczność opuszczenia domu dziecka"
+)
+ogolem <- c(19.3,15.0,11.5,11.0,9.6,5.2,3.2,2.1,0.8,0.5)
+mezczyzni <- c(19.9,15.3,11.8,11.3,9.7,5.1,3.6,1.2,0.9,0.5)
+kobiety <- c(15.9,13.7,9.9,9.6,9.0,5.8,1.0,6.7,0.5,0.5)
+
+przyczyny_df <- data.frame("Przyczyna" = przyczyny, "Ogółem" = ogolem, "Mężczyźni" = mezczyzni, "Kobiety" = kobiety)
+```
+
+## Wartości liczbowe przedstawione w tabeli
+``` {r}
+knitr::kable(przyczyny_df)
+```
+
+## Wykres
+
+Niestety nie udało mi się wyrobić w czasie tak, aby stworzyć słupki kobiet i mężczyzn obok siebie
+
+``` {r}
+library(ggplot2)
+
+
+library(ggplot2)
+
+wykres1 <- ggplot(data = przyczyny_df, aes(x = reorder(Przyczyna, Kobiety), y = Kobiety, label = Kobiety)) +
+  geom_bar(stat="identity", fill = "red", color='red') + 
+  labs(title = " Przyczyny bezdomności według płci osób  bezdomnych I kategorii w 2011 roku ", y = "Odsetek kobiet wskazujących na daną przyczynę", x = "") +
+  geom_text(size = 3, position = position_stack(vjust = 0.93)) + 
+  coord_flip()
+wykres1
+
+wykres2 <- ggplot(data = przyczyny_df, aes(x = reorder(Przyczyna, Mężczyźni), y = Mężczyźni, label = Mężczyźni)) +
+  geom_bar(stat="identity", fill = "blue", color='blue') + 
+  labs(title = " Przyczyny bezdomności według płci osób  bezdomnych I kategorii w 2011 roku ", y = "Odsetek mężczyzn wskazujących na daną przyczynę", x = "") +
+  geom_text(size = 3, position = position_stack(vjust = 0.93)) + 
+  coord_flip()
+wykres2
+```
+
+

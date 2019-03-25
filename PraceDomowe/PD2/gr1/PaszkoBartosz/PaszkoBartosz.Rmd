@@ -1,0 +1,65 @@
+---
+title: "Skąd rząd bierze pieniądze na 500 plus?"
+author: "Bartosz Paszko"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+```
+
+### Artykuł źródłowy
+https://bezprawnik.pl/skad-sie-biora-pieniadze-na-500-plus/
+
+
+### Dane
+
+```{r dane}
+procenty <- c(29,20,25,11,0,15, 37,13,6,3,0,41,
+              55,26,5,9,1,4, 39, 31, 6, 1, 5, 18)
+zrodla <- c("Podatki które ja płacę", "Podatki które płacą inni", "Pieniądze rządowe","Podatki płacone przez firmy", "Inne", "Nie wiem")
+partie <- factor(c("PiS", "Kukiz15", "PO", "Nowoczesna"))
+df <- tibble(procenty=procenty, zrodla=factor(rep(zrodla, 4), levels=zrodla),
+             partie=rep(partie, each=6))
+```
+&nbsp;
+
+### Wykres I - oryginalny
+<br><br>
+
+```{r before, echo=FALSE, fig.width=9, fig.height=6}
+ggplot(data=df, aes(x=zrodla, y=procenty)) + 
+  geom_bar(stat='identity') + 
+  facet_grid(~partie) + 
+  coord_flip() + 
+  ggtitle("Jakie Twoim zdaniem jest główne źródło pieniędzy na\nwypłaty w ramach programu 500 plus") + 
+  scale_x_discrete(limits = rev(levels(df$zrodla)))
+```
+<br><br>
+
+### Wykres II - poprawiony
+<br><br>
+```{r after, echo=FALSE, fig.width=9, fig.height=6}
+ggplot(data=df, aes(x=partie, y=procenty, fill=zrodla)) + 
+  geom_bar(stat='identity', position='dodge', width=0.8) + 
+  geom_vline(xintercept = c(1.5, 2.5, 3.5), linetype='dashed') +
+  ggtitle("Jakie Twoim zdaniem jest główne źródło pieniędzy na\nwypłaty w ramach programu 500 plus?") +
+  scale_x_discrete(limits = levels(partie)) +
+  scale_y_continuous(labels = function(x) paste0(x, "%")) +
+  xlab('Partie polityczne') + ylab('Procent odpowiedzi') +
+  labs(fill = 'Źródła') +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+<br><br>
+
+#### Dokonane zmiany: 
+ * Zastąpienie 4 wykresów 1
+ * Inne przypisanie danych do poszczególnych osi oraz użycie kolorów z legendą.
+ * Zmiana orientacji wykresu słupkowego z poziomej na pionową.
+ * Mniejsze estetyczne zmiany (np. wycentrowany tytuł)
+<br><br>
+
+Nowy wykres powstał poprzez zamianę mapowań danych do osi. Poprzedni podział na 4 wykresy został zastąpiony odpowiednim rozmieszczeniem danych (partii politycznych) na osi x. Dane procentowe zostały umieszczone na osi y (odwrócona orientacja wykresu), gdyż taki układ wydawał się bardziej przejrzysty. Ostatni wymiar (źródła finansowania) został przedstawiony za pomocą kolorów i legendy.
+<br><br>
+Poprawiony wykres umożliwia łatwe, relatywne porównanie wybranych żródeł pieniędzy między partiami, co w przypadku oryginalnego wykresu jest nieco trudniejsze. Zachowana przy tym została możliwość prostego porównania źródeł finansowania w ramach jednej partii (odpowiednie partie wykresu zostały odgraniczone liniami przerywanymi). Poprawa została dokonana kosztem dodania legendy, która jednak nie jest skomplikowana. Wprowadzone zostały też mniej ważne, małe estetyczne zmiany (tytuł, nazwy osi).

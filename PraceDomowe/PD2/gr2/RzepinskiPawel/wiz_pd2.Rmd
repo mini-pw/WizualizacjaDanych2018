@@ -1,0 +1,63 @@
+---
+title: "PD2"
+author: "Paweł Rzepiński"
+date: "March 10, 2019"
+output: html_document
+---
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(gridExtra)
+library(grid)
+
+years = 2010:2017
+sugar_consumption_per_capita = c(39.9, 39.4, 42.5, 41.9, 44.3, 40.5, 42.3, 44.5) # in kilograms
+sugar_price = c(2.73, 4.07, 3.96, 3.60, 2.50, 2.23, 2.87, 3.04) # for 1 kilogram in PLN
+
+sugar_in_Poland = data.frame(years,
+                             sugar_consumption_per_capita,
+                             sugar_price)
+```
+
+## Previous plot
+
+Previous plot is available at https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD1/gr2/SawickiJan and presented below for convenience:
+```{r, echo=FALSE}
+ggplot(data = sugar_in_Poland, aes(x = years)) +
+  ggtitle("Sugar consumption and sugar prices in Poland (2010-2017)") +
+  geom_col(data = sugar_in_Poland, 
+           aes(x = years, 
+               y = sugar_price, 
+               fill = sugar_consumption_per_capita), 
+           position = "dodge",
+           ylab("Sugar prices per kg (PLN)")) + 
+  xlab("") +
+  ylab("Sugar price for kg (PLN)") +
+  guides(fill=guide_legend(title="Consumption pp (kg)")) +
+  theme_bw()
+```
+
+I reckon that the main idea for plot was to compare sugar prices against sugar consumption per person in Poland. Expressing the latter in form of fill aesthetic does not allow for quick comparison of values between sugar prices and consumption and thus makes it hard to determine possible relation.
+
+## Plot update proposal
+
+Mine proposal includes plotting sugar prices and consumption using lines geomtry to make observing trends  easier. Displaying data on two facets allows for determing relation existence. Moreover, years ticks are included for all data points in order to remove the need to calculate data point year based on neighbor ticks.
+
+```{rs}
+prices <- ggplot(data = sugar_in_Poland, aes(x = years, y=sugar_price)) +
+  geom_line() +
+  xlab("") +
+  ylab("Sugar price for 1 kg (PLN)") +
+  scale_x_continuous(breaks=years) +
+  theme_bw()
+  
+consumption <- ggplot(data = sugar_in_Poland, aes(x = years, y=sugar_consumption_per_capita)) +
+  geom_line() +
+  xlab("Year") +
+  ylab("Sugar consumption per person (kg)") +
+  scale_x_continuous(breaks=years) +
+  theme_bw()
+
+grid.arrange(prices, consumption, nrow = 2, 
+  top = "Sugar prices and sugar consumption in Poland (2010-2017)")
+```
