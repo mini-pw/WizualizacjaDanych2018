@@ -14,8 +14,8 @@
    id="svg2"
    xml:space="preserve"
    width="768"
-   height="720"
-   viewBox="0 0 768 720"
+   height="800"
+   viewBox="0 0 768 800"
    sodipodi:docname="TomaszewskaPaulina.svg"
    inkscape:version="0.92.4 5da689c313, 2019-01-14"><metadata
      id="metadata8"><rdf:RDF><cc:Work
@@ -214,7 +214,7 @@
      id="g10"
      inkscape:groupmode="layer"
      inkscape:label="ink_ext_XXXXXX"
-     transform="matrix(1.3333333,0,0,-1.3333333,0,720)"><g
+     transform="matrix(1.3333333,0,0,-1.3333333,0,800)"><g
        id="g12"
        transform="scale(0.1)"><path
          d="M 0,0 H 5760 V 5400 H 0 Z"
