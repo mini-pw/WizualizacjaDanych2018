@@ -20,6 +20,8 @@ activity_by_week <- activity %>%
       factor(levels = c("Good", "Bad"))
   )
 
+Sys.setlocale("LC_TIME", "en_US.UTF-8")
+
 activity_plot <- ggplot(data = activity_by_week,
        aes(x = week, y = steps, fill = Quality)) +
   geom_bar(stat = "summary", fun.y = "identity") +
@@ -28,7 +30,7 @@ activity_plot <- ggplot(data = activity_by_week,
   xlab("Date") +
   ylab("Average number of steps") +
   geom_hline(yintercept = 8000, color = 'red') + 
-  geom_text(x=as.Date('2019-02-10'), y = 8000,label = 'recommended', vjust = -1, size = 5) +
+  geom_text(x=as.Date('2019-02-01'), y = 8000,label = 'recommended', vjust = -1, size = 5) +
   theme_minimal(base_size = 22)
 
 
@@ -66,13 +68,13 @@ sleepDensity <-
   density()
 
 sleep_plot <- data.frame(x=sleepDensity$x, y=sleepDensity$y) %>%
-  mutate(Quality = factor(getSleepQuality(x), levels = c('Bad','Poor','Good'))) %>%
+  mutate(Quality = factor(getSleepQuality(x), levels = c('Good','Poor','Bad'))) %>%
   mutate(groups = factor(findInterval(x, sleepBreaks))) %>%
   ggplot(aes(x,y, group = groups)) +
   geom_line() +
   geom_ribbon(aes(ymin=0, ymax=y, fill=Quality), color = NA) +
   scale_x_continuous(breaks=sleepBreaks, name = 'Hours of sleep') +
-  scale_fill_viridis_d(begin = 0.1, end = 0.8) +
+  scale_fill_viridis_d(end = 0.1, begin = 0.8) +
   scale_y_continuous(labels = NULL, name = NULL) +
   theme_minimal(base_size = 22)
 
