@@ -1,0 +1,35 @@
+---
+title: "Praca domowa nr 3"
+author: "Tymoteusz Makowski"
+date: "27 marca 2019 r."
+
+output:
+    html_document:
+        fig_crop: false
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+library('ggplot2')
+```
+
+# Wykres oryginalny
+```{r, echo=FALSE}
+console <- c("Nintendo Switch", "PlayStation 4", "Nintendo 3DS", "PS Vita", "Xbox One")
+consoles_sold <- c(3482388, 1695227, 566420, 181728, 15339)
+df <- data.frame(console, consoles_sold)
+df <- df[order(df$consoles_sold), c(1,2)]
+ggplot(df, aes(x=reorder(console, -consoles_sold), y=consoles_sold, label = consoles_sold)) + 
+  geom_bar(stat="identity", fill='darkblue') + 
+  ggtitle("Sprzedaż konsoli w Japonii w 2018 r.") +
+  labs(y="Liczba sprzedanych konsoli", x = "Konsola") +
+  scale_y_continuous(labels = scales::format_format(big.mark = " ", decimal.mark = ",", scientific = FALSE)) +
+  geom_text(size = 4, position = position_dodge(width = 1), vjust = -0.4) +
+  theme_bw()
+```
+
+# Zmieniona wersja
+
+W wykresie usunąłem zbędne linie siatki w tle oraz ramkę otaczającą wykres. Dodatkowo poprawiłem rozmiary czcionek, wyrównałem tytuł wykres tak, aby był na środku oraz odsunąłem opisy osi od ich etykiet.
+
+![](updated_plot.png)
