@@ -1,0 +1,23 @@
+---
+title: "Praca Domowa 3"
+author: "Ryszard Szymański"
+date: "March 27, 2019"
+output: html_document
+---
+
+## Poprzedni wykres
+
+Wybrano wykres Marcina Dardzińskiego, który dotyczył oglądalności poszczególnych stacji telewizyjnych w Polsce.
+
+![](original_plot.png)
+
+## Wynik poprawek z pracy domowej 2
+
+![](plot_PD2.svg)
+
+## Wprowadzone poprawki
+
+* Odsunięto nazwy osi od wartości podziałki
+* Zamienono nazwy stacji telewizyjnych na oficjalne loga
+
+<img src="plot_PD3.svg" width = 100%>
