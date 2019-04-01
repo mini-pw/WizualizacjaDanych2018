@@ -9,4 +9,4 @@ p <- ChickWeight %>%
 
 dev.off()
 
-ggsave(filename = "p.pdf", plot = p, height = 10, width = 25, device = "pdf")
+ggsave(filename = "p.pdf", plot = p, height = 5, width = 25, device = "pdf")
