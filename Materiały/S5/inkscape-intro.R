@@ -91,15 +91,15 @@ p3 <- ggplot(data = countries, aes(x = continent, fill = continent)) +
 
 p <- ((p1 + p2) / p3) * theme_bw() * 
   theme(legend.background = element_rect(fill = "green"),
-        text=element_text(family="Dyuthi"))
+        text=element_text(family="Arial"))
 
-#library(extrafont)
+library(extrafont)
 
 cairo_ps("learning-inkscape.eps", height = 7.5, width = 8, family = "Dyuthi")
 p
 dev.off()
 
-ggsave(filename = "tmp.eps", plot = p, device = "eps")
+ggsave(filename = "p.pdf", plot = p, device = "pdf")
 
 # alternatywa: eksport do svg pakietem gridSVG
 # albo ggplot2::ggsave
