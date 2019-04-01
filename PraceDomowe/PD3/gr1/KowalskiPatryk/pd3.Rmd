@@ -1,0 +1,77 @@
+---
+title: "PD3"
+author: "Patryk Kowalski"
+output: html_notebook
+---
+
+Wykres przygotowany przeze mnie na poprzednią pracę domową okazał się niemożliwy do załadowania do inkscape'a. Podejrzewam, że było tak z powodu tego, że składał się z mapy, która z kolei narysowana została poprzez łączenie setek tysięcy punktów - inkscape próbując je wszystkie wczytać zawieszał się, zajmując 4Gb ramu. Obszedłem ten problem eksportując wykres jako obrazek - bez warstwy którą chciałem zmodyfikować, którą to warstwę następnie odtworzyłem w inkscape'ie.
+
+###wyjściowy wykres:
+![wyjsciowy_wykres](D:\mgr\wizualizacja_danych\wyjsciowy_plot.png)
+
+```{r, results=FALSE, echo=FALSE}
+x <- c("Estonia","Malta","Austria","Polska","Dania","Litwa","Bułgaria", "Belgia", "Słowacja", "Finlandia", "Szwecja","Niemcy", "Czechy" ,"Francja", "Luksemburg", "Łotwa", "Rumunia", "Węgry", "Holandia","Chorwacja", "Słowenia", "Włochy","Portugalia","Hiszpania", "Irlandia", "Cypr","Wlk. Brytania","Grecja")
+y <- as.numeric(c(14.2,
+                  19.9,
+                  26,
+                  12.7,
+                  23.6,
+                  12,
+                  9.6,
+                  22.4,
+                  11,
+                  22,
+                  22.2,
+                  24.0,
+                  14.1,
+                  23.7,
+                  33.2,
+                  11,
+                  5.8,
+                  9.4,
+                  23.7,
+                  10.4,
+                  16.2,
+                  18.6,
+                  12.9,
+                  17.9,
+                  20.9,
+                  19.7,
+                  20.2,
+                  10.5))
+dane<- data.frame(x,y)
+library(ggplot2)
+library(eurostat)
+library(tidyverse)
+library(maps)
+lp <- get_eurostat_geospatial(output_class = "df", resolution = "60", nuts_level = "0")
+
+pos_df <- group_by(lp, geo) %>% 
+  summarise(long_m = mean(long),
+            lat_m = mean(lat))
+
+country_codes <- tibble(kraj = x, geo = c('EE', 'MT', 'AT', 'PL', 'DK', 'LT', 'BG', 'BE', 'SK', 'FI', 'SE', 'DE', "CZ", 'FR', 'LU', 'LV', 'RO', 'HU', 'NL', 'HR','SI', 'IT', 'PT', 'ES', 'IE', 'CY', 'UK', 'EL'))
+data <- left_join(dane, country_codes, by = c('x' = 'kraj')) %>% left_join(pos_df, by = c("geo" = "geo"))
+data[which(data$x == "Portugalia"),]$long_m = -9
+data[which(data$x == "Francja"),]$lat_m = 45
+data[which(data$x == "Francja"),]$long_m = 3
+
+
+```
+
+### szablon importowany do inkscape
+```{r results=FALSE, echo=FALSE}
+
+left_join(lp, data, by = c("geo" = "geo")) %>% 
+  na.omit %>% 
+  filter(lat > 34, long > -25) %>%
+  ggplot(aes(x = long, y = lat, group = group, fill = y)) + 
+  geom_polygon(color = "black") +
+  scale_fill_gradient(low = "blue", high = "red") +
+  labs(fill = "PPS - parytet siły nabywczej", labx = "", laby = "") +
+  coord_map(ylim = c(34, 65), xlim = c(-11,40))
+```
+###po poprawieniu w inkscape'ie
+Elementem, który chciałem poprawić, była czytelność mapy. Etykiety mimo kontrastującego koloru zostały ocenione jako nieczytelne. Poprawiłem je poprzez umieszczenie ich na mniej kontrastującym, ciemnym, tle, nadajac im naturalniejszy, biały kolor oraz poprzez precyzyjne dobranie lokalizacji, tak by nie było niejasności do którego kraju się odnoszę. Wzorowałem się na wykresie oryginalnym, bedącym inspiracją pierwotną jeszcze z PD1:
+https://www.forbes.pl/gospodarka/najbogatsze-i-najbiedniejsze-regiony-ue-najnowsze-dane-eurostat/nkghh1t
+![wykres_po_zmianach](D:\mgr\wizualizacja_danych\PD3.png)
