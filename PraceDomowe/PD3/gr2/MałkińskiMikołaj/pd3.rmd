@@ -1,0 +1,23 @@
+---
+title: "Praca domowa 3"
+author: "Mikołaj Małkiński"
+date: "March 30, 2019"
+output:
+    html_document:
+        theme: 'darkly'
+        highlight: 'pygments'
+---
+
+![**Oryginalna wizualizacja**](original.jpg)
+
+![**Praca domowa 2**](pd2.png)
+
+## Praca domowa 3
+
+Zostały poprawione następujące punkty:
+
+* dodano brakującą linię pomiędzy sekcją Family-related a Financial
+* przesunięto tytuły sekcji niżej, tak jak było to w oryginale
+* Wypełniono słupki w ostatniej sekcji odpowiednim wzorem
+
+![**Praca domowa 3**](pd3.png)

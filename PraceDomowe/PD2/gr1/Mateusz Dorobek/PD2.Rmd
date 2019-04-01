@@ -1,0 +1,63 @@
+---
+title: "Mateusz Dorobek PD2"
+author: "Mateusz Dorobek"
+date: "11 marca 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## Dane
+
+Dane liczbowe z artyku³u:
+https://segmentnext.com/2019/02/19/xbox-one-sales-numbers-make-it-the-worst-selling-console-in-japan-for-2018/
+
+```{r}
+console <- c("Nintendo Switch", "PlayStation 4", "Nintendo 3DS", "PS Vita", "Xbox One")
+consoles_sold <- c(3482388, 1695227, 566420, 181728, 15339)
+df<- data.frame(console, consoles_sold)
+df
+```
+
+## Wykres Kolegi
+
+```{r, echo=FALSE}
+ggplot(df, aes(x=console, y=consoles_sold)) + 
+  geom_bar(stat="identity") + 
+  ggtitle("Sprzeda¿ konsoli w Japonii w 2018 r.")+
+  labs(y="Liczba sprzedanych konsoli", x = "Konsola")
+```
+
+## Mój Wykres
+
+```{r, echo=FALSE} 
+pct <- round(consoles_sold/sum(consoles_sold)*100,1)
+lbls <- paste(console, pct) # add percents to labels 
+lbls <- paste(lbls,"%") # ad % to labels 
+pie(pct,labels = lbls, col=rainbow(length(lbls)),
+   main="Sprzeda¿ konsoli w Japonii w 2018 r.")
+#legend("topleft", c("Mon","Tue","Wed","Thu","Fri"), cex=0.8, fill=colors)
+
+# Create data for the graph.
+x <-  c(21, 62, 10,53)
+labels <-  c("London","New York","Singapore","Mumbai")
+
+piepercent<- round(100*x/sum(x), 1)
+
+# Give the chart file a name.
+png(file = "city_percentage_legends.jpg")
+
+# Plot the chart.
+pie(x, labels = piepercent, main = "City pie chart",col = rainbow(length(x)))
+legend("topright", c("London","New York","Singapore","Mumbai"), cex = 0.8,
+   fill = rainbow(length(x)))
+
+```
+Mój wykres ma niezaprzeczalnie wiêcej kolorów, co sprawia ¿e jest ³adniejszy.
+Dodatkowo dane zosta³y uporz¹dkowane w kolejnoœci rosn¹cej w kierunku przeciwnym do ruchu wskazówek zegara.
+Dominuj¹cy kandydat zosta³ wyszczególniony przez umieszczenie jego etykiety na szczycie wykresu.
+Wykres jest bardziej kompaktowy.
+Dodatkowo jednostki przy labelach s¹ wyra¿one w postaci procentów a nie wartoœci wzglêdnych w zapisie naukowym (3e+06) co sprawia, ¿e s¹ bardziej czytelne.
