@@ -1,4 +1,5 @@
 # Wizualizacja Danych 2018/2019
+
 Strona przedmiotu Wizualizacja Danych na wydziale MiNI PW
 
 # Tematy spotkań
