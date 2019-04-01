@@ -1,0 +1,55 @@
+---
+title: "Homework 3"
+author: "Marcin Szulc"
+date: "March 23, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+library(rsvg)
+```
+
+## Original plot
+Author: Aleksandra Miesiąc
+```{r}
+console <- c("Nintendo Switch", "PlayStation 4", "Nintendo 3DS", "PS Vita", "Xbox One")
+consoles_sold <- c(3482388, 1695227, 566420, 181728, 15339)
+consoles_sold_pr <- round((consoles_sold/sum(consoles_sold))*100,digits = 1)
+df<- data.frame(console, consoles_sold,consoles_sold_pr)
+
+
+cbp1 <- c("#999999", "#E69F00", "#56B4E9", "#009E73",
+          "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+plot <-
+  ggplot(df, aes(x=console,y =consoles_sold_pr , fill=console))+ scale_fill_manual(values = cbp1) + geom_text(aes(label=paste0(consoles_sold_pr,"%")), vjust=-0.3, size=5)+
+  geom_bar(stat = "identity") + scale_x_discrete(limits = console)+
+  ggtitle("Sprzedaż konsoli w Japonii w 2018 r.")+
+  labs(y="Procent sprzedanych konsoli", x = "Konsola",fill='Rodzaje konsoli')+ theme(axis.text.x=element_text(size = 12),axis.text.y=element_text(size = 12))
+plot
+```
+
+## Export to svg
+```{r}
+svg("old-plot.svg", height = 7.5, width = 8)
+plot
+dev.off()
+```
+
+## Corrected plot
+What I've changed:  
+* added minimalistic horizontal lines instead of ugly ggplot grid   
+* changed colors pallete of bars and labels  
+* more space between bars  
+* removed legend  
+* replaced x-axis labels with logos (in matching color)  
+* centered and resized title  
+
+
+```{r}
+knitr::include_graphics("new-plot.svg")
+```
+
+
