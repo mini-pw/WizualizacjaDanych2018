@@ -1,0 +1,16 @@
+---
+title: "Praca Domowa 3"
+author: "Rafał Muszyński"
+date: "March 30, 2019"
+output: html_document
+---
+
+## Stary Wykres
+Wybrałem przedstawiony niżej wykres:
+![](./original.png)
+
+## Zmiany
+Wykres może zostać wzbogacony wizualnie poprzez dodanie symboli produktów i firm. Dodatkowo można usunąć zbędne tło, tak by wykres był bardziej estetyczny. Wykres został powiększony by pomieścić wszystkie nowe loga, z tego powodu powiększono tytuł wykresu i zmieniono jego lokalizację, by był lepiej widoczny. Zmieniono również paletę kolorów, tak by była zgodna z kolorami odpowiadających im firm.
+
+## Nowy wykres
+![](./new.png)
