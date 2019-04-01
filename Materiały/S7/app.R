@@ -17,6 +17,7 @@ ui <- fluidPage(
     mainPanel(
       h2("Scatterplot"),
       plotOutput("countries_plot", height = 600, brush = "country_brush"),
+      textOutput("countries_text"),
       h2("Table"),
       tableOutput("countries_table")
     )
@@ -33,6 +34,14 @@ server <- function(input, output) {
     filter(countries, continent %in% input[["chosen_continent"]]) 
   })
   
+  countries_b <- reactive({
+    
+    filter(countries_r(), birth.rate > input[["country_brush"]][["xmin"]],
+           birth.rate < input[["country_brush"]][["xmax"]], 
+           death.rate > input[["country_brush"]][["ymin"]],
+           death.rate < input[["country_brush"]][["ymax"]]) 
+  })
+  
   output[["countries_plot"]] <- renderPlot({
     p <- ggplot(countries_r(), aes(x = birth.rate, y = death.rate, color = continent)) +
       geom_point() +
@@ -47,10 +56,17 @@ server <- function(input, output) {
       need(input[["country_brush"]], "Select at least one country")
     )
     
-    filter(countries_r(), birth.rate > input[["country_brush"]][["xmin"]],
-           birth.rate < input[["country_brush"]][["xmax"]], 
-           death.rate > input[["country_brush"]][["ymin"]],
-           death.rate < input[["country_brush"]][["ymax"]]) 
+    countries_b()
+  })
+  
+  output[["countries_text"]] <- renderText({
+    validate(
+      need(input[["country_brush"]], "Select at least one country")
+    )
+    
+    countries_b() %>% 
+      nrow %>% 
+      paste0("You have selected ", ., " countries.")
   })
   
 }
