@@ -1,0 +1,15 @@
+---
+title: "Skąd rząd bierze pieniądze na 500 plus?"
+author: "Bartosz Paszko"
+output: html_document
+---
+
+### Wykres I - oryginalny
+<br><br>
+![](original.png)
+<br><br>
+
+
+### Wykres II - poprawiony
+<br><br>
+![](modified.png)
