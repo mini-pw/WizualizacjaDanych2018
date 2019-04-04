@@ -1,0 +1,26 @@
+---
+title: "Praca Domowa 3"
+author: "Marcin Dardziński"
+date: "April 3, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### Oryginał
+![](original.svg)
+
+### Zmodyfikowane
+![](makeup.png)
+
+
+Moje zmiany:
+
+* dodanie obrazków konsol
+* usunięcie cześci dziesiętnych z wykresu
+* dodanie brakującej kropki w tys. :)
+
+
+PS. Miałem problem po zaimportowaniu zmodyfikowanego wykresu jako svg, pojawiało się tylko jedno logo.
+Podejrzewam, że źle zaimportowałem pozostałe

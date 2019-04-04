@@ -17,7 +17,6 @@ ui <- fluidPage(
     mainPanel(
       h2("Scatterplot"),
       plotOutput("countries_plot", height = 600, brush = "country_brush"),
-      textOutput("countries_text"),
       h2("Table"),
       tableOutput("countries_table")
     )
@@ -57,16 +56,6 @@ server <- function(input, output) {
     )
     
     countries_b()
-  })
-  
-  output[["countries_text"]] <- renderText({
-    validate(
-      need(input[["country_brush"]], "Select at least one country")
-    )
-    
-    countries_b() %>% 
-      nrow %>% 
-      paste0("You have selected ", ., " countries.")
   })
   
 }
