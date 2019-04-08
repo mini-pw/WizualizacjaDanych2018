@@ -1,0 +1,73 @@
+---
+title: "Praca domowa nr 3"
+author: "Paulina Tomaszewska"
+output: html_document
+graphics: yes
+---
+
+
+  ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(gridSVG)
+```
+
+### Dane
+  
+```{r dane}
+procenty <- c(29,20,25,11,0,15, 37,13,6,3,0,41,
+              55,26,5,9,1,4, 39, 31, 6, 1, 5, 18)
+zrodla <- c("Podatki które ja p³acê", "Podatki które p³ac¹ inni", "Pieni¹dze rz¹dowe","Podatki p³acone przez firmy", "Inne", "Nie wiem")
+partie <- factor(c("PiS", "Kukiz15", "PO", "Nowoczesna"))
+df <- tibble(procenty=procenty, zrodla=factor(rep(zrodla, 4), levels=zrodla),
+             partie=rep(partie, each=6))
+```
+
+```{r gg}
+
+```
+
+
+  
+### Wykres oryginalny
+autor: Bartek Paszko
+```{r after, fig.width=9, fig.height=6}
+p<-ggplot(data=df, aes(x=partie, y=procenty, fill=zrodla)) + 
+geom_bar(stat='identity', position='dodge', width=0.8) + 
+geom_vline(xintercept = c(1.5, 2.5, 3.5), linetype='dashed') +
+ggtitle("Jakie Twoim zdaniem jest g³ówne Ÿród³o pieniêdzy na\nwyp³aty w ramach programu 500 plus?") +
+scale_x_discrete(limits = levels(partie)) +
+scale_y_continuous(labels = function(x) paste0(x, "%")) +
+xlab('Partie polityczne') + ylab('Procent odpowiedzi') +
+labs(fill = 'ród³a') +
+theme(plot.title = element_text(hjust = 0.5))
+p
+
+```
+
+  
+### eksport wykresu do pliku z rozszerzeniem svg
+```{r dane1, warning=FALSE, message=FALSE}
+
+svg("pd3.svg", height = 7.5, width = 8)
+p
+dev.off()
+
+
+```
+
+
+### Modyfikacje wykresu w programie Inkscape
+1. Usuniêcie szarego t³a wykresu
+2. Zmiana koloru i gruboœci linii siatki z bia³ego na czarny, a w przypadku linii oddzielaj¹cych wyniki dla poszczególnych partii zmiana stylu linii
+3. Usuniêcie lini pionowych odpowiadaj¹cych znacznikom partii (niepotrzebnie zaciemnia³y obraz)
+4. Dodanie obwódki s³upków dla zwiêkszenia konstrastu
+5. Wstawienie zamiast nazw partii odpowiadaj¹cych ich symboli graficznych
+6. Zmiana kolorów s³upków na bardziej kontrastowe
+
+### Wykres po modyfikacjach
+![](zmodyfikowany_wykres.png)
+
+
+
