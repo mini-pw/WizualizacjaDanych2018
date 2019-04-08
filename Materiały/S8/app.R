@@ -13,23 +13,32 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   
-  continent_colors <- c(Asia = "red", Europe = "green", Africa = "orange", Americas = "black", 
-                        Oceania = "blue")
+  selected_countires <- reactiveValues(
+    selected = character()
+  )
   
-  output[["countries_plot"]] <- renderPlot({
-    mutate(countries, selected = country %in% nearPoints(countries, input[["country_click"]], 
-                                              maxpoints = 1)[["country"]]) %>% 
-    ggplot(aes(x = birth.rate, y = death.rate, color = continent, size = selected)) +
-      geom_point() +
-      scale_color_manual(values = continent_colors) +
-      scale_size_manual(values = c(2, 10)) +
-      theme_bw()
+  observeEvent(input[["country_click"]], {
+    selected_countires[["selected"]] <- c(selected_countires[["selected"]], 
+                                          nearPoints(countries, input[["country_click"]], 
+                                                     maxpoints = 1)[["country"]])
   })
-  
-  output[["plot_value"]] <- renderPrint({
-    nearPoints(countries, input[["country_click"]], maxpoints = 1)[["country"]]
-  })
-  
+    
+    continent_colors <- c(Asia = "red", Europe = "green", Africa = "orange", Americas = "black", 
+                          Oceania = "blue")
+    
+    output[["countries_plot"]] <- renderPlot({
+      mutate(countries, selected = country %in% selected_countires[["selected"]]) %>% 
+        ggplot(aes(x = birth.rate, y = death.rate, color = continent, size = selected)) +
+        geom_point() +
+        scale_color_manual(values = continent_colors) +
+        scale_size_manual(values = c(2, 10)) +
+        theme_bw()
+    })
+    
+    output[["plot_value"]] <- renderPrint({
+      selected_countires[["selected"]]
+    })
+    
 }
 
 shinyApp(ui = ui, server = server)
