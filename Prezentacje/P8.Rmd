@@ -19,7 +19,7 @@ Zapisy na sloty prezentacji: https://doodle.com/poll/fzbkxugd35hyzs2z.
 
 ## Praca domowa 4
 
-PD6: czas na wykonanie 21-11-2018 do 28-11-2018
+Termin: 15.04.2019
 
 W ramach pracy należy wykonać aplikacje shiny inpirowaną pracą domową (swoją lub innej osoby). Aplikacja powinna być umieszczona https://www.shinyapps.io/ a do repozytorium należy zgłosić link do aplikacji i umieścić kody źródłowe aplikacji.
 
