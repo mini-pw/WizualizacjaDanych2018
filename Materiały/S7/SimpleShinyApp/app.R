@@ -54,7 +54,7 @@ server <- function(input, output) {
     validate(
       need(input[["country_brush"]], "Select at least one country")
     )
-    
+    browser()
     countries_b()
   })
   
