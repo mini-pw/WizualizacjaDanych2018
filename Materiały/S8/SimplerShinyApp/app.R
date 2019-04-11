@@ -17,8 +17,7 @@ server <- function(input, output) {
                           Oceania = "blue")
     
     output[["countries_plot"]] <- renderPlot({
-      ggplot(countries, aes(x = birth.rate, y = death.rate, color = continent, 
-                            size = selected)) +
+      ggplot(countries, aes(x = birth.rate, y = death.rate, color = continent)) +
         geom_point() +
         scale_color_manual(values = continent_colors) +
         theme_bw()
