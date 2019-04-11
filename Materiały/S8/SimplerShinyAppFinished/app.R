@@ -4,7 +4,7 @@ library(dplyr)
 
 ui <- fluidPage(
   
-  titlePanel("Simple Shiny App"),
+  titlePanel("Simpler Shiny App"),
   
   h2("Scatterplot"),
   plotOutput("countries_plot", height = 600, click = "country_click"),
