@@ -1,6 +1,6 @@
 library(ggplot2)
 library(shiny)
-
+library(dplyr)
 
 
 data <- read.csv('all.csv')
@@ -26,14 +26,13 @@ data <-
 
 ui <- fluidPage(
   titlePanel('Oglądalność stacji telewizyjnych w 2018 roku'),
-  # sidebarPanel(
     checkboxGroupInput(inputId = 'selected_stations',
                        label = 'Wybierz stację',
                        inline = T,
                        choices = unique(data$Station),
                        selected = unique(data$Station)),
-  # ),
   plotOutput("stations_plot", height = 600, hover = hoverOpts(id = 'hover', delay = 10)),
+  actionButton("button", 'Wyczyść'),
   verbatimTextOutput("month_details")
 )
 
@@ -42,14 +41,21 @@ server <- function(input, output, session) {
     data %>% filter(Station %in% input[['selected_stations']])
   })
   
-  selected_month <- reactive({
+  rv = reactiveValues(selected_month = NULL);
+  observeEvent(input[['hover']], {
     hover <- input[['hover']]
     if(is.null(hover)) {
       hover$y = 0
     }
     
-    nearPoints(stations(), input[["hover"]], maxpoints = 1, threshold = Inf, yvar = 'dummy') %>% select(Month) %>% head()
+    rv[['selected_month']] <- nearPoints(stations(), input[["hover"]], maxpoints = 1, threshold = Inf, yvar = 'dummy') %>%
+      select(Month) %>% head() %>% as.integer()
   })
+  
+  observeEvent(input[['button']],{
+    rv[['selected_month']] <- NULL
+  })
+  
   
   output[['stations_plot']] <- renderPlot({
     plot <- stations() %>%
@@ -60,31 +66,23 @@ server <- function(input, output, session) {
       ylab('Procentowy udział w rynku') +
       geom_line()
     
-    # month <- selected_month()
-    # if(!is.null(month)) {
-    #   # plot <- plot +
-    #   #   geom_vline(xintercept = month)
-    # }
+    month <- rv[['selected_month']]
+    if(!is.null(month)) {
+      plot <- plot +
+        geom_vline(xintercept = as.integer(month), linetype = 'dashed')
+    }
     plot
   })
   
   output[['month_details']] <- renderPrint({
-    # input[['hover']]
-    # if(!is.na(selected_month())) {
-    #   return (
-    #   )
-    # }
-    # selected_month()
-    # if(!is.na(selected_month())){
-    #   return (
-    # if(!is.null(selected_month())){
-      month <- selected_month()
-      stations() %>% filter(Month == as.integer(month)) %>% arrange(desc(Share)) %>% select(Stacja = Station, Udział = Share)
-    # }
-    #     # %>% arrange(desc(Share))
-    #   )
-    # return (NULL)
-    # }
+    if(is.null(rv[['selected_month']])) {
+      return (stations() %>% filter(Month == -1))
+    }
+    
+    stations() %>%
+        filter(Month == rv[['selected_month']]) %>%
+        arrange(desc(Share)) %>% 
+        select(Stacja = Station, Udział = Share)
   })
 }
 
