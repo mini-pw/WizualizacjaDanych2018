@@ -1,0 +1,38 @@
+---
+title: "Praca domowa 3"
+author: "Katarzyna Spalińska"
+date: "03 kwietnia 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## 1. Dane
+
+Dane liczbowe z artykułu:
+https://segmentnext.com/2019/02/19/xbox-one-sales-numbers-make-it-the-worst-selling-console-in-japan-for-2018/
+
+```{r, echo=FALSE}
+console <- c("Nintendo Switch", "PlayStation 4", "Nintendo 3DS", "PS Vita", "Xbox One")
+consoles_sold <- c(3482388, 1695227, 566420, 181728, 15339)
+df<- data.frame(console, consoles_sold)
+df
+```
+
+## 2. Wykres kolegi z 2 pracy domowej:
+
+```{r, echo=FALSE}
+pct <- round(consoles_sold/sum(consoles_sold)*100,1)
+lbls <- paste(console, pct) # add percents to labels 
+lbls <- paste(lbls,"%") # ad % to labels 
+pie(pct,labels = lbls, col=rainbow(length(lbls)),
+   main="Sprzedaż konsoli w Japonii w 2018 r.")
+
+```
+
+## 3. Wykres poprawiony z wykorzystaniem programu Inkscape:
+
+![](/home/kasia/Pulpit/Studia/WD/pd3/poprawiony_piechart.png)
