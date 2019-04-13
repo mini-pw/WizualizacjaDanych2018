@@ -1,0 +1,19 @@
+---
+title: "Untitled"
+author: "Jacek Myna"
+date: "2 kwietnia 2019"
+output: html_document
+---
+
+## Błędny wykres
+![](bazowy.png)
+
+## Co zmieniłem?
+- label osi y, który był nieprecyzyjny i niezgodny z artykułem
+- zwiększenie dokładności osi y do 5 punktów
+- usunięcie legendy, która nie dodaje żadnej istotnej informacji
+- zmiana kąta nachylenia labelów na osi x w celu poprawy czytelności
+- dodanie flag państw w celu wygodniejszego i szybszego wyszukiwania państw na osi
+
+## Poprawiony wykres
+![](wynikowy.png)
