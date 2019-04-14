@@ -1,0 +1,21 @@
+---
+title: "Praca Domowa 3"
+author: "Zuzanna Magierska"
+date: "5 kwietnia 2019"
+output: html_document
+---
+
+## Stary wykres
+![](stary_wykres.png)
+
+
+## Poprawiony wykres
+
+Przy u¿yciu programu Inkscape dokona³am nastêpuj¹cych korekt:
+
+  * zmieni³am umiejscowienie i kolor opisów na mapie
+  * doda³am tytu³ wykresu
+  * powiêkszy³am i poprawi³am podpisy osi
+  * poprawi³am opis legendy
+  
+![](nowy_wykres.png)

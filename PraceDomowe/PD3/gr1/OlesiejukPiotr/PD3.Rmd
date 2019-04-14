@@ -1,0 +1,17 @@
+---
+title: "Praca domowa nr 3"
+author: "Piotr Olesiejuk"
+date: "4 April 2019"
+output:
+  html_document:
+    df_print: paged
+---
+<br></br>
+
+###Wykres oryginalny
+<br></br>
+![](stary_wykres.png)
+
+###Wykres poprawiony
+<br></br>
+![](praca_domowa_3_final.png)

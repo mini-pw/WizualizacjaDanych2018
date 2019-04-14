@@ -1,0 +1,31 @@
+---
+title: "PD3"
+author: "Piotr Janus"
+date: "3 kwietnia 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Opis modyfikacji 
+-- Zostały dodane flagi zamiast nazw, przez co wykres dedykowany jest tylko dla osób z zaawansowaną znajomością geografii.
+
+-- Wcześniejszy zielony kolor wykresu został zmieniony na nieco bardziej neutralny, ze względu na to, że same flagi są już dość kolorowe.
+
+-- Tło zmieniło kolor na odcień szarego, żeby flagi Malty, Polski, Cypru itp. były lepiej widoczne.
+
+
+## Oryginalny wykres
+
+
+```{r plot, echo=FALSE, out.width = '70%'}
+knitr::include_graphics("original.png")
+```
+
+## Zmodyfikowany wykres
+
+
+```{r pressure, echo=FALSE, out.width = '70%'}
+knitr::include_graphics("pd3.png")
+```
