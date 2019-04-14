@@ -63,7 +63,7 @@ server <- function(input, output) {
     colorMap <- c("Nintendo" = "red", "Sony Interactive Entertainment" = "blue", "Microsoft" = "green")
     ggplot(consoles_r(), aes(x=reorder(console, -consoles_sold), y=consoles_sold_mln, fill=manufacturer)) + 
       geom_bar(stat="identity") + 
-      geom_text(aes(label = getLabels(), size = 18), vjust = -0.3) +
+      geom_text(aes(label = getLabels()), size = 6, vjust = -0.3) +
       labs(y="Number of sold consoles (mln)", x = "Console") + 
       guides(fill=guide_legend(title="Producent")) +
       scale_fill_manual(values = colorMap) +

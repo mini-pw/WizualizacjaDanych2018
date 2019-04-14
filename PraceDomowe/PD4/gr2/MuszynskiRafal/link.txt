@@ -1,1 +1,1 @@
-https://wizualizator.shinyapps.io/homework/
+https://wizualizator.shinyapps.io/firstapp/
