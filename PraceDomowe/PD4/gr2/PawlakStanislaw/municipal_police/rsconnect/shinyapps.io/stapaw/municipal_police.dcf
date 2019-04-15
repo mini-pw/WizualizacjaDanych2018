@@ -1,0 +1,10 @@
+name: municipal_police
+title:
+username:
+account: stapaw
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 863233
+bundleId: 2010066
+url: https://stapaw.shinyapps.io/municipal_police/
+when: 1555258999.26236
