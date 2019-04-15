@@ -1,3 +1,7 @@
+#https://tomix.shinyapps.io/PracaDomowa4/
+
+
+
 library(ggplot2)
 library(shiny)
 library(dplyr)
