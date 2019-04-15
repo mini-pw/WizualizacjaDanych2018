@@ -1,0 +1,6 @@
+Pracę domową wykonano na podstawie rozwiązania pracy domowej 2 Rafała Muszyńskiego. W shiny dodano nastepujące funkcjonalności:
+
+* po najechaniu na punkt wykresu wyświetlona zostanie dokładna liczba małżeństw
+* możliwość wyboru przedziału lat, dla którego zostanie narysowany wykres
+
+link do aplikacji w shinyapps: https://ryszard-szymaski.shinyapps.io/szymanskiryszard/
