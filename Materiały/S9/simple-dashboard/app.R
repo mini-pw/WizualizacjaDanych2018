@@ -40,7 +40,8 @@ ui <- dashboardPage(
               plotOutput("n_matches_plot")
       ),
       tabItem("about",
-              "About the app"
+              "About the app",
+              includeMarkdown("example.md")
       )
     )
   )
