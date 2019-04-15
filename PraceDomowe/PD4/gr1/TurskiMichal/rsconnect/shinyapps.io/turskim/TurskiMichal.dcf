@@ -1,0 +1,13 @@
+name: TurskiMichal
+title: TurskiMichal
+username:
+account: turskim
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 865744
+bundleId: 2012554
+url: https://turskim.shinyapps.io/TurskiMichal/
+when: 1555340021.84294
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: PD4.R
