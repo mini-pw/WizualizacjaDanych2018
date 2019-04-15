@@ -21,6 +21,14 @@ server <- function(input, output) {
     selected_countires[["selected"]] <- c(selected_countires[["selected"]], 
                                           nearPoints(countries, input[["country_click"]], 
                                                      maxpoints = 1)[["country"]])
+    
+    countries_duplicates <- table(country = selected_countires[["selected"]]) %>% 
+      as.data.frame(stringsAsFactors = FALSE) %>% 
+      filter(Freq > 1) %>% 
+      pull(country)
+    
+    selected_countires[["selected"]] <- setdiff(selected_countires[["selected"]], countries_duplicates)
+    
   })
     
     continent_colors <- c(Asia = "red", Europe = "green", Africa = "orange", Americas = "black", 
@@ -36,7 +44,7 @@ server <- function(input, output) {
     })
     
     output[["plot_value"]] <- renderPrint({
-      selected_countires[["selected"]]
+      dput(selected_countires[["selected"]])
     })
     
 }
