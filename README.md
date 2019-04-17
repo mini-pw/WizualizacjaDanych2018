@@ -1,4 +1,5 @@
 # Wizualizacja Danych 2018/2019
+
 Strona przedmiotu Wizualizacja Danych na wydziale MiNI PW
 
 # Tematy spotkań
@@ -78,6 +79,11 @@ Materiały dodatkowe:
 **L**: [Shiny 1/2, Wstęp do tworzenia aplikacji](http://pbiecek.github.io/Przewodnik/Programowanie/jak_tworzyc_aplikajce.html).
 
 **P**: [Praca domowa 4](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
+
+Materiały dodatkowe:
+
+ - [Learn Shiny: Shiny Tutorial](https://shiny.rstudio.com/tutorial/).
+ - [shiny cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf).
 
 ## S8 08.04
 

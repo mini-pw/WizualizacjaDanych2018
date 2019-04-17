@@ -1,0 +1,139 @@
+---
+title: "Wizualizacje statyczne i interaktywne"
+author: "Michał Burdukiewicz"
+date: "8 kwietnia 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(plotly)
+#library(dplyr)
+#library(reshape2)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Prezentacje
+
+Zapisy na sloty prezentacji: https://doodle.com/poll/fzbkxugd35hyzs2z.
+
+## Praca domowa 4
+
+Termin: 15.04.2019
+
+W ramach pracy należy wykonać aplikacje shiny inpirowaną pracą domową (swoją lub innej osoby). Aplikacja powinna być umieszczona https://www.shinyapps.io/ a do repozytorium należy zgłosić link do aplikacji i umieścić kody źródłowe aplikacji.
+
+Praca domowa powinna zawierać tytuł, przynajmniej 2 kontrolki i przynajmniej jeden estetyczny wykres.
+
+Tworząc darmowe konto na shinyapps należy podać adres email. Nie trzeba wykorzystywać prywatnego adresu email, można założyć również inny adres wyłącznie na potrzeby rejestracji. 
+
+## Interakcja
+
+"*Only 10–15% of people click on buttons*".
+
+Gregor Aisch, New York Times, podczas Information+ Conference, 2016.
+
+## Interakcja
+
+"*15% of readers isn’t nobody*".
+
+Gregor Aisch, New York Times, 2017.
+
+## Zastosowanie interakcji
+
+Kluczowa informacja na wykresie nie może być skryta przed użytkownikiem za pomocą interakcji.
+
+Interakcje powinny zawierać wyłącznie informacje doprecyzowujące główny przekaz.
+
+## Kiedy stosować interakcję?
+
+- duże lub ewoluujące dane,
+- dużo czasu po stronie użytkownika.
+
+## Duże dane
+
+```{r}
+ggplotly(ggplot(ChickWeight, aes(x = Time, y = weight, color = Diet, group = Chick)) +
+           geom_point() +
+           geom_line() +
+           theme_bw()) 
+```
+
+## Ewoluujące dane
+
+https://gallery.shinyapps.io/087-crandash/
+
+## Data + design
+
+[Data + design](https://trinachi.github.io/data-design-builds/titlepage01.html)
+
+## Data + design
+
+<img src="https://trinachi.github.io/data-design-builds/images/sections/05/ch19-06-pointless-hover.png" width="800px">
+
+## Data + design
+
+<img src="https://trinachi.github.io/data-design-builds/images/sections/05/ch19-07-interactive-exploration.png" width="500px">
+
+## Przykład: tooltipy
+
+```{r}
+ggplotly(ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, group = Species)) +
+           geom_point() +
+           theme_bw()) 
+```
+
+Cel wizualizacji: zależność długości pręcika od długości słupka w podziale na gatunki irysów.
+
+## Przykład: tooltipy
+
+```{r}
+ggplotly(ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+           geom_point() +
+           theme_bw()) 
+```
+
+Cel wizualizacji: zależność długości pręcika od długości słupka w podziale na gatunki irysów.
+
+## Przykład: tooltipy
+
+```{r}
+ggplotly(ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, shape = Species)) +
+           geom_point() +
+           theme_bw()) 
+```
+
+Cel wizualizacji: zależność długości pręcika od długości słupka w podziale na gatunki irysów.
+
+## Przykład: tooltipy
+
+```{r}
+ggplotly(ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, group = Species)) +
+           geom_point() +
+           theme_bw()) 
+```
+
+Cel wizualizacji: zależność długości pręcika od długości słupka <s>w podziale na gatunki irysów</s>.
+
+## Przykład: zbliżenie
+
+```{r}
+ggplotly(ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+           geom_point() +
+           coord_cartesian(xlim = c(7, 8), ylim = c(4, 7)) +
+           theme_bw()) 
+```
+
+Cel wizualizacji: zależność długości pręcika od długości słupka w podziale na gatunki irysów.
+
+## Przykład: zbliżenie
+
+```{r}
+ggplotly(ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+           geom_point() +
+           geom_rect(xmin = 7, xmax = 8, ymin = 4, ymax = 7, color = "black", fill = NA,
+                     linetype = "dashed") +
+           theme_bw()) 
+```
+
+Cel wizualizacji: zależność długości pręcika od długości słupka w podziale na gatunki irysów.
