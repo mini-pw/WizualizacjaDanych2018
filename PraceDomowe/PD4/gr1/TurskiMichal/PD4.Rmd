@@ -1,0 +1,10 @@
+---
+title: "PD4"
+author: "Michał Turski"
+date: "April 15, 2019"
+output: html_document
+---
+
+## Praca domowa 4.
+
+Praca domowa dostępna pod adresem <https://turskim.shinyapps.io/TurskiMichal/>.

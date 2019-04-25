@@ -98,8 +98,18 @@ server <- function(input, output) {
     }
   }))
   
+  aes_reactive <- reactive({
+    if(to_plot() == "Distance1"){
+      aes(x = reorder(Name, Distance1), y = Distance1)
+    } else if (to_plot() == "Distance2"){
+      aes(x = reorder(Name, Distance2), y = Distance2)
+    } else {
+      aes(x = reorder(Name, Punkty), y = Punkty)
+    }
+  })
+  
   output[["plot"]] <- renderPlot({
-    ggplot(data = results_r(), aes_string(x = "Name", y = to_plot())) +
+    ggplot(data = results_r(), aes_reactive()) +
       geom_bar(stat = "identity", fill = "dodgerblue4",  width = 0.5) + 
       geom_text(aes_string(label = to_plot()), position=position_dodge(width=1), hjust = -0.3) +
       coord_flip() +
