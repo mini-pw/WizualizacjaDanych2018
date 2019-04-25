@@ -31,7 +31,10 @@ ui <- dashboardPage(
   dashboardBody(
     tabItems(
       tabItem("dashboard",
-              plotOutput("win_rate_plot")
+              plotOutput("win_rate_plot"),
+              selectInput(inputId = "chosen_team", label = "Choose your team", choices = levels(win_perc_dat[["team"]])),
+              checkboxInput(inputId = "decreasing_checkbox", label = "Deacreasing?", value = TRUE),
+              plotOutput("points_against_plot")
       ),
       tabItem("about",
               "About the app",
@@ -43,8 +46,38 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   
-  output[["win_rate_plot"]] <- renderPlot({
+  
+  points_against_dat <- reactive({
     
+    
+    # | away_team == input[["chosen_team"]]
+    rbind(filter(point_dat, home_team == input[["chosen_team"]]) %>% 
+            select(opponent = away_team, points = home_team_points),
+          filter(point_dat, away_team == input[["chosen_team"]]) %>% 
+            select(opponent = home_team, points = away_team_points)) %>% 
+      group_by(opponent) %>% 
+      summarise(mean_points = mean(points))
+  })
+  
+  output[["points_against_plot"]] <- renderPlot({
+    arrange_fun <- if(input[["decreasing_checkbox"]]) {
+      desc
+    } else {
+      identity
+    }
+    
+    team_order <- points_against_dat() %>% 
+      arrange(arrange_fun(mean_points)) %>% 
+      pull(opponent) %>% 
+      as.character()
+    
+    mutate(points_against_dat(), opponent = factor(opponent, levels = team_order)) %>% 
+      ggplot(aes(x = opponent, y = mean_points)) +
+      geom_col() +
+      scale_y_continuous(limits = c(0, 3))
+  })
+  
+  output[["win_rate_plot"]] <- renderPlot({
     team_order2015 <- filter(win_perc_dat, season == "2015/2016") %>% 
       arrange(desc(win_perc)) %>% 
       pull(team) %>% 
