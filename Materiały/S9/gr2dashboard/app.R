@@ -43,10 +43,19 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   
-  output[["win_rate_plot"]] <- renderPlot(
-    ggplot(win_perc_dat, aes(x = team, y = win_perc, fill = season)) +
-      geom_col(position = "dodge")
-  )
+  output[["win_rate_plot"]] <- renderPlot({
+    
+    team_order2015 <- filter(win_perc_dat, season == "2015/2016") %>% 
+      arrange(desc(win_perc)) %>% 
+      pull(team) %>% 
+      as.character()
+    
+    
+    mutate(win_perc_dat, team = factor(team, levels = team_order2015)) %>% 
+      ggplot(aes(x = team, y = win_perc, fill = season)) +
+      geom_col(position = "dodge") +
+      theme(axis.text.x = element_text(angle = 60, vjust = 0.5))
+  })
   
 }
 

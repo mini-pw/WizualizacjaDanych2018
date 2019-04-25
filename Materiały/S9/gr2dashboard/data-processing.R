@@ -15,4 +15,5 @@ win_perc_dat <- rbind(select(point_dat, team = home_team, points = home_team_poi
   mutate(win = as.numeric(points == 3) + (points == 1)/2) %>% 
   group_by(team, season) %>% 
   summarise(win_perc = mean(win)) %>% 
-  complete(season, nesting(team), fill = list(win_perc = NA))
+  complete(season, nesting(team), fill = list(win_perc = NA)) %>% 
+  ungroup()
