@@ -4,7 +4,7 @@ library(reshape2)
 library(dplyr)
 library(ggplot2)
 
-dat <- read.csv2("https://raw.githubusercontent.com/michbur/soccer-data/master/PL_dat.csv")
+source("data-processing.R")
 
 ui <- dashboardPage(
   skin = "black",
@@ -31,13 +31,7 @@ ui <- dashboardPage(
   dashboardBody(
     tabItems(
       tabItem("dashboard",
-              box(title = "Number of teams", status = "primary",
-                  solidHeader = TRUE, collapsible = TRUE, 
-                  plotOutput("n_goals_plot", height = "300px")
-              ),
-              infoBox(title = "Number of bar charts", value = 2, subtitle = NULL,
-                      icon = shiny::icon("bar-chart"), color = "aqua", width = 4),
-              plotOutput("n_matches_plot")
+              plotOutput("win_rate_plot")
       ),
       tabItem("about",
               "About the app",
@@ -49,24 +43,11 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   
-  output[["n_matches_plot"]] <- renderPlot(
-    select(dat, season, home_team, away_team) %>% 
-      melt(id.vars = "season") %>% 
-      group_by(value) %>% 
-      summarise(n = length(value)) %>% 
-      arrange(desc(n)) %>% 
-      ggplot(aes(x = value, y = n)) +
-      geom_col()
-  )
-  
-  output[["n_goals_plot"]] <- renderPlot(
-    select(dat, season, home_team_goal, away_team_goal) %>% 
-      melt(id.vars = "season") %>% 
-      group_by(season, variable) %>% 
-      summarise(total = sum(value)) %>% 
-      ggplot(aes(x = season, y = total, fill = variable)) +
+  output[["win_rate_plot"]] <- renderPlot(
+    ggplot(win_perc_dat, aes(x = team, y = win_perc, fill = season)) +
       geom_col(position = "dodge")
   )
+  
 }
 
 shinyApp(ui, server)
