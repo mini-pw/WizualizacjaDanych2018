@@ -3,6 +3,7 @@ library(shinydashboard)
 library(reshape2)
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 
 dat <- read.csv2("https://raw.githubusercontent.com/michbur/soccer-data/master/PL_dat.csv")
 
@@ -53,12 +54,23 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   
-  output[["total_goal_plot"]] <- renderPlot(
-    ggplot(total_goal, aes(x = team_name, y = total_goals, 
-                           fill = season)) +
-      geom_col(position = "dodge")
-  )
+  output[["total_goal_plot"]] <- renderPlot({
+    team_order <- filter(total_goal, season == input[["selected_season"]]) %>% 
+      arrange(desc(total_goals)) %>% 
+      pull(team_name) %>% 
+      as.character()
+    
+    full_team_order <- c(team_order,
+                         setdiff(total_goal[["team_name"]], team_order))
 
+    mutate(total_goal, 
+           team_name = factor(team_name, levels = full_team_order)) %>%
+      complete(season, nesting(team_name), fill = list(total_goals = 0)) %>% 
+      ggplot(aes(x = team_name, y = total_goals, 
+                 fill = season)) +
+      geom_col(position = "dodge") 
+  })
+  
 }
 
 shinyApp(ui, server)
