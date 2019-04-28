@@ -1,6 +1,7 @@
 library(data.table)
 
-football_data <- fread("https://raw.githubusercontent.com/michbur/soccer-data/master/PL_dat.csv")
+football_data <- read.csv2("https://raw.githubusercontent.com/michbur/soccer-data/master/PL_dat.csv") %>% 
+  as.data.table()
 
 #' Transforms the football data to make it more from
 #' a teams perspective. All of the matcher are doubled in
