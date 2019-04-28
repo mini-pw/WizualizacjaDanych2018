@@ -1,0 +1,40 @@
+---
+title: "Wizualizacja ziemi"
+author: "Sebastian Sowik, Ryszard Szymański"
+output:
+  revealjs::revealjs_presentation:
+    theme: white
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Początki
+
+- Twórca: Cameron Beccari
+- Pierwsza wersja - Grudzień 2013
+- Pierwsza warstwa - wiatr
+- Prototyp - mapa wiatru nad Tokio
+- **Nowość: Szansa zobaczenia zorzy polarnej**
+
+## Przetwarzanie danych
+
+- Źródła danych:
+    - GFS / NCEP / US National Weather Service
+    - WAVEWATCH III / NCEP / NWS
+    - GEOS-5 / GMAO / NASA
+    - OVATION / SWPC / NOAA
+- Trudny format danych (GRIB) -- konwersja do JSONa
+
+## Wizualizacja
+
+- D3 + WebGL
+- Podział na 4 warstwy:
+    - canvas 2D - renderowanie linii brzegowych, rzek (D3)
+    - canvas webGL - kolory
+    - canvas 2D - animacje (bez webGL, zwykłe rysowanie linii)
+    - warstwa svg - warstwa na napisy
+
+## Demo
+[link](https://earth.nullschool.net)

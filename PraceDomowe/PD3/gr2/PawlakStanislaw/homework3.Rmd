@@ -1,0 +1,20 @@
+---
+title: "Praca domowa 3"
+author: "Stanislaw Pawlak"
+date: "29 marca 2019"
+output: html_document
+---
+Było:  
+![Praca domowa 2](previous.PNG)
+
+
+
+Zmiany:   
+1. Wyśrodkowanie tytułu, poprawa literówki, zmiana czcionki i  pogrubienie tytułu wykresu i osi,  
+2. Zmiana czcionki i pogrubienie liczb,  
+3. Zastosowanie gradientów różnych kolorów, aby wyraźniej zaznaczyć pokazywaną historię - bardziej niebezpieczne dzielnice na czerwono, te z małą liczbą interwencji na zielono,  
+4. Dodanie obrazka.  
+
+![Praca domowa 3](plot.png)
+
+
