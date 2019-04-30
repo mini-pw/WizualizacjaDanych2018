@@ -1,0 +1,12 @@
+name: FootballApp
+title: FootballApp
+username:
+account: turskim
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 899850
+bundleId: 2049136
+url: https://turskim.shinyapps.io/FootballApp/
+when: 1556615197.56251
+asMultiple: FALSE
+asStatic: FALSE
