@@ -1,0 +1,5 @@
+W aplikacji można zaznaczyć, które konsole chce się porównać na wykresie
+ oraz szczegóowe informacje na temat zaznaczonych konsoli pojawią się w tabelce poniżej.
+
+Link do aplikacji:
+https://aleksandramiesiac.shinyapps.io/pracadomowa4/
