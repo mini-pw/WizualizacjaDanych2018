@@ -1,0 +1,4 @@
+W aplikacji mo¿na zaznaczyæ, które konsole chce siê porównaæ na wykresie
+ oraz szczegó³owe informacje na temat zaznaczonych konsoli pojawi¹ siê w tabelce poni¿ej.
+
+Link do aplikacji:

@@ -1,0 +1,113 @@
+---
+title: "Wizualizacje statyczne i interaktywne"
+author: "Michał Burdukiewicz"
+date: "6 maja 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(plotly)
+#library(dplyr)
+#library(reshape2)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Projekt 2
+
+Termin: 10.06.2019
+
+## Prace domowe
+
+* PD5: termin: 13.05.2019 (Shiny)
+* PD6: termin: 20.05.2019 (d3)
+* PD7: termin: 27.05.2019 (d3)
+* PD8: termin: 03.06.2019 (r2d3)
+
+## Wyjściówki
+
+* W6: termin: 6.05.2019 (d3)
+* W7: termin: 13.05.2019 (r2d3)
+* W8: termin: 27.05.2019 (Shiny lub d3)
+
+## Co to jest d3?
+
+Biblioteka do tworzenia interaktywnych grafik.
+
+## Przykłady d3
+
+[Wykresy liniowe](http://thestoryoftheseason.com/#).
+
+## Przykłady d3
+
+[Wykresy bąbelkowe](https://archive.nytimes.com/www.nytimes.com/interactive/2013/05/25/sunday-review/corporate-taxes.html).
+
+## Przykłady d3
+
+[Kartogramy](http://bl.ocks.org/stevenae/8362841).
+
+## Przykłady d3
+
+[Scrollytelling](https://bl.ocks.org/baronwatts/raw/2a50ae537d7c46670aa5eb30254ef751/).
+
+## Używanie d3
+
+Brak komponentów - funkcje zamiast komponentów.
+
+Przykład: brak funkcji do wykresów punktów. Zamiast tego funkcja do rysowania punktów w dowolnym miejscu wykresu.
+
+```
+.append('svg')
+  .attr('height', 500)
+  .attr('width', 500)
+  .data(circles_data)
+  .enter()
+  .append("circle")
+  .selectAll("circle")
+  .attr("r", 20)
+  .attr("cx", function(d) { return d.x; })
+  .attr("cy", function(d) { return d.y; })
+```
+
+## Dlaczego w ten sposób
+
+```
+<svg width="500" height="500">
+<circle cx="25" cy="25" r="25"/>
+</svg>
+```
+
+## Zalety d3
+
+* dobra współpraca z SVG i [canvasem](https://github.com/xoor-io/d3-canvas-example).
+* tag path to najlepsza metoda do [rysowania arbitralnych kształtów](https://www.dashingd3js.com/svg-paths-and-d3js).
+* wpływ na każdy element obrazka.
+
+## Wady d3
+
+* wpływ na każdy element obrazka,
+* przetwarzanie danych.
+
+
+## Jak pracować z d3?
+
+d3 dla początkujących: wybrać zbliżony przykład/szablon i zaadoptować go do naszych potrzeb.
+
+https://bl.ocks.org/
+
+## Źródła
+
+* http://vadim.ogievetsky.com/IntroD3/#1
+* https://alignedleft.com/tutorials/d3/fundamentals
+* https://www.dashingd3js.com/
+
+## r2d3
+
+[Łatwe przesyłanie danych z R do d3](https://rstudio.github.io/r2d3/).
+
+## r2d3
+
+```{r,message=FALSE,echo=TRUE}
+r2d3::r2d3(data=c(0.3, 0.6, 0.8, 0.95, 0.40, 0.20), script = "barchart.js")
+```
+
