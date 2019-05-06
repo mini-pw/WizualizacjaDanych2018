@@ -1,0 +1,5 @@
+Link do aplikacji shiny:
+https://paldynaagata.shinyapps.io/pd4_shinywebapp/
+
+Link do pracy domowej, którą się inspirowałam:
+https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD1/gr1/TurskiMichal

@@ -1,0 +1,1 @@
+[Link do aplikacji](https://saxman96.shinyapps.io/w_6_-_shiny/ "SaxMan96 Shiny app")
