@@ -78,7 +78,7 @@ Materiały dodatkowe:
 
 **L**: [Shiny 1/2, Wstęp do tworzenia aplikacji](http://pbiecek.github.io/Przewodnik/Programowanie/jak_tworzyc_aplikajce.html).
 
-**P**: [Praca domowa 4](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
+**P**: [Praca domowa 4](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD4).
 
 Materiały dodatkowe:
 
@@ -97,35 +97,35 @@ Materiały dodatkowe:
 
 **L**: Dashboardy w shiny: shinydashboards
 
-**P**: [Praca domowa 5](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
+**P**: [Praca domowa 5](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD5).
 
 ## S10 29.04
 
 **W**: Prezentacje studentów 2/2.
 
-**L**: Tableau (w miarę możliwości proszę przynieść własny komputer) 
+**L**: [Wstęp do D3](http://vadim.ogievetsky.com/IntroD3/#1)
 
 **P**: [Praca domowa 6](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
 
 ## S11 06.05
 
-**W**: [Droga wzrokowa](http://biecek.pl/Eseje/indexObraz.html);
+[Wstęp do D3](http://vadim.ogievetsky.com/IntroD3/#1), [fiddle](https://jsfiddle.net/)
 
-**L**: [Grafika interaktywna i r2d3](http://pbiecek.github.io/Przewodnik/Wizualizacja/jak_tworzyc_interaktywne_wykresy.html) 
+**L**: Pierwsze interaktywne wykresy w d3.
 
 **P**: [Praca domowa 7](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
 
 ## S12 13.05.
 
-**W**: Przegląd konferencji z tematu DataVis; 
+**W**: [Droga wzrokowa](http://biecek.pl/Eseje/indexObraz.html);
 
-**L**: [RBokeh](http://hafen.github.io/rbokeh/#preview) / [ggiraph](https://github.com/davidgohel/ggiraph), [vegalite1](https://github.com/hrbrmstr/vegalite), [vegalite2](https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf), [googleVis](http://www.magesblog.com/2016/09/googlevis-061-on-cran.html), [r2d3](https://github.com/rstudio/r2d3), [choinki](http://smarterpoland.pl/index.php/2017/12/christmas-trees/) 
+**L**: [r2d3](https://github.com/rstudio/r2d3).
 
 **P**: [Praca domowa 8](https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD3).
 
-## S13 20.05
+## S13 27.05
 
-[Wstęp do D3](http://vadim.ogievetsky.com/IntroD3/#1), [fiddle](https://jsfiddle.net/)
+**L**: [RBokeh](http://hafen.github.io/rbokeh/#preview) / [ggiraph](https://github.com/davidgohel/ggiraph), [vegalite1](https://github.com/hrbrmstr/vegalite), [vegalite2](https://idl.cs.washington.edu/files/2017-VegaLite-InfoVis.pdf), [googleVis](http://www.magesblog.com/2016/09/googlevis-061-on-cran.html)
 
 # Zasady zaliczenia
 
