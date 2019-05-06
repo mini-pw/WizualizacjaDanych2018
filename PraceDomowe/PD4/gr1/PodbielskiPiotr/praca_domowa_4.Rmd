@@ -1,0 +1,24 @@
+---
+title: 'Praca domowa #4'
+author: "Piotr Podbielski"
+date: "April 27, 2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, error = FALSE, message = FALSE)
+```
+
+## Link do aplikacji
+https://ppodbielski-pw.shinyapps.io/Podbielski_Piotr_Shiny_App/
+
+## Informacja o kodzie wykresu
+W celu wyświetlenia wykresu został użyty kod autorstwa Piotra Podbielskiego po poprawkach Kosmy Grochowskiego. [źródło](https://raw.githubusercontent.com/mini-pw/WizualizacjaDanych2018/master/PraceDomowe/PD3/gr1/PodbielskiPiotr/praca_domowa_3.Rmd)
+
+Jednakże dopisany został mechanizm pobierania aktualnych wyników z API Rest.
+
+## Jakie interakcje zostały zastosowane w Shiny?
+* Aplikacja umożliwia wybranie drużyn, dla których wyświetlać się będzie skumulowana punktacja z wszystkich kolejek. Drużyny te są posortowane alfabetycznie,
+* aplikacja po najechaniu blisko danego punktu na wykresie wyświetli dodatkowe informacje o drużynie albo drużynach, jeżeli w danej kolejce kilka drużyn miało taką samą wartość skumulowanych punktów.
