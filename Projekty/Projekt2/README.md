@@ -26,3 +26,6 @@ Za ten projekt można otrzymać od 0 do 19 punktów:
 * 0-5 punktów: estetyka i pomysłowość aranżacji wizualizacji oraz ich opisów w jedną całość, jaką jest strona lub aplikacja.
 
 Prace nad projektem należy przeprowadzić w zespołach maksymalnie czteroosobowych. Nie należy współpracować z osobami z którymi wykonywało się pierwszy projekt lub prezentację.
+
+Projekt należy wykonać do północy 10.06.2019.
+
