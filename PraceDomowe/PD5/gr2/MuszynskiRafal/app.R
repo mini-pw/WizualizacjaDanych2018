@@ -123,6 +123,10 @@ server <- function(input, output) {
   })
   
   output[['fractions_plot']] <- renderPlot({
+    valid_teams <- point_at_stage %>%  filter(season == input[['compare_season']]) %>% pull(team)
+    validate(
+      need(input[["compare_team_a"]] %in% valid_teams, "That team did not play in that season")
+    )
     get_ratios_plot(input[['compare_team_a']], input[['compare_season']])
   })
   
