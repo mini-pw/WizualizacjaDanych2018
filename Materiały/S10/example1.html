@@ -14,9 +14,7 @@
   <p>1. Wykorzystaj checkbox poniżej, aby zmienić kolor tekstu w tagu p na czerwony (kiedy checkbox jest zaznaczony) i niebieski (kiedy checkbox nie jest zaznaczony).</p>
   <input type="checkbox" id="d3checkbox">
  
-  <p>2. Dodaj checkbox, który pozwala zmienić początkowy kolor kółka.</p>
-  
-  <input type="checkbox" id="color-checkbox">
+  <p>2. Dodaj checkbox, który pozwala zmienić końcowy kolor kółka.</p>
   
   <p>3. Napisz losowe przemieszczenie kółka wykorzystując funkcję Math.random().</p>
   
@@ -24,7 +22,7 @@
   
   <p>5. Przygotuj skrypt randomCircles.js, który będzie losowo przemieszczał 20 kółek.</p>
   
-  <p>6. Użyj biblioteki r2d3, aby położena początkowe kółek przekazywać do randomCircles.js z wykorzystaniem R.</p>
+  <p>6. Narysuj wykres x-y dla tablicy [[1,3,"red"], [2,2,"blue"], [2,3,"red"], [4,4,"red"]]. Kolorem zaznacz, czy punkt ma wartość red lub blue. Dodaj checkbox, który nadaje wszystkim punktom kolor czarny.</p>
   
     <script>
     d3.select('#d3checkbox').on('change', function() {
@@ -35,42 +33,33 @@
 		  }
 	  });
 	  
-	  d3.select('#color-checkbox').on('change', function() {
-		if(d3.select('#color-checkbox').property('checked')) {
-			d3.selectAll('circle').style('fill','blue');
-		} else {
-			d3.selectAll('circle').style('fill','initial');
-		}
-	});
-    
-    var width = 1000;
+	  var width = 500;
     var height = 500;
     var n = 20;
     
-    var circles_data = d3.range(n).map(function(){
-		return {x: Math.random()*width, y: Math.random()*height};	
-	});
-    
-    
+    var circles_data = d3.range(n).map(function() {
+		  return {x: Math.random()*width, y: Math.random()*height};	
+	  });
+	  
     d3.select('body')
-		.append('svg')
-		.attr('height', height)
-		.attr('width', width)
-		.selectAll('.dot')
-		.data(circles_data)
-		.enter().append("circle")
-      .attr("class", "dot")
-      .attr("r", 20)
-      .attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; })
-      .style("fill", function(d) { return "black"; })
-		.transition()
-	    .duration(3000)
-	    .delay(50)
-	    .attr("cx", function(d) { return Math.random() * width; })
-	    .attr("cy", function(d) { return Math.random() * height; })
-	    .style("fill","red")
-	    .attr("r",30);
+		  .append('svg')
+		  .attr('height', height)
+		  .attr('width', width)
+		  .selectAll("circle")
+		  .data(circles_data)
+		  .enter()
+		  .append("circle")
+        .attr("r", 20)
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; })
+        .style("fill", function(d) { return "black"; })
+		    .transition()
+	      .duration(3000)
+	      .delay(50)
+	      .attr("cx", function(d) { return Math.random() * 500; })
+	      .attr("cy", function(d) { return Math.random() * 500; })
+	      .style("fill","red")
+	      .attr("r",30);
       
     </script>
 
