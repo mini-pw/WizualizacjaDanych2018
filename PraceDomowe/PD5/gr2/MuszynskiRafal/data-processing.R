@@ -42,11 +42,12 @@ cumulative_points %>%
 get_pos <- function(desired_season, desired_stage, desired_team){
   ordered <- cumulative_points %>% 
     filter(stage == desired_stage & season == desired_season) %>% 
-    arrange(desc(cumul_points))
+    arrange(cumul_points)
   
   which(ordered$team == desired_team)
 }
 
+# test
 cumulative_points %>% 
   filter(stage == 35 & season == "2015/2016") %>% 
   arrange(desc(cumul_points))
@@ -68,6 +69,7 @@ last_stage <- max( position_in_table %>%
        filter(season == "2015/2016") %>% 
        pull(stage) )
 
+# data for annotations
 final_positions <- position_in_table %>%
   filter(season == "2015/2016" & stage == last_stage)
 
@@ -78,71 +80,7 @@ position_in_table %>%
   geom_line() +
   scale_alpha_discrete(range = c(0.35,1), guide = FALSE)
 
-
-fractions_dat <- 
-
-
-win_perc_dat <- rbind(select(point_dat, team = home_team, points = home_team_points, season), 
-                      select(point_dat, team = away_team, points = away_team_points, season)) %>% 
-  mutate(win = as.numeric(points == 3)) %>% 
-  group_by(team, season) %>% 
-  summarise(win_perc = mean(win)) %>% 
-  complete(season, nesting(team), fill = list(win_perc = NA)) %>% 
-  ungroup()
-
-
-## versus mode
-
-# zestawienie
-# gole
-# wygrane 
-# remisy
-# ogólnie lub między sobą
-
-team_a <- "Arsenal"
-team_b <- "Liverpool"
-chosen_season <- "2014/2015"
-# get wins
-
-comparision_dat <- filter(dat, home_team %in% c(team_a, team_b) & away_team %in% c(team_a, team_b))
-comparision_points <- mutate(comparision_dat, home_team_points = compute_points(home_team_goal, away_team_goal),
-                             away_team_points = compute_points(away_team_goal, home_team_goal))
-
-
-point_at_stage1 <- mutate(point_dat, team = home_team, points = home_team_points)
-point_at_stage2 <- mutate(point_dat, team = away_team, points = away_team_points)
-point_at_stage <- select(rbind(point_at_stage1, point_at_stage2), season, stage, team, points)
-
-
-direct_comparision <- point_at_stage %>%
-  filter(season == chosen_season) %>%
-  group_by(team, points) %>%
-  summarise(occurences = n()) %>%
-  mutate(result = ifelse(points == 0, 'lost', ifelse(points == 1, 'tied', 'won'))) %>%
-  filter( team %in% c(team_a,team_b))
-
-comparision <- point_at_stage %>%
-  filter(season == chosen_season) %>%
-  group_by(team, points) %>%
-  summarise(occurences = n()) %>%
-  mutate(result = ifelse(points == 0, 'lost', ifelse(points == 1, 'tied', 'won'))) %>%
-  filter( team %in% c(team_a,team_b))
-
-comparision %>% 
-  ggplot(aes(x = result, y = occurences, fill = team)) +
-  geom_col()
-
-goals_home <- mutate(dat, team = home_team, goals = home_team_goal) %>% 
-  group_by(season, team) %>% 
-  summarise(goals_sum_home = sum(goals))
-
-goals_away <- mutate(dat, team = away_team, goals = away_team_goal) %>% 
-  group_by(season, team) %>% 
-  summarise(goals_sum_away = sum(goals))
-
-goals_sum <- inner_join(goals_home, goals_away, by = c('season', 'team')) %>% 
-  mutate(goals_sum = goals_sum_away + goals_sum_home)
-
+# ratios plot
 get_ratios_plot <- function(chosen_team, chosen_season){
   
   get_points_for_team <- function(team, home_team, away_team, home_goals, away_goals){
@@ -157,7 +95,7 @@ get_ratios_plot <- function(chosen_team, chosen_season){
     mutate(home_char = as.character(home_team), away_char = as.character(away_team)) %>%
     mutate(opponent = ifelse(chosen_team == home_char, away_char, home_char)) %>%
     mutate(chosen_team_points = factor(get_points_for_team(chosen_team, home_team, away_team, home_team_goal, away_team_goal))) %>% 
-    mutate(result = ifelse(chosen_team_points == 3, 'win', ifelse(chosen_team_points == 1,'tie','lost'))) %>% 
+    mutate(result = ifelse(chosen_team_points == 3, 'won', ifelse(chosen_team_points == 1,'tied','lost'))) %>% 
     select(result, opponent) %>% 
     group_by(result, opponent) %>% 
     summarise(occurence = n())
@@ -166,13 +104,13 @@ get_ratios_plot <- function(chosen_team, chosen_season){
   # but it works 
   
   team_order0 <- ratios %>% 
-    filter(result == 'win' ) %>% 
+    filter(result == 'won' ) %>% 
     arrange(desc(occurence)) %>% 
     pull(opponent) %>% 
     as.character()
   
   team_order1 <- ratios %>% 
-    filter(result == 'tie' ) %>% 
+    filter(result == 'tied' ) %>% 
     arrange(desc(occurence)) %>% 
     pull(opponent) %>% 
     as.character()
@@ -188,10 +126,20 @@ get_ratios_plot <- function(chosen_team, chosen_season){
   ratios %>% 
     ggplot(aes(x = factor(opponent, levels = team_order), fill = result)) +
     geom_bar(position = 'fill') +
-    theme(axis.text.x = element_text(angle = 60, vjust = 0.5))
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) +
+    theme(plot.title = element_text(hjust = 0.5)) +
+    ggtitle(paste("Match result statistics for team: ", chosen_team)) +
+    xlab('opponent') +
+    theme(axis.title.y=element_blank(),
+          axis.text.y=element_blank(),
+          axis.ticks.y=element_blank(),
+          axis.line.y = element_blank())
+    
     
 }
 
+# test
 get_ratios_plot('Aston Villa', '2015/2016')
 
 

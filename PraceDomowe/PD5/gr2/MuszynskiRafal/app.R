@@ -69,8 +69,11 @@ server <- function(input, output) {
       mutate(selection = (team == input[['chosen_team']])) %>% 
       ggplot(aes(x = team, y = season_points, fill = selection)) +
       geom_col() +
-      theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) +
-      scale_fill_manual(values = c('blue','red'), guide = FALSE)
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 60, vjust = 0.5), legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+      ggtitle(paste("Season", input[['chosen_season']] ,"final results")) +
+      ylab("Points in season")
+      # scale_fill_manual(values = c('blue','red'), guide = FALSE)
   })
   
   output[['position_plot']] <- renderPlot({
@@ -80,7 +83,14 @@ server <- function(input, output) {
       mutate(selection = (team == input[['chosen_team']])) %>% 
       ggplot(aes(x = stage, y = position, color = team, alpha = selection, label = team)) +
       geom_line() +
-      scale_alpha_discrete(range = c(0.35,1), guide = FALSE)
+      scale_alpha_discrete(range = c(0.3,1), guide = FALSE) +
+      theme_minimal() +
+      theme(axis.title.y=element_blank(),
+            axis.text.y=element_blank(),
+            axis.ticks.y=element_blank(),
+            axis.line.y = element_blank()) +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      ggtitle("Position in table through season")
   })
   
   output[['points_per_stage_plot']] <- renderPlot({
@@ -89,7 +99,10 @@ server <- function(input, output) {
       mutate(selection = (team == input[['chosen_team']])) %>% 
       ggplot(aes(x = stage, y = cumul_points, color = team, alpha = selection)) +
       geom_line() +
-      scale_alpha_discrete(range = c(0.35,1), guide = FALSE)
+      scale_alpha_discrete(range = c(0.3,1), guide = FALSE) +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      ggtitle("Points through season")
   })
   
   output[['points_comparision']] <- renderPlot({
@@ -102,16 +115,16 @@ server <- function(input, output) {
     
     compare_dat %>% 
       ggplot(aes(x = result, y = occurences, fill = team)) +
-      geom_col(position = "dodge")
+      geom_col(position = "dodge") +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      ggtitle('Comparision of results in season')
     
   })
   
   output[['fractions_plot']] <- renderPlot({
     get_ratios_plot(input[['compare_team_a']], input[['compare_season']])
   })
- 
-
-  
   
 }
 
