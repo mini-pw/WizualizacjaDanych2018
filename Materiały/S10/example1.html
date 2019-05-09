@@ -22,6 +22,8 @@
   
   <p>5. Przygotuj skrypt randomCircles.js, który będzie losowo przemieszczał 20 kółek.</p>
   
+
+  
     <script>
     d3.select('#d3checkbox').on('change', function() {
 		  if(d3.select('#d3checkbox').property('checked')) {
@@ -31,10 +33,20 @@
 		  }
 	  });
 	  
+	  var width = 500;
+    var height = 500;
+    var n = 20;
+    
+    var circles_data = d3.range(n).map(function(){
+		  return {x: Math.random()*width, y: Math.random()*height};	
+	  });
+	  
     d3.select('body')
 		  .append('svg')
 		  .attr('height', 500)
 		  .attr('width', 500)
+		  .data(circles_data)
+		  .enter()
 		  .append("circle")
         .attr("r", 20)
         .attr("cx", 100)
