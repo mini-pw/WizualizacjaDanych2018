@@ -76,8 +76,19 @@ server <- function(input, output) {
       # scale_fill_manual(values = c('blue','red'), guide = FALSE)
   })
   
+  last_stage_r <- reactive({
+    last_stage <- max( position_in_table %>% 
+                         filter(season == input[['chosen_season']]) %>% 
+                         pull(stage) )
+  })
+  
+  final_positions_r <- reactive({
+    position_in_table %>%
+      filter(season == input[['chosen_season']] & stage == last_stage_r())
+  })
+  
   output[['position_plot']] <- renderPlot({
-     
+    
     position_in_table %>%
       filter(season == input[['chosen_season']]) %>%
       mutate(selection = (team == input[['chosen_team']])) %>% 
@@ -90,7 +101,11 @@ server <- function(input, output) {
             axis.ticks.y=element_blank(),
             axis.line.y = element_blank()) +
       theme(plot.title = element_text(hjust = 0.5)) +
-      ggtitle("Position in table through season")
+      ggtitle("Position in table through season") +
+      theme(legend.position = "none") +
+      annotate("text", x= last_stage_r(), y = final_positions_r()[['position']], label = final_positions_r()[['team']]) +
+      xlim(c(0,last_stage_r() + 5))
+    
   })
   
   output[['points_per_stage_plot']] <- renderPlot({
@@ -102,7 +117,8 @@ server <- function(input, output) {
       scale_alpha_discrete(range = c(0.3,1), guide = FALSE) +
       theme_minimal() +
       theme(plot.title = element_text(hjust = 0.5)) +
-      ggtitle("Points through season")
+      ggtitle("Points through season") +
+      ylab('points')
   })
   
   output[['points_comparision']] <- renderPlot({

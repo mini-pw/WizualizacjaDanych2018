@@ -78,7 +78,10 @@ position_in_table %>%
   mutate(selection = (team == 'Arsenal')) %>% 
   ggplot(aes(x = stage, y = position, color = team, alpha = selection, label = team)) +
   geom_line() +
-  scale_alpha_discrete(range = c(0.35,1), guide = FALSE)
+  scale_alpha_discrete(range = c(0.35,1), guide = FALSE) +
+  annotate("text", x= 38 + 2, y = final_positions[['position']], label = final_positions[['team']]) +
+  theme_minimal() +
+  xlim(c(0,45))
 
 # ratios plot
 get_ratios_plot <- function(chosen_team, chosen_season){
