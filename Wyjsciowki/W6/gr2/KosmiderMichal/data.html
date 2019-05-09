@@ -31,7 +31,7 @@
 		
 	d3.select('#d3checkbox').on('change', function() {
 		  if(d3.select('#d3checkbox').property('checked')) {
-			svg.selectAll('circle').style('fill','red');
+			svg.selectAll('circle').style('fill','black');
 		  } else {
 			svg.selectAll('circle').style("fill", function(d) {    	
 				return d[2];
