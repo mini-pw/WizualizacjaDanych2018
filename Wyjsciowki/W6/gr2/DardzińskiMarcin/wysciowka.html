@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Podstawy d3</title>
+  <meta charset="utf-8">
+  <script src='https://d3js.org/d3.v4.min.js'></script>
+</head>
+
+<body>
+
+  <h1>Co robi d3?</h1>
+
+  <p>d3 modyfikuje wygląd każdego elementu strony, w tym grafik SVG.</p>
+
+  <p>1. Wykorzystaj checkbox poniżej, aby zmienić kolor tekstu w tagu p na czerwony (kiedy checkbox jest zaznaczony) i
+    niebieski (kiedy checkbox nie jest zaznaczony).</p>
+  <input type="checkbox" id="d3checkbox">
+
+  <p>2. Dodaj checkbox, który pozwala zmienić końcowy kolor kółka.</p>
+
+  <p>3. Napisz losowe przemieszczenie kółka wykorzystując funkcję Math.random().</p>
+
+  <p>4. Uogólnij rozwiązanie 1 dla dwudziestu kólek wykorzystując d3.range i selectAll.</p>
+
+  <p>5. Przygotuj skrypt randomCircles.js, który będzie losowo przemieszczał 20 kółek.</p>
+
+  <p>6. Narysuj wykres x-y dla tablicy [[1,3,"red"], [2,2,"blue"], [2,3,"red"], [4,4,"red"]]. Kolorem zaznacz, czy punkt
+    ma wartość red lub blue. Dodaj checkbox, który nadaje wszystkim punktom kolor czarny.</p>
+  <input type="checkbox" id="colorChange"> Black/color
+  <p></p>
+
+  <script>
+    d3.select('#d3checkbox').on('change', function () {
+      if (d3.select('#d3checkbox').property('checked')) {
+        d3.selectAll('p').style('color', 'red');
+      } else {
+        d3.selectAll('p').style('color', 'initial');
+      }
+    });
+
+    d3.select('#colorChange').on('change', function () {
+      var checked = d3.select('#colorChange').property('checked');
+      d3.selectAll('circle').style('fill', d => checked ? 'black' : d[2])
+    });
+
+
+    var width = 500;
+    var height = 500;
+    var data = [[1, 3, "red"], [2, 2, "blue"], [2, 3, "red"], [4, 4, "red"]];
+
+    d3.select('body')
+      .append('svg')
+      .attr('height', height)
+      .attr('width', width)
+      .selectAll("circle")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("r", 25)
+      .attr("cx", d => 100 * d[0])
+      .attr("cy", d => 100 * d[1])
+      .style("fill", d => d[2]);
+
+  </script>
+
+</body>
+
+</html>
