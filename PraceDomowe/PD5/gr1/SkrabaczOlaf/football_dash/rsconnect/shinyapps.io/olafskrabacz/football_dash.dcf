@@ -1,0 +1,12 @@
+name: football_dash
+title: football_dash
+username:
+account: olafskrabacz
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 925323
+bundleId: 2078772
+url: https://olafskrabacz.shinyapps.io/football_dash/
+when: 1557685948.85174
+asMultiple: FALSE
+asStatic: FALSE
