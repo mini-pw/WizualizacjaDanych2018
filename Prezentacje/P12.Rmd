@@ -1,0 +1,155 @@
+---
+title: "Silniki interaktywnych wizualizacji"
+author: "Michał Burdukiewicz"
+date: "6 maja 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(plotly)
+#library(dplyr)
+#library(reshape2)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Projekt 2
+
+Termin: 10.06.2019
+
+## Skutki niewłaściwej wizualizacji danych
+
+W trakcie cyklu zajęć z Wizualizacji Danych omawialiśmy dobre i złe praktyki prezentowania danych. W ramach projektu 2 należy przygotować aplikację Shiny, która pozwala testować wpływ rozmaitych błędów wizualizacyjnych na percepcję danych przedstawionych na wykresie. Aplikcja powinna zawierać przynajmniej ośmiu wykresów przedstawiających częste błędy wizualizacyjne (np. zbędny trzeci wymiar, wykresy kołowe) oraz pola w których użytkownik może zapisywać wartości odczytane z wykresu, a także możliwość przejścia w tryb sprawdzania, gdzie a) użytkownik porówna wprowadzone przez siebie wartości z rzeczywistymi i b) zobaczy porównanie poprawnego wykresu z niepoprawnym.
+
+## Bitwy z tablic na Grobie Nieznanego Żołnierza
+
+[Tablice na Grobie Nieznanego Żołnierza wymieniają najważniejsze bitwy w historii walki o polską niepodległość](https://pl.wikipedia.org/wiki/Gr%C3%B3b_Nieznanego_%C5%BBo%C5%82nierza_w_Warszawie#Tablice_na_Grobie_Nieznanego_%C5%BBo%C5%82nierza_po_1990_(stan_na_2016)). W ramach projektu przygotuj aplikację Shiny lub stronę .html wykorzystującą d3 przedstawiającą informacje o jednej z tych bitew lub kilku powiązanych ze sobą bitwach. 
+Projekt powinien zawierać przynajmniej trzy interaktywne wizualizacje.
+
+Inspiracje: 
+
+- Przykładowe źrodła danych: https://www.kaggle.com/residentmario/database-of-battles
+- Przykładowe wizualizacje (źródło: http://www.westpointhistoryofwarfare.com/):
+https://dpk7oh0ytcd5o.cloudfront.net/data/Widgets/Widget_1934.wdgt/content.html
+https://dpk7oh0ytcd5o.cloudfront.net/data/Widgets/Widget_698.wdgt/content.html
+
+## Ocena
+
+Za ten projekt można otrzymać od 0 do 19 punktów:
+
+- 0-7 punktów: przygotowanie estetycznych i informatywnych wizualizacji,
+- 0-7 punktów: właściwe zastosowanie interaktywności,
+- 0-5 punktów: estetyka i pomysłowość aranżacji wizualizacji oraz ich opisów w jedną całość, jaką jest strona lub aplikacja.
+
+Prace nad projektem należy przeprowadzić w zespołach maksymalnie czteroosobowych. Nie należy współpracować z osobami z którymi wykonywało się pierwszy projekt lub prezentację.
+
+## Praca domowa 6
+
+Termin: 20.05.2019
+
+W katalogu z PD2 znajdź wykres innej osoby i przedstaw go jako interaktywną wizualizację w d3. W katalogu dla swojej grupy w folderze o nazwie NazwiskoImie (np. KowalskiJan) umieść plik .html z rozwiązaniem zadania.
+
+
+## Podział narzędzi do wizualizacji danych
+
+```{r}
+ggplot(cbind(expand.grid(x = c("Imperatywne", "Deklaratywne"),
+                         y = c("Proste do użycia", "Wszechstronne")), 
+             software = c("Seaborn", "Bokeh\nggplot2\nLeaflet\nVega-Lite",  "Matplotlib\nR (base, grid)", "BQPlot\nD3\nPlotly\nVega")),
+       aes(x = x, y = y, label = software)) +
+  geom_tile(fill = NA, color = "black") +
+  geom_text()  +
+  theme_void() +
+  theme(axis.text = element_text(color = "black"))
+```
+
+## Podział narzędzi do wizualizacji danych
+
+Deklaratywne:
+
+ - zadanie: warunki jakie musi spełniać wizualizacja,
+ - jak wizualizacja jest wykonywana jest rozstrzygane wewnętrznie i niezależnie od użytkownika,
+ - oddzielenie specyfikacji od wykonania.
+
+Imperatywne:
+
+ - zadanie: krok po kroku jak stworzyć wizualizację,
+ - użytkownik w pełni kontroluje każdy detal wizualizacji,
+ - jeśli warunki jakie musi spełniać wizualizacja zmienią się nawet odrobinę, instrukcja tworzenia może się zmienić znacząco.
+
+## Altair (Python)
+
+https://altair-viz.github.io/gallery/simple_bar_chart.html
+
+https://altair-viz.github.io/gallery/scatter_tooltips.html
+
+https://altair-viz.github.io/gallery/line_with_ci.html
+
+## Altair (Python)
+
+Pythonowe API dla Vega-Lite.
+
+Brian Granger, uzasadniając stworzenie Altaira: *I love Python, but do my visualisations using R/ggplot2*.
+
+## Altair (Python)
+
+- Małe wsparcie dla typowo stastycznych wizualizacji
+
+Pakiet R: https://github.com/vegawidget/altair (używa reticulate).
+
+## bokeh (Python)
+
+https://demo.bokeh.org/movies
+
+## bokeh (Python)
+
+- Python jako API do BokehJS,
+- praca głownie w Pythonie, JSowy silnik mało dostępny i źle udokumentowany,
+- całe dashboardy.
+
+## bokeh (R)
+
+- implementacja w R: https://github.com/bokeh/rbokeh
+- ostatni commit: 26.04.2017
+
+## Leaflet 
+
+[Leaflet.js](https://leafletjs.com/): interaktywne mapy.
+
+## Leaflet
+
+W R: https://rstudio.github.io/leaflet/
+
+W Pythonie: https://github.com/python-visualization/folium
+
+## matplotlib
+
+https://matplotlib.org/
+
+## matplotlib
+
+- trudne zarządzanie czasem na osiach,
+- niesatysfakcjonujące mapowanie do kształtów.
+
+Rozszerzenia: https://mpld3.github.io/
+
+## plot.ly
+
+## seaborn
+
+https://seaborn.pydata.org/ - oparte na matplotlib.
+
+Świetne szablony wizualizacji!
+
+## Vega-Lite
+
+Pakiety w R: https://github.com/hrbrmstr/vegalite i https://github.com/vegawidget/vegawidget
+
+## Vega
+
+JSONowa specyfikacja wizualizacji.
+
+Lyra (nie zniechęcać się http://vega.github.io/lyra/).
+
+Lyra 1.0 jest online i działa satysfakcjonująco: http://idl.cs.washington.edu/projects/lyra/
+
