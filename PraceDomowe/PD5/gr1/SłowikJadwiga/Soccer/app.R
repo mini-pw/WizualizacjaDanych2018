@@ -52,13 +52,14 @@ get_goals_for_team_per_stage <- function(data, wseason, wteam, status) {
 
 get_goals_for_team_per_stage_plot <- function(data, wseason, wteam, status) {
   df <- get_goals_for_team_per_stage(data, wseason, wteam, status)
+  
   df %>% 
     ggplot(aes(x=stage, y = goals)) +
     geom_point() +
     geom_line() +
     theme_minimal() +
     scale_x_continuous(breaks=seq(1,max(df$stage),1)) +
-    scale_y_continuous(breaks=seq(0,max(df$goals),1)) 
+    scale_y_continuous(breaks=seq(0,max_goals_num,1), limits=c(0,max_goals_num)) 
 }
 
 won_matches <- function(data, wseason, wteam) {
@@ -124,7 +125,31 @@ lost_goals_boxplot <- function(data, wseason, wteam) {
   )
 }
 
+goals_for_each_common_match <- function(data, wseason, first_team, second_team) {
+  team_goals <- get_team_goals(
+    data %>% filter((home_team == first_team & away_team == second_team) | (home_team == second_team & away_team == first_team)),
+    wseason)
+  
+  team_goals %>%
+    mutate(team=ifelse(team == first_team, "first", "second")) %>% 
+    select(team, goals=scored_goals, date)
+}
+
+goals_for_each_common_match_plot <- function(data, wseason, first_team, second_team) {
+  r <- goals_for_each_common_match(data, wseason, first_team, second_team) %>% 
+    mutate(date = gsub(x=date, pattern=" 00:00:00", replacement="", fixed=TRUE))
+  r %>% 
+    ggplot(aes(x=date, y=goals, group=team, fill=team)) +
+    geom_col(position = position_dodge(-0.9)) +
+    theme_minimal() +
+    geom_text(aes(label = goals), color = "Black", size = 5, position=position_dodge(-0.9), vjust=-1) +
+    scale_y_continuous(breaks=seq(0, max(r$goals)+1), limits = c(0,max(r$goals)+1)) +
+    theme(axis.text.x = element_text(size=15))
+}
+
 data <- as.data.frame(read.csv("./PL_dat.csv", header=TRUE, sep=";"))
+
+max_goals_num <- max(rbind(data %>% select(g=home_team_goal), data %>% select(g=away_team_goal)) %>% pull(g))
 
 seasons <- unique(data$season)
 
@@ -158,6 +183,7 @@ get_matches_table <- function(goals_type, team, wseason, brush_xmin, brush_xmax,
   r %>% arrange(stage)
 }
 
+
 # UI
 ui <- dashboardPage(
    
@@ -170,7 +196,7 @@ ui <- dashboardPage(
          menuItem("Team info", tabName =  "team_info_menu_item", icon=icon("user-friends"))
       )
     ),
-      
+   
     dashboardBody(
       tabItems(
         tabItem(tabName="general_menu_item",
@@ -184,39 +210,83 @@ ui <- dashboardPage(
                 )
         ),
         tabItem(tabName="team_info_menu_item",
-              uiOutput("team_select"),
               fluidRow(
-                valueBoxOutput("won_matches_value"),
-                valueBoxOutput("drawn_matches_value"),
-                valueBoxOutput("lost_matches_value")
+                box(uiOutput("team_select_1")),
+                box(uiOutput("team_select_2"))
               ),
-              box(title="Number of scored goals for each stage",
+              fluidRow(
+                box(
+                  valueBoxOutput("won_matches_value_1"),
+                  valueBoxOutput("drawn_matches_value_1"),
+                  valueBoxOutput("lost_matches_value_1")
+                ),
+                box(
+                  valueBoxOutput("won_matches_value_2"),
+                  valueBoxOutput("drawn_matches_value_2"),
+                  valueBoxOutput("lost_matches_value_2")
+                )
+              ),
+              box(title="Matches between two chosen teams",
+                  status="primary",
+                  width="70%",
+                  solidHeader=TRUE,
+                  collapsible=TRUE,
+                  plotOutput(outputId="matches_between_teams_plot")),
+              fluidRow(
+                box(title="Number of scored goals for each stage (1)",
                     status="primary",
                     solidHeader=TRUE,
                     collapsible=TRUE,
-                    width="100%",
-                    plotOutput(outputId="scored_goals_per_season_plot", brush="scored_goals_stage_brush"),
-                    tableOutput(outputId="scored_goals_per_season_table")
-              ),
-              box(title="Number of lost goals for each stage",
-                    status="warning",
-                    solidHeader=TRUE,
-                    collapsible=TRUE,
-                    width="100%",
-                    plotOutput(outputId="lost_goals_per_season_plot", brush="lost_goals_stage_brush"),
-                    tableOutput(outputId="lost_goals_per_season_table")
-              ),
-              fluidRow(
-                box(title="Distribution of scored goals in one match",
+                    plotOutput(outputId="scored_goals_per_season_plot_1", brush="scored_goals_stage_brush_1"),
+                    tableOutput(outputId="scored_goals_per_season_table_1")
+                ),
+                box(title="Number of scored goals for each stage (2)",
                     status="primary",
                     solidHeader=TRUE,
                     collapsible=TRUE,
-                    plotOutput(outputId="scored_goals_distribution")),
-                box(title="Distribution of lost goals in one match",
+                    plotOutput(outputId="scored_goals_per_season_plot_2", brush="scored_goals_stage_brush_2"),
+                    tableOutput(outputId="scored_goals_per_season_table_2")
+                )
+              ),
+              fluidRow(
+                box(title="Number of lost goals for each stage (1)",
                     status="warning",
                     solidHeader=TRUE,
                     collapsible=TRUE,
-                    plotOutput(outputId="lost_goals_distribution"))
+                    plotOutput(outputId="lost_goals_per_season_plot_1", brush="lost_goals_stage_brush_1"),
+                    tableOutput(outputId="lost_goals_per_season_table_1")
+                ),
+                box(title="Number of lost goals for each stage (2)",
+                    status="warning",
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    plotOutput(outputId="lost_goals_per_season_plot_2", brush="lost_goals_stage_brush_2"),
+                    tableOutput(outputId="lost_goals_per_season_table_2")
+                )
+              ),
+              fluidRow(
+                box(title="Distribution of scored goals in one match (1)",
+                    status="primary",
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    plotOutput(outputId="scored_goals_distribution_1")),
+                box(title="Distribution of scored goals in one match (2)",
+                    status="primary",
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    plotOutput(outputId="scored_goals_distribution_2"))
+              ),
+              fluidRow(
+                box(title="Distribution of lost goals in one match (1)",
+                    status="warning",
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    plotOutput(outputId="lost_goals_distribution_1")),
+                box(title="Distribution of lost goals in one match (2)",
+                    status="warning",
+                    solidHeader=TRUE,
+                    collapsible=TRUE,
+                    plotOutput(outputId="lost_goals_distribution_2"))
               )
           )
         )
@@ -230,21 +300,30 @@ server <- function(input, output, session) {
     get_teams_list(data, input$season_select)
   })
   
-  output$team_select <- renderUI({
-    selectInput("team_select", "Select a team", teams_r(), teams_r()[1])
+  output$team_select_1 <- renderUI({
+    selectInput("team_select_1", "Select the first team", teams_r(), teams_r()[1])
+  })
+  
+  output$team_select_2 <- renderUI({
+    selectInput("team_select_2", "Select the second team", teams_r(), teams_r()[1])
   })
   
   observeEvent(input$season_select, {
-    if(!is.null(input$team_select) && (input$team_select %in% teams_r())[1]) {
-      selected_item <- input$team_select
+    if(!is.null(input$team_select_1) && (input$team_select_1 %in% teams_r())[1]) {
+      selected_item <- input$team_select_1
     } else {
       selected_item <- teams_r()[1]
     }
-    updateSelectInput(session=session, inputId="team_select", choices=teams_r(), selected=selected_item)
+    updateSelectInput(session=session, inputId="team_select_1", choices=teams_r(), selected=selected_item)
   })
   
-  output$summary_goals_per_season_plot <- renderPlot({
-     get_summary_goals_plot(data, input$season_select)
+  observeEvent(input$season_select, {
+    if(!is.null(input$team_select_2) && (input$team_select_2 %in% teams_r())[1]) {
+      selected_item <- input$team_select_2
+    } else {
+      selected_item <- teams_r()[1]
+    }
+    updateSelectInput(session=session, inputId="team_select_2", choices=teams_r(), selected=selected_item)
   })
   
   validate_at_least_one_match <- function(key) {
@@ -253,83 +332,172 @@ server <- function(input, output, session) {
     )
   }
   
-  output$scored_goals_per_season_table <- renderTable({
-    validate_at_least_one_match("scored_goals_stage_brush")
+  is_team_chosen_r_1 <- reactive({
+    !is.null(input$team_select_1) && input$team_select_1 %in% teams_r()
+  })
+  
+  is_team_chosen_r_2 <- reactive({
+    !is.null(input$team_select_2) && input$team_select_2 %in% teams_r()
+  })
+  
+  output[["matches_between_teams_plot"]] <- renderPlot({
+    if(is_team_chosen_r_1() && is_team_chosen_r_2()) {
+      validate(
+        need(input$team_select_1 != input$team_select_2, "Choose different teams")
+      )
+      goals_for_each_common_match_plot(data, input$season_select, input$team_select_1, input$team_select_2)
+    }
+  })
+  
+  output[["summary_goals_per_season_plot"]] <- renderPlot({
+    get_summary_goals_plot(data, input$season_select)
+  })
+  
+  output[["scored_goals_per_season_table_1"]] <- renderTable({
+    validate_at_least_one_match("scored_goals_stage_brush_1")
     get_matches_table(goals_type="scored",
-                      input$team_select,
+                      input$team_select_1,
                       input$season_select,
-                      input[["scored_goals_stage_brush"]][["xmin"]],
-                      input[["scored_goals_stage_brush"]][["xmax"]],
-                      input[["scored_goals_stage_brush"]][["ymin"]],
-                      input[["scored_goals_stage_brush"]][["ymax"]])
+                      input[["scored_goals_stage_brush_1"]][["xmin"]],
+                      input[["scored_goals_stage_brush_1"]][["xmax"]],
+                      input[["scored_goals_stage_brush_1"]][["ymin"]],
+                      input[["scored_goals_stage_brush_1"]][["ymax"]])
   })
   
-  output$lost_goals_per_season_table <- renderTable({
-    validate_at_least_one_match("lost_goals_stage_brush")
+  output[["scored_goals_per_season_table_2"]] <- renderTable({
+    validate_at_least_one_match("scored_goals_stage_brush_2")
+    get_matches_table(goals_type="scored",
+                      input$team_select_2,
+                      input$season_select,
+                      input[["scored_goals_stage_brush_2"]][["xmin"]],
+                      input[["scored_goals_stage_brush_2"]][["xmax"]],
+                      input[["scored_goals_stage_brush_2"]][["ymin"]],
+                      input[["scored_goals_stage_brush_2"]][["ymax"]])
+  })
+  
+  output[["lost_goals_per_season_table_1"]] <- renderTable({
+    validate_at_least_one_match("lost_goals_stage_brush_1")
     get_matches_table(goals_type="lost",
-                      input$team_select,
+                      input$team_select_1,
                       input$season_select,
-                      input[["lost_goals_stage_brush"]][["xmin"]],
-                      input[["lost_goals_stage_brush"]][["xmax"]],
-                      input[["lost_goals_stage_brush"]][["ymin"]],
-                      input[["lost_goals_stage_brush"]][["ymax"]])
+                      input[["lost_goals_stage_brush_1"]][["xmin"]],
+                      input[["lost_goals_stage_brush_1"]][["xmax"]],
+                      input[["lost_goals_stage_brush_1"]][["ymin"]],
+                      input[["lost_goals_stage_brush_1"]][["ymax"]])
   })
   
-  is_team_chosen_r <- reactive({
-    !is.null(input$team_select) && input$team_select %in% teams_r()
+  output[["lost_goals_per_season_table_2"]] <- renderTable({
+    validate_at_least_one_match("lost_goals_stage_brush_2")
+    get_matches_table(goals_type="lost",
+                      input$team_select_2,
+                      input$season_select,
+                      input[["lost_goals_stage_brush_2"]][["xmin"]],
+                      input[["lost_goals_stage_brush_2"]][["xmax"]],
+                      input[["lost_goals_stage_brush_2"]][["ymin"]],
+                      input[["lost_goals_stage_brush_2"]][["ymax"]])
   })
   
-  output$scored_goals_per_season_plot <- renderPlot({
-    if(is_team_chosen_r()) {
-      get_goals_for_team_per_stage_plot(data, input$season_select, input$team_select, "scored")
+  output[["scored_goals_per_season_plot_1"]] <- renderPlot({
+    if(is_team_chosen_r_1()) {
+      get_goals_for_team_per_stage_plot(data, input$season_select, input$team_select_1, "scored")
     }
   })
-   
-  output$lost_goals_per_season_plot <- renderPlot({
-    if(is_team_chosen_r()) {
-      get_goals_for_team_per_stage_plot(data, input$season_select, input$team_select, "lost")
+  
+  output[["scored_goals_per_season_plot_2"]] <- renderPlot({
+    if(is_team_chosen_r_2()) {
+      get_goals_for_team_per_stage_plot(data, input$season_select, input$team_select_2, "scored")
     }
   })
   
-  output$won_matches_value <- renderValueBox({
-    if(is_team_chosen_r()) {
-      valueBox(won_matches_num(data, input$season_select, input$team_select),
+  output[["lost_goals_per_season_plot_1"]] <- renderPlot({
+    if(is_team_chosen_r_1()) {
+      get_goals_for_team_per_stage_plot(data, input$season_select, input$team_select_1, "lost")
+    }
+  })
+  
+  output[["lost_goals_per_season_plot_2"]] <- renderPlot({
+    if(is_team_chosen_r_2()) {
+      get_goals_for_team_per_stage_plot(data, input$season_select, input$team_select_2, "lost")
+    }
+  })
+  
+  output[["won_matches_value_1"]] <- renderValueBox({
+    if(is_team_chosen_r_1()) {
+      valueBox(won_matches_num(data, input$season_select, input$team_select_1),
+               subtitle=paste("matches won"),
+               icon=icon("thumbs-up"),
+               color="green")
+    }
+  })
+  
+  output[["won_matches_value_2"]] <- renderValueBox({
+    if(is_team_chosen_r_2()) {
+      valueBox(won_matches_num(data, input$season_select, input$team_select_2),
                subtitle="matches won",
                icon=icon("thumbs-up"),
                color="green")
     }
   })
   
-  output$lost_matches_value <- renderValueBox({
-    if(is_team_chosen_r()) {
-      valueBox(lost_matches_num(data, input$season_select, input$team_select),
+  output[["lost_matches_value_1"]] <- renderValueBox({
+    if(is_team_chosen_r_1()) {
+      valueBox(lost_matches_num(data, input$season_select, input$team_select_1),
                subtitle="matches lost",
                icon=icon("thumbs-down"),
                color="red")
     }
   })
   
-  output$drawn_matches_value <- renderValueBox({
-    if(is_team_chosen_r()) {
-      valueBox(drawn_matches_num(data, input$season_select, input$team_select),
+  output[["lost_matches_value_2"]] <- renderValueBox({
+    if(is_team_chosen_r_2()) {
+      valueBox(lost_matches_num(data, input$season_select, input$team_select_2),
+               subtitle="matches lost",
+               icon=icon("thumbs-down"),
+               color="red")
+    }
+  })
+  
+  output[["drawn_matches_value_1"]] <- renderValueBox({
+    if(is_team_chosen_r_1()) {
+      valueBox(drawn_matches_num(data, input$season_select, input$team_select_1),
                subtitle="matches drawn",
                icon=icon("grip-lines"),
                color="yellow")
     }
   })
   
-  output$scored_goals_distribution <- renderPlot({
-    if(is_team_chosen_r()) {
-      scored_goals_boxplot(data, input$season_select, input$team_select)
+  output[["drawn_matches_value_2"]] <- renderValueBox({
+    if(is_team_chosen_r_2()) {
+      valueBox(drawn_matches_num(data, input$season_select, input$team_select_2),
+               subtitle="matches drawn",
+               icon=icon("grip-lines"),
+               color="yellow")
     }
   })
   
-  output$lost_goals_distribution <- renderPlot({
-    if(is_team_chosen_r()) {
-      lost_goals_boxplot(data, input$season_select, input$team_select)
+  output[["scored_goals_distribution_1"]] <- renderPlot({
+    if(is_team_chosen_r_1()) {
+      scored_goals_boxplot(data, input$season_select, input$team_select_1)
     }
   })
   
+  output[["scored_goals_distribution_2"]] <- renderPlot({
+    if(is_team_chosen_r_2()) {
+      scored_goals_boxplot(data, input$season_select, input$team_select_2)
+    }
+  })
+  
+  output[["lost_goals_distribution_1"]] <- renderPlot({
+    if(is_team_chosen_r_1()) {
+      lost_goals_boxplot(data, input$season_select, input$team_select_1)
+    }
+  })
+  
+  output[["lost_goals_distribution_2"]] <- renderPlot({
+    if(is_team_chosen_r_2()) {
+      lost_goals_boxplot(data, input$season_select, input$team_select_2)
+    }
+  })
 }
 
 # Run the application 
