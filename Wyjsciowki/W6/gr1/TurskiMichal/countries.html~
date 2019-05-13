@@ -113,7 +113,7 @@ d3.tsv("countries.tsv", function(error, data) {
          .duration(200)
          .style("opacity", .9);
        
-     d3.select(this).transition()
+     	 d3.select(this).transition()
      			.duration(500)
       		.attr("r", 10)
          
@@ -130,7 +130,7 @@ d3.tsv("countries.tsv", function(error, data) {
          .style("opacity", 0);
         d3.select(this).transition()
      			.duration(500)
-      		.attr("r", 3/5)
+      		.attr("r", 3.5)
        });
 
   var legend = svg.selectAll(".legend")
