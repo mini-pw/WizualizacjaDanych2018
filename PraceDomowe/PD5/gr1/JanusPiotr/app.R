@@ -137,7 +137,7 @@ server <- function(input, output, session) {
     lbls = paste0(as.character(abs(brks)))
     row.names(df) <- c('zwycięstwa', 'porażki','remisy')
     ggplot(df, aes(x = row.names(df), y = perc ) )+
-      geom_col() + 
+      geom_col(fill = '#90A9B7')+
       scale_y_continuous(limits=c(0,max(df$perc)+0.05),expand = c(0,0))+
       labs(y= "Odsetek wszystkich meczów",x='')+
       theme_bw()+
@@ -162,7 +162,7 @@ server <- function(input, output, session) {
       theme_bw() +
       geom_text(aes(label=total),
                 colour ="White", fontface="bold", 
-                size = 7, hjust =0.5,
+                size = 5, hjust =0.6,
                 vjust = 1) +
       theme(panel.grid.major.x = element_blank(), 
             plot.title = element_text(face='bold', hjust = 0.5),
@@ -281,7 +281,8 @@ server <- function(input, output, session) {
   output$goals_club1 <- renderPlot({
     goals <- onevsone()
     df <- data.frame(club = input$club1, goal = goals[1] )
-    ggplot(df, aes(x = club, y = goal ))+geom_col() +
+    ggplot(df, aes(x = club, y = goal ))+
+      geom_col(fill = '#1B9D77') +
       geom_text(aes(label=goal), size = 15, vjust=-0.1) +
       ylim(0, 15)+
       theme(axis.line=element_blank(),axis.text.x=element_blank(),
@@ -295,7 +296,8 @@ server <- function(input, output, session) {
   output$goals_club2 <- renderPlot({
     goals <- onevsone()
     df <- data.frame(club = input$club2, goal = goals[2] )
-    ggplot(df, aes(x = club, y = goal ))+geom_col() +
+    ggplot(df, aes(x = club, y = goal ))+
+      geom_col(fill='#DA5F02') +
       geom_text(aes(label=goal), size = 15, vjust=-0.1) +
       ylim(0, 15) + 
       theme(axis.line=element_blank(),axis.text.x=element_blank(),
@@ -324,14 +326,22 @@ server <- function(input, output, session) {
       scale_y_continuous(breaks = brks,   # Breaks
                          labels = lbls,
                          limits = c(-numb,numb)) + # Labels
-      coord_flip() +  # Flip axes
+      annotate("text", label = 'U siebie', color='white',size=6, fontface =2,
+               x = 1, y = 0)+
+      annotate("text", label = "Na wyjeździe",  color='white',size=6, fontface =2,
+               x = 2, y = 0)+
+      annotate("text", label = "Ogólnie",  color='white',size=6, fontface =2,
+               x = 3, y = 0)+
+      coord_flip() + 
       labs(title="Statystyka strzelonych bramek", y='',x='') +
-      theme_tufte() +  # Tufte theme from ggfortify
-      theme(plot.title = element_text(hjust = .5),
+      theme_bw() + 
+      theme(plot.title = element_text(size = 12, hjust = .5),
             axis.ticks.y = element_blank(),
+            axis.text.y = element_blank(),
+            axis.text.x = element_text(size=13, face='bold'),
             legend.position="none", plot.background = element_blank(),
             panel.background=element_blank(),panel.border=element_blank(),
-            panel.grid.major=element_blank()) +  # Centre plot title
+            panel.grid.major.y = element_blank()) +  # Centre plot title
       scale_fill_brewer(palette = "Dark2")  # Color palette
 
 
