@@ -1,0 +1,1 @@
+Dashboard powinien wspierać użytkownika w wyborze drużyn(y), które warto obstawiać jako potencjalnie zwycięskie w zakładach bukmacherskich
