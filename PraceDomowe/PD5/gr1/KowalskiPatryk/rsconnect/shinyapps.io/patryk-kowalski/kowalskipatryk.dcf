@@ -5,6 +5,6 @@ account: patryk-kowalski
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 863792
-bundleId: 2081610
+bundleId: 2081622
 url: https://patryk-kowalski.shinyapps.io/kowalskipatryk/
-when: 1557783264.59939
+when: 1557783585.44617

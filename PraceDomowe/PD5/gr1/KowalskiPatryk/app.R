@@ -65,10 +65,6 @@ ui <- dashboardPage(
               plotOutput("hist_po_dacie"),
               plotOutput("strzelili_vs_strzelono")
 
-      ),
-      tabItem("about",
-              "About the app",
-              includeMarkdown("example.md")
       )
     )
   )
