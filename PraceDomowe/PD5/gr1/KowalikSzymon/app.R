@@ -84,14 +84,18 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   
-  output[["total_goal_plot"]] <- renderPlot({
+  goal_team_order_r <- reactive({
     team_order <- filter(total_goal, season == input[["sort_season"]]) %>% 
       arrange(desc(total_goals)) %>% 
       pull(team_name) %>% 
       as.character()
     
-    full_team_order <- c(team_order,
-                         setdiff(total_goal[["team_name"]], team_order))
+    team_order
+  })
+  
+  output[["total_goal_plot"]] <- renderPlot({
+    full_team_order <- c(goal_team_order_r(),
+                        setdiff(total_goal[["team_name"]], goal_team_order_r()))
 
     mutate(total_goal, 
            team_name = factor(team_name, levels = full_team_order)) %>%
@@ -107,18 +111,20 @@ server <- function(input, output) {
   output[["total_score_plot"]] <- renderPlot({
     total_score_season <- filter(total_score, season == input[["selected_season"]])
     
-    team_order <- filter(total_score_season, team_status == input[["sort_score"]]) %>% 
-      arrange(desc(n)) %>% 
-      pull(team_name) %>% 
-      as.character()
-    
+    if(input[["sort_score"]] == "as on first plot") {
+      team_order <- goal_team_order_r()
+    } else {
+      team_order <- filter(total_score_season, team_status == input[["sort_score"]]) %>% 
+        arrange(desc(n)) %>% 
+        pull(team_name) %>% 
+        as.character()
+    }
+      
     full_team_order <- c(team_order,
                         setdiff(total_score_season[["team_name"]], team_order))
     
     mutate(ungroup(total_score_season),
            team_name = factor(team_name, levels = full_team_order)) %>%
-    #  complete(season, nesting(team_name), fill = list(total_goals = 0)) %>% 
-    #total_score_season %>% 
       ggplot(aes(x = team_name, y = n, fill = team_status)) +
       geom_col(position = "dodge") +
       labs(x = "Team name", y = "Number of results", fill="") +
