@@ -55,7 +55,7 @@ W katalogu z PD2 znajdź wykres innej osoby i przedstaw go jako interaktywną wi
 ```{r}
 ggplot(cbind(expand.grid(x = c("Imperatywne", "Deklaratywne"),
                          y = c("Proste do użycia", "Wszechstronne")), 
-             software = c("Seaborn", "Bokeh\nggplot2\nLeaflet\nVega-Lite",  "Matplotlib", "BQPlot\nD3\nPlotly\nR (base, grid)\nVega")),
+             software = c("Seaborn", "Bokeh\nggplot2\nLeaflet\nVega-Lite",  "Matplotlib\nR (base, grid)", "BQPlot\nD3\nPlotly\nVega")),
        aes(x = x, y = y, label = software)) +
   geom_tile(fill = NA, color = "black") +
   geom_text()  +
