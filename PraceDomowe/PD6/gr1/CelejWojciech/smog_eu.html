@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 14px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  fill: black;
+}
+
+.dot {
+  stroke: #000;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  height: 56px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+</style>
+<body>
+<script src="https://d3js.org/d3.v4.js"></script>
+<script>
+
+
+var margin = {top: 50, right: 150, bottom: 50, left: 50},
+    width = 1000 - margin.left - margin.right,
+    height = 540 - margin.top - margin.bottom;
+
+var x = d3.scaleLinear()
+    .range([0, width]);
+
+var y = d3.scaleLinear()
+    .range([height, 0]);
+
+var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+var xAxis = d3.axisBottom(x);
+
+var yAxis = d3.axisLeft(y);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + ","  + margin.top + ")");
+
+d3.tsv("smog_data.tsv", function(error, data) {
+  if (error) throw error;
+
+  data.forEach(function(d) {
+    d.days = +d.days;
+    d.annual_concentration = +d.annual_concentration;
+  });
+
+  x.domain([0, d3.max(data, function(d) { return d.days; })]).nice();
+  y.domain([0, d3.max(data, function(d) { return d.annual_concentration; })]).nice();
+  
+  svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .style("font-weight", "bold")  
+        .text("Smog in European cities");
+      
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .style("font-size", "16px")
+      .text("Number of days exeeding concetration level above 50 μg/m^3");
+  
+  var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+    
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .style("font-size", "16px")
+      .text("PM10 annual concetration")
+
+  svg.selectAll(".dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", function(d) { return "dot " + d.countries })
+      .attr("r", 3.5)
+      .attr("cx", function(d) { return x(d.days); })
+      .attr("cy", function(d) { return y(d.annual_concentration); })
+      .style("fill", function(d) { return color(d.countries); })
+      .on("mouseover", function(d) {
+       d3.select(this).transition()
+          .duration("500")
+          .attr("r", 10);
+       div.transition()
+         .duration(200)
+         .style("opacity", .9);
+       div.html("<b>" + "City: " + d.cities + "</b><br/>" 
+                        + "Country: " + d.countries + "<br/>"
+                        + "x: " + d.days + "<br/>"
+                        + "y: " + d.annual_concentration + "<br/>")
+         .style("left", (d3.event.pageX) + "px")
+         .style("top", (d3.event.pageY - 28) + "px");
+       })
+     .on("mouseout", function(d) {
+       d3.select(this).transition()
+          .duration("500")
+          .attr("r", 3.5);
+       div.transition()
+         .duration(500)
+         .style("opacity", 0);
+       });
+
+  var highlight = function(d){
+    d3.selectAll(".dot").style("opacity", .05)
+    d3.selectAll("."+d).style("opacity", 1)
+  }
+
+  var noHighlight = function(d){
+    d3.selectAll(".dot").style("opacity", 1)
+  }
+  
+  size = 20
+  svg.selectAll("myrect")
+    .data(color.domain())
+    .enter()
+    .append("circle")
+      .attr("cx", width  + 10)
+      .attr("cy", function(d,i){ return 10 + i*(size+5)})
+      .attr("r", 7)
+      .style("fill", function(d){ return color(d)})
+      .on("mouseover", highlight)
+      .on("mouseleave", noHighlight)
+
+  svg.selectAll("mylabels")
+    .data(color.domain())
+    .enter()
+    .append("text")
+      .attr("x", width  + 20)
+      .attr("y", function(d,i){ return i * (size + 5) + (size/2)})
+      .style("fill", function(d){ return color(d)})
+      .text(function(d){ return d})
+      .attr("text-anchor", "left")
+      .style("alignment-baseline", "middle")
+      .on("mouseover", highlight)
+      .on("mouseleave", noHighlight)
+
+});
+
+</script>
