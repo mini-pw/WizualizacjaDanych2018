@@ -18,17 +18,36 @@ ui <- dashboardPage(
   dashboardBody(tabItems(
     tabItem(
       "dashboard",
-      textInput(inputId = "pie_plot_data",
-                label = "Guess the proportion of category A (%)"),
-      actionButton(inputId = "pie_plot_button", label = "Show real values"),
-      hidden(div(
-        id = 'pie_plot_original_values_div', verbatimTextOutput("pie_plot_original_values")
-      )),
-      fluidRow(column(3, plotOutput("pie_plot")),
-               column(3, plotOutput("pie_plot_guessed"))),
-      hidden(div(
-        id = 'pie_plot_good_div', plotOutput("pie_plot_good")
-      ))
+      fluidRow(
+        box(
+          title = "Bad plot",
+          status = "primary",
+          solidHeader = T,
+          collapsible = F,
+          plotOutput("pie_plot"),
+          width = 3
+        ),
+        box(
+          title = "Your plot",
+          status = "primary",
+          solidHeader = TRUE,
+          collapsible = F,
+          textInput(inputId = "pie_plot_data",
+                    label = "Guess the proportion of category A (%)"),
+          plotOutput("pie_plot_guessed"),
+          width = 3
+        ),
+        box(
+          title = "Good plot",
+          status = "primary",
+          solidHeader = T,
+          collapsible = T,
+          collapsed = T,
+          verbatimTextOutput("pie_plot_original_values"),
+          plotOutput("pie_plot_good"),
+          width = 3
+        )
+      )
     )
   ))
 )
