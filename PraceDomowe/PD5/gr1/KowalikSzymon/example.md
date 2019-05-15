@@ -1,1 +1,0 @@
-Exemple text in **Markdown**.

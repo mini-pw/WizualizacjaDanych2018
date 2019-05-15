@@ -4,22 +4,23 @@ library(reshape2)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(scales)
 
 dat <- read.csv2("https://raw.githubusercontent.com/michbur/soccer-data/master/PL_dat.csv")
 
-statuses <- c("win" , "loss" , "draw")
-measures <- c("total score (win = 3, draw = 1, loss = 0)", "total goals")
+statuses <- c("Win" , "Loss" , "Draw")
+measures <- c("Total score (win = 3, draw = 1, loss = 0)", "total goals")
 
 dat_with_scores <- mutate(dat,
-                        home_team_status = ifelse(home_team_goal > away_team_goal, "win", ifelse(home_team_goal == away_team_goal, "draw", "loss")),
-                        away_team_status = ifelse(away_team_goal > home_team_goal, "win", ifelse(away_team_goal == home_team_goal, "draw", "loss")),
+                        home_team_status = ifelse(home_team_goal > away_team_goal, "Win", ifelse(home_team_goal == away_team_goal, "Draw", "Loss")),
+                        away_team_status = ifelse(away_team_goal > home_team_goal, "Win", ifelse(away_team_goal == home_team_goal, "Draw", "Loss")),
                         home_team_points = ifelse(home_team_goal > away_team_goal, 3, ifelse(home_team_goal == away_team_goal, 1, 0)),
                         away_team_points = ifelse(away_team_goal > home_team_goal, 3, ifelse(away_team_goal == home_team_goal, 1, 0))
                         )
 
-dat_for_team <- rbind(select(dat_with_scores, season, team_status = home_team_status, team_points = home_team_points, team_goal = home_team_goal,
+dat_for_team <- rbind(select(dat_with_scores, season, date, team_status = home_team_status, team_points = home_team_points, team_goal = home_team_goal,
                              team_name = home_team), 
-                      select(dat_with_scores, season, team_status = away_team_status, team_points = away_team_points, team_goal = away_team_goal,
+                      select(dat_with_scores, season, date, team_status = away_team_status, team_points = away_team_points, team_goal = away_team_goal,
                              team_name = away_team))
 
 total_score <- dat_for_team %>% 
@@ -36,9 +37,20 @@ total_goal <- dat_for_team %>%
   summarise(total_goals = sum(team_goal))
 
 
-team_scores <- function(team) {
-  res <- total_score %>% 
-    filter(team_name == team)
+team_scores_plot <- function(team, sseason) {
+  data <- total_score %>% 
+    filter(team_name == team && season == sseason)
+  
+  res <- data %>%
+    ggplot(aes(x = team_name, y = n, fill = team_status)) +
+    geom_bar(width = 1, stat = "identity") +
+    labs(y = "Number of results", fill="") +
+    theme(axis.text.x = element_text(angle=90, hjust = 1, vjust = 0.5, size = 11)) +
+    scale_fill_manual(values=c('#4D9078', '#D95D39', '#F2C14E')) + 
+    theme(
+      axis.title.x = element_blank(),
+      axis.text.x = element_blank()
+    )
   
   return(res)
 }
@@ -60,11 +72,7 @@ ui <- dashboardPage(
     sidebarMenu(
       id = "tabs",
       menuItem("General statistics", tabName = "generalDashboard", icon = icon("dashboard")),
-      menuItem("Teams comparison", tabName = "teamDashboard", icon = icon("dashboard")),
-      menuItem("About", icon = icon("info-circle"), tabName = "about",
-               badgeColor = "green"),
-      menuItem("See also", icon = icon("send",lib='glyphicon'), 
-               href = "https://github.com/mini-pw/WizualizacjaDanych2018/")
+      menuItem("Teams comparison", tabName = "teamDashboard", icon = icon("dashboard"))
     )
   ),
   dashboardBody(
@@ -81,7 +89,7 @@ ui <- dashboardPage(
               selectInput(inputId = "selected_season", label = "Select season:", 
                           choices = levels(dat[["season"]])),
               selectInput(inputId = "sort_score", label = "Sort by:", 
-                          choices = c('as on first plot', statuses)),
+                          choices = c('As on first plot', statuses)),
               plotOutput("total_score_plot", height = 500)
       ),
       tabItem("teamDashboard",
@@ -91,19 +99,24 @@ ui <- dashboardPage(
               fluidRow(
                 column(6,
                        selectInput(inputId = "team1", label = "Team 1:", 
-                                   choices = levels(dat_for_team[["team_name"]])),
-                       plotOutput("team1_score_plot", height = 500)
+                                   choices = levels(dat_for_team[["team_name"]]))
                 ),
                 column(6,
                        selectInput(inputId = "team2", label = "Team 2:", 
-                                   choices = levels(dat_for_team[["team_name"]])),
-                       plotOutput("team2_score_plot", height = 500)
+                                   choices = levels(dat_for_team[["team_name"]]))
                 )
-              )
-      ),
-      tabItem("about",
-              "About the app",
-              includeMarkdown("example.md")
+              ),
+              titlePanel("Wins, losses, draws"),
+              fluidRow(
+                column(6,
+                       plotOutput("team1_score_plot", height = 350)
+                ),
+                column(6,
+                       plotOutput("team2_score_plot", height = 350)
+                )
+              ),
+              titlePanel("Teams points comparision"),
+              plotOutput("teams_points_plot", height = 500)
       )
     )
   )
@@ -136,7 +149,7 @@ server <- function(input, output) {
       complete(season, nesting(team_name), fill = list(quality = 0)) %>% 
       ggplot(aes(x = team_name, y = quality, fill = season)) +
       geom_col(position = "dodge") +
-      labs(x = "Team name", y = "Total goals", fill="Season") +
+      labs(x = "Team name", y = input[["measure"]], fill="Season") +
       theme(axis.text.x = element_text(angle=90, hjust = 1, vjust = 0.5, size = 11)) +
       scale_fill_manual(values=c('#4F6D7A', '#F2C14E'))
   })
@@ -168,14 +181,15 @@ server <- function(input, output) {
   
   
   output[["team1_score_plot"]] <- renderPlot({
-    data <- team_scores(input[["team1"]])
-    
-    data %>%
-      ggplot(aes(x = team_name, y = n, fill = team_status)) +
-      geom_col(position = "dodge") +
-      labs(x = "Team name", y = "Number of results", fill="") +
-      theme(axis.text.x = element_text(angle=90, hjust = 1, vjust = 0.5, size = 11)) +
-      scale_fill_manual(values=c('#4D9078', '#D95D39', '#F2C14E'))
+    team_scores_plot(input[["team1"]], input[["teams_season"]])
+  })
+  
+  output[["team2_score_plot"]] <- renderPlot({
+    team_scores_plot(input[["team2"]], input[["teams_season"]])
+  })
+  
+  output[["teams_points_plot"]] <- renderPlot({
+    team_scores_plot(input[["team2"]], input[["teams_season"]])
   })
 }
 
