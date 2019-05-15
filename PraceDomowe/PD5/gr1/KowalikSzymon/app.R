@@ -22,6 +22,7 @@ dat_for_team <- rbind(select(dat_with_scores, season, date, team_status = home_t
                              team_name = home_team), 
                       select(dat_with_scores, season, date, team_status = away_team_status, team_points = away_team_points, team_goal = away_team_goal,
                              team_name = away_team))
+dat_for_team$date <- as.Date(dat_for_team$date)
 
 total_score <- dat_for_team %>% 
   group_by(season, team_name, team_status) %>% 
@@ -39,17 +40,23 @@ total_goal <- dat_for_team %>%
 
 team_scores_plot <- function(team, sseason) {
   data <- total_score %>% 
-    filter(team_name == team && season == sseason)
+    filter(team_name == team & season == sseason)
   
   res <- data %>%
     ggplot(aes(x = team_name, y = n, fill = team_status)) +
     geom_bar(width = 1, stat = "identity") +
+    coord_polar("y", start=0) +
     labs(y = "Number of results", fill="") +
     theme(axis.text.x = element_text(angle=90, hjust = 1, vjust = 0.5, size = 11)) +
     scale_fill_manual(values=c('#4D9078', '#D95D39', '#F2C14E')) + 
+    theme_minimal()+
     theme(
       axis.title.x = element_blank(),
-      axis.text.x = element_blank()
+      axis.title.y = element_blank(),
+      panel.grid=element_blank(),
+      axis.text.x = element_blank(),
+      axis.text = element_blank(),
+      axis.title = element_blank()
     )
   
   return(res)
@@ -58,13 +65,7 @@ team_scores_plot <- function(team, sseason) {
 
 ui <- dashboardPage(
   skin = "black",
-  dashboardHeader(title = "Football App",
-                  
-                  dropdownMenu(type = "notifications", badgeStatus = "warning",
-                               notificationItem(icon = icon("exclamation-triangle"), status = "info",
-                                                "This app is underdeveloped"
-                               )
-                  )),
+  dashboardHeader(title = "Football App"),
   dashboardSidebar(
     sidebarUserPanel(Sys.info()[["effective_user"]],
                      subtitle = a(href = "#", icon("circle", class = "text-success"), "Online")
@@ -78,7 +79,7 @@ ui <- dashboardPage(
   dashboardBody(
     tabItems(
       tabItem("generalDashboard",
-              titlePanel("Team quality"),
+              titlePanel("Teams quality"),
               selectInput(inputId = "sort_season", label = "Sort by season:", 
                           choices = levels(dat[["season"]])),
               selectInput(inputId = "measure", label = "Measure:", 
@@ -189,7 +190,16 @@ server <- function(input, output) {
   })
   
   output[["teams_points_plot"]] <- renderPlot({
-    team_scores_plot(input[["team2"]], input[["teams_season"]])
+    dat_for_team %>%
+      filter((team_name == input[["team1"]] | team_name == input[["team2"]]) & season == input[["teams_season"]]) %>% 
+      arrange(date) %>% 
+      plyr::ddply(plyr::.(team_name), transform, c_team_points = cumsum(team_points)) %>% 
+      ggplot(aes(x=date, y=c_team_points, group=team_name)) +
+        geom_line(aes(color=team_name)) +
+        geom_point(aes(color=team_name)) +
+        scale_x_date(date_breaks = "1 month", labels = date_format("%m-%Y")) +
+        labs(x = "Time", y = "Points", color="") +
+        scale_color_manual(values=c('#4F6D7A', '#F2C14E'))
   })
 }
 
