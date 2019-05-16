@@ -51,7 +51,10 @@ d3.csv("data.csv", function(error, data) {
     d.deathRate = +d.deathRate;
   });
 
-  var x = d3.scaleLinear().range([10, width - 20]).domain(d3.extent(data, function(d) { return d.birthRate; })).nice();
+  ext = d3.extent(data, function(d) { return d.birthRate; })
+  ext[0] -= 0
+  ext[1] += 2
+  var x = d3.scaleLinear().range([0, width]).domain(ext).nice();
   y.domain(d3.extent(data, function(d) { return d.deathRate; })).nice();
   var xAxis = d3.axisBottom(x);
   var yAxis = d3.axisLeft(y);
