@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Podstawy d3</title>
+    <meta charset="utf-8">
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+  </head>
+  <body>
+  
+  <div>
+  <p>6. Narysuj wykres x-y dla tablicy [[1,3,"red"], [2,2,"blue"], [2,3,"red"], [4,4,"red"]]. Kolorem zaznacz, czy punkt ma wartość red lub blue. Dodaj checkbox, który nadaje wszystkim punktom kolor czarny.</p>
+  <span>
+  <label for="x">Black?</label>
+  <input type="checkbox" id="x"></input>
+  </span>
+  </div>
+    <script>
+    d3.select('#x').on('change', function(u, i, x) {
+      const checked = x[i].checked;
+      d3.selectAll('circle')
+        .data(data)
+        .style('fill', d => checked ? 'black' : d[2]);
+    })
+	  
+	  var width = 500;
+    var height = 500;
+    var n = 20;
+
+    var data = [[1,3,"red"], [2,2,"blue"], [2,3,"red"], [4,4,"red"]];
+
+    d3.select('body')
+		  .append('svg')
+		  .attr('height', height)
+		  .attr('width', width)
+		  .selectAll("circle")
+		  .data(data)
+		  .enter()
+		  .append("circle")
+        .attr("r", 20)
+        .attr("cx", function(d) { return d[0] * 100; })
+        .attr("cy", function(d) { return d[1] * 100; })
+        .style("fill", function(d) { return d[2]; })
+      
+    </script>
+
+  </body>
+</html>
