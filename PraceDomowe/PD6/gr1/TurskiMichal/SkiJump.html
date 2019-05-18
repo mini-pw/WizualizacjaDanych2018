@@ -24,8 +24,8 @@ body {
 div.tooltip {
   position: absolute;
   text-align: center;
-  /*width: 60px;*/
-  height: 56px;
+  height: 76px;
+  width: 170px;
   padding: 2px;
   font: 12px sans-serif;
   background: lightsteelblue;
@@ -33,6 +33,7 @@ div.tooltip {
   border-radius: 8px;
   pointer-events: none;
 }
+
 
 </style>
 <body>
@@ -43,7 +44,7 @@ div.tooltip {
 
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    height = 960 - margin.top - margin.bottom;
 
 var x = d3.scaleLinear()
     .range([0, width]);
@@ -62,21 +63,31 @@ var svg = d3.select("body").append("svg")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-var div = d3.select("body").append("div")	
+
+
+
+d3.tsv("MS2019_scores.tsv", function(error, data) {
+  if (error) throw error;
+  
+  var div = d3.select("body").append("div")	
     .attr("class", "tooltip")				
     .style("opacity", 0);
 
-d3.tsv("countries.tsv", function(error, data) {
-  if (error) throw error;
-
   data.forEach(function(d) {
-    d.birthRate = +d.birthRate;
-    d.deathRate = +d.deathRate;
+    d.Dist1 = +d.Dist1;
+    d.Dist2 = +d.Dist2;
   });
 
-  x.domain(d3.extent(data, function(d) { return d.birthRate; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.deathRate; })).nice();
+  x.domain([100, 140]).nice();
+  y.domain([100, 140]).nice();
+
+  svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .style("font-weight", "bold")  
+        .text("Results of ski jumping world championship 2019");
 
   svg.append("g")
       .attr("class", "x axis")
@@ -87,7 +98,8 @@ d3.tsv("countries.tsv", function(error, data) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Birth rate");
+      .style("font-size", "16px")
+      .text("Distance in first try (m)");
 
   svg.append("g")
       .attr("class", "y axis")
@@ -98,39 +110,39 @@ d3.tsv("countries.tsv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Death rate")
+      .style("font-size", "16px")
+      .text("Distance in second try (m)")
 
   svg.selectAll(".dot")
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
-      .attr("r", 3.5)
-      .attr("cx", function(d) { return x(d.birthRate); })
-      .attr("cy", function(d) { return y(d.deathRate); })
-      .style("fill", function(d) { return color(d.continent); })
+      .attr("r", 6)
+      .attr("cx", function(d) { return x(d.Dist1); })
+      .attr("cy", function(d) { return y(d.Dist2); })
+      .style("fill", function(d) { return color(d.Nationality); })
       .on("mouseover", function(d) {
+       d3.select(this).transition()
+          .duration("500")
+          .attr("r", 10);
        div.transition()
          .duration(200)
          .style("opacity", .9);
-       
-     	  d3.select(this).transition()
-     			.duration(500)
-      		.attr("r", 10)
-         
-       div.html("<b>" + "Country: " + d.country + "<br/>" +
-       		"</b>" + "Continet:" + d.continent + "<br/>" + 
-       		"Death rate: " + d.birthRate + "<br/>" +
-       		"Death rate: " + d.deathRate)
+       div.html("<b>" + "Name: " + d.Name + "</b><br/>"
+                        + "Points: " + d.Total + "<br/>"
+                        + "Country: " + d.Nationality + "<br/>"
+                        + "Distance in 1st try: " + d.Dist1 + "<br/>"
+                        + "Distance in 2nd try: " + d.Dist2 + "<br/>")
          .style("left", (d3.event.pageX) + "px")
          .style("top", (d3.event.pageY - 28) + "px");
        })
      .on("mouseout", function(d) {
+       d3.select(this).transition()
+          .duration("500")
+          .attr("r", 6);
        div.transition()
          .duration(500)
          .style("opacity", 0);
-        d3.select(this).transition()
-     			.duration(500)
-      		.attr("r", 3.5)
        });
 
   var legend = svg.selectAll(".legend")
