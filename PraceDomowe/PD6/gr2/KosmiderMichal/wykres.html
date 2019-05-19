@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  fill: black;
+}
+
+.dot {
+  stroke: none;
+  fill: red;
+}
+
+.line {  
+  stroke: blue;
+  stroke-width: 2;
+  fill: none;
+}
+
+</style>
+
+<body>
+    <h1>Liczba zawartych małżeństw na przestrzeni lat</h1>
+    <p>Orginal: WizualizacjaDanych2018/PraceDomowe/PD2/gr2/MuszyńskiRafał/pd2.html</p>
+</body>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var lm = [282, 267, 244, 280, 307, 255, 211, 228, 193]
+var years = [1946, 1950, 1960, 1970, 1980, 1990, 2000, 2010, 2017]
+
+var data = years.map(function(y, i) {
+    return {
+        year: y,
+        count: lm[i]
+    }
+});
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scaleLinear()
+    .range([0, width]);
+
+var y = d3.scaleLinear()
+    .range([height, 0]);
+
+var xAxis = d3.axisBottom(x).tickValues(years).tickFormat(d3.format("d"));
+
+var yAxis = d3.axisLeft(y);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+data.forEach(function(d) {
+    d.count = +d.count;
+    d.year = +d.year;
+});
+
+x.domain(d3.extent(data, function(d) { return d.year; })).nice();
+y.domain([0, 350]).nice();
+
+svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis)
+  .append("text")
+  .attr("class", "label")
+  .attr("x", width)
+  .attr("y", -6)
+  .style("text-anchor", "end")
+  .text("Lata");
+
+svg.append("g")
+  .attr("class", "y axis")
+  .call(yAxis)
+  .append("text")
+  .attr("class", "label")
+  .attr("transform", "rotate(-90)")
+  .attr("y", 6)
+  .attr("dy", ".71em")
+  .style("text-anchor", "end")
+  .text("Liczba zawartych małżeństw (w tyś.)")
+
+var line = d3.line()
+             .x(function(d) { return x(d.year); })
+             .y(function(d) { return y(d.count); });
+
+svg.append("path")
+   .datum(data)
+   .attr("class", "line")
+   .attr("d", line);
+
+svg.selectAll(".dot")
+   .data(data)
+   .enter().append("circle")
+       .attr("class", "dot")
+       .attr("r", 3.5)
+       .attr("cx", function(d) { return x(d.year); })
+       .attr("cy", function(d) { return y(d.count); });
+
+svg.selectAll(".value")
+   .data(data)
+   .enter().append("text")
+      .attr("class", "value")
+      .attr("x", function(d) { return x(d.year); })
+      .attr("y", function(d) { return y(d.count); })
+      .attr("dx", '-1.7em')
+      .attr("dy", '0.5ex')
+      .style("text-anchor", "end")
+      .text(function(d) { return d.count; });
+
+</script>
+
