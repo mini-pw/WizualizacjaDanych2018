@@ -5,6 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(png)
 library(grid)
+library(gridExtra)
 library(RCurl)
 library(cowplot)
 library(magick)
@@ -25,6 +26,11 @@ ui <- dashboardPage(
     menuItem(
       "Bar plot (too much graphics)",
       tabName = "bar_plot_too_much_graphics",
+      icon = icon("dashboard")
+    ),
+    menuItem(
+      "Line plot with two y-axis",
+      tabName = 'line_plot_2_y_axis',
       icon = icon("dashboard")
     )
   )),
@@ -128,6 +134,38 @@ ui <- dashboardPage(
                 verbatimTextOutput("bar_plot_too_much_graphics_original_values"),
                 plotOutput("bar_plot_too_much_graphics_good"),
                 width = 3
+              )
+            )),
+    tabItem("line_plot_2_y_axis",
+            fluidRow(
+              box(
+                title = "Bad plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = F,
+                plotOutput("line_plot_2_y_axis_bad"),
+                width = 5
+              ),
+              box(
+                title = "Your plot",
+                status = "primary",
+                solidHeader = TRUE,
+                collapsible = F,
+                selectInput(inputId = "line_plot_2_y_axis_data",
+                          label = "Which line shows Divorce rate?", 
+                          choices = c('Wybierz odpowiedź','Blue','Red')),
+                plotOutput("line_plot_answer"),
+                width = 2
+              ),
+              box(
+                title = "Good plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = T,
+                collapsed = T,
+                verbatimTextOutput("line_plot_2_y_axis_original_values"),
+                plotOutput("line_plot_2_y_axis_good"),
+                width = 5
               )
             ))
   ))
@@ -276,6 +314,56 @@ server <- function(input, output) {
       ) +
       draw_image(dogeImage)
   })
+  
+  # LINE PLOT WITH TWO Y-AXIS 
+  # ------------------------------------------------------------------------------------------------------------------------------------------
+  
+  okImage <- "http://www.stickpng.com/assets/images/580b585b2edbce24c47b29e1.png"
+  notokImage <- "http://www.stickpng.com/assets/images/5897a8c3cba9841eabab6156.png"
+  
+  
+  data_line_plot_2_y_axis <- reactive({
+    data.frame(cbind(category = c(2000,2001,2002,2003,2004,2005,2006,2007,2008,2009),
+                   Value = c(5,4.7,4.6,4.4,4.3,4.1,4.2,4.2,4.2,4.1),
+                   Value2 = c(8.2,7,6.5,5.3,5.2,4,4.6,4.5,4.2,3.7))
+    )
+  })
+  output[["line_plot_2_y_axis_bad"]]<-renderPlot({
+    ggplot()+geom_line(aes(x = data_line_plot_2_y_axis()$category, y = data_line_plot_2_y_axis()$Value), size= 2, color = "red")+
+      geom_point(aes(x = data_line_plot_2_y_axis()$category, y = data_line_plot_2_y_axis()$Value), size= 5, color = "red")+
+      geom_line(aes(x = data_line_plot_2_y_axis()$category, y = data_line_plot_2_y_axis()$Value2/5+3.3), size = 2, color = "blue")+
+      geom_point(aes(x = data_line_plot_2_y_axis()$category, y = data_line_plot_2_y_axis()$Value2/5+3.3), size = 5, color = "blue")+  
+      scale_x_continuous(name = "Year", breaks = round(seq(2000, 2009, by = 1),1))+
+      scale_y_continuous(name = "Divorce rate in Marine",sec.axis = sec_axis(~.*5-16.5,name = "Per capita consuption of margarine in US"))
+    
+  })
+  output[["line_plot_answer"]]<-renderPlot({
+    if(input[["line_plot_2_y_axis_data"]]=='Blue'){
+
+      ggdraw()+draw_image(notokImage)
+    }
+    else{if(input[["line_plot_2_y_axis_data"]]=='Red'){
+           ggdraw()+draw_image(okImage) 
+    }
+
+    }
+  })
+  
+  
+  output[["line_plot_2_y_axis_good"]]<-renderPlot({
+   plot1<- ggplot()+
+      geom_line(aes(x = data_line_plot_2_y_axis()$category, y = data_line_plot_2_y_axis()$Value2), size = 2, color = "blue")+
+      geom_point(aes(x = data_line_plot_2_y_axis()$category, y = data_line_plot_2_y_axis()$Value2), size = 5, color = "blue")+  
+      scale_x_continuous(name = "Year", breaks = round(seq(2000, 2009, by = 1),1))+
+      scale_y_continuous(name = "Consuption of margarine")
+    
+    plot2<-ggplot()+geom_line(aes(x = data_line_plot_2_y_axis()$category, y = data_line_plot_2_y_axis()$Value), size= 2, color = "red")+
+      geom_point(aes(x = data_line_plot_2_y_axis()$category, y = data_line_plot_2_y_axis()$Value), size= 5, color = "red")+
+      scale_x_continuous(name = "Year", breaks = round(seq(2000, 2009, by = 1),1))+
+      scale_y_continuous(name = "Divorce rate in Marine")
+    grid.arrange(plot1, plot2, nrow=2)
+  })
+  
 }
 
 shinyApp(ui, server)
