@@ -1,0 +1,186 @@
+"country"	"population"	"continent"	"birthRate"	"deathRate"
+"Afghanistan"	30552	"Asia"	34.1	7.7
+"Albania"	3173	"Europe"	12.9	9.4
+"Algeria"	39208	"Africa"	24.3	5.7
+"Andorra"	79	"Europe"	8.9	8.4
+"Angola"	21472	"Africa"	44.1	13.9
+"Antigua and Barbuda"	90	"Americas"	16.5	6.8
+"Argentina"	41446	"Americas"	16.8	7.6
+"Armenia"	2977	"Asia"	13.7	12.6
+"Australia"	23343	"Oceania"	13.2	6.4
+"Austria"	8495	"Europe"	9.5	9
+"Azerbaijan"	9413	"Asia"	17.8	6.3
+"Bahamas"	377	"Americas"	15.3	6.1
+"Bahrain"	1332	"Asia"	15.2	2.2
+"Bangladesh"	156595	"Asia"	20	5.7
+"Barbados"	285	"Americas"	12.7	6.4
+"Belarus"	9357	"Europe"	11	13.5
+"Belgium"	11104	"Europe"	11.7	9.9
+"Belize"	332	"Americas"	23.4	4
+"Benin"	10323	"Africa"	36.4	9.6
+"Bhutan"	754	"Asia"	19.6	6.5
+"Bosnia and Herzegovina"	3829	"Europe"	9	9.4
+"Botswana"	2021	"Africa"	23.6	7.2
+"Brazil"	200362	"Americas"	14.9	6.1
+"Brunei Darussalam"	418	"Asia"	15.5	3.6
+"Bulgaria"	7223	"Europe"	9.6	14.2
+"Burkina Faso"	16935	"Africa"	40.9	9.5
+"Burundi"	10163	"Africa"	44.7	11.1
+"Cabo Verde"	499	"Africa"	20.1	5.2
+"Cambodia"	15135	"Asia"	25.7	5.7
+"Cameroon"	22254	"Africa"	37.3	10.8
+"Canada"	35182	"Americas"	11.3	7.2
+"Central African Republic"	4616	"Africa"	34.2	14
+"Chad"	12825	"Africa"	45.9	13.6
+"Chile"	17620	"Americas"	13.9	5.4
+"China"	1393337	"Asia"	13.3	7.2
+"Colombia"	48321	"Americas"	18.8	4.2
+"Comoros"	735	"Africa"	35.2	8.2
+"Congo"	4448	"Africa"	37.6	10.1
+"Cook Islands"	21	"Oceania"	14.9	5
+"Costa Rica"	4872	"Americas"	15.1	4.4
+"Croatia"	4290	"Europe"	9.5	11.1
+"Cuba"	11266	"Americas"	9.5	8.5
+"Cyprus"	1141	"Asia"	11.5	5.5
+"Czech Republic"	10702	"Europe"	11.1	10
+"Denmark"	5619	"Europe"	11.3	9.6
+"Djibouti"	873	"Africa"	27.5	8.8
+"Dominica"	72	"Americas"	15.6	7.2
+"Dominican Republic"	10404	"Americas"	20.8	5.9
+"Ecuador"	15738	"Americas"	20.8	5.3
+"Egypt"	82056	"Africa"	23.2	6.4
+"El Salvador"	6340	"Americas"	20.1	6.6
+"Equatorial Guinea"	757	"Africa"	35.4	11.5
+"Eritrea"	6333	"Africa"	36.7	6.3
+"Estonia"	1287	"Europe"	10.9	11.3
+"Ethiopia"	94101	"Africa"	33	7.2
+"Fiji"	881	"Oceania"	20.4	6.9
+"Finland"	5426	"Europe"	11.2	9.4
+"France"	64291	"Europe"	12.3	8.7
+"Gabon"	1672	"Africa"	31.9	9
+"Gambia"	1849	"Africa"	42.7	8.2
+"Georgia"	4341	"Asia"	13.3	11.5
+"Germany"	82727	"Europe"	8.5	10.6
+"Ghana"	25905	"Africa"	30.9	8.1
+"Greece"	11128	"Europe"	9.7	9.7
+"Grenada"	106	"Americas"	19.3	6.9
+"Guatemala"	15468	"Americas"	31	5.2
+"Guinea"	11745	"Africa"	36.9	10.1
+"Guinea-Bissau"	1704	"Africa"	37.5	12.3
+"Guyana"	800	"Americas"	20.3	7.9
+"Haiti"	10317	"Americas"	25.6	8.6
+"Honduras"	8098	"Americas"	25.8	4.5
+"Hungary"	9955	"Europe"	9.9	13
+"Iceland"	330	"Europe"	14.5	6.2
+"India"	1252140	"Asia"	20.4	7.9
+"Indonesia"	249866	"Asia"	18.8	6.2
+"Iran, Islamic Republic of"	77447	"Asia"	18.8	5.1
+"Iraq"	33765	"Asia"	31.1	4.8
+"Ireland"	4627	"Europe"	15.4	5.9
+"Israel"	7733	"Asia"	20.3	5.1
+"Italy"	60990	"Europe"	9.2	9.5
+"Jamaica"	2784	"Americas"	18	7.1
+"Japan"	127144	"Asia"	8.4	9.5
+"Jordan"	7274	"Asia"	27	3.7
+"Kazakhstan"	16441	"Asia"	20.5	9.7
+"Kenya"	44354	"Africa"	34.9	8.3
+"Kiribati"	102	"Oceania"	23.3	8.2
+"Korea, Republic of"	49263	"Asia"	9.6	5.5
+"Kuwait"	3369	"Asia"	20.6	1.9
+"Kyrgyzstan"	5548	"Asia"	27.1	6.6
+"Lao People's Democratic Republic"	6770	"Asia"	26.8	6.7
+"Latvia"	2050	"Europe"	11	14.2
+"Lebanon"	4822	"Asia"	13.4	4.4
+"Lesotho"	2074	"Africa"	27.5	14.1
+"Liberia"	4294	"Africa"	35.5	8
+"Libya"	6202	"Africa"	20.7	4.2
+"Lithuania"	3017	"Europe"	11.3	12
+"Luxembourg"	530	"Europe"	11.6	6.8
+"Madagascar"	22925	"Africa"	34.7	7
+"Malawi"	16363	"Africa"	39.8	9
+"Malaysia"	29717	"Asia"	17.7	5
+"Maldives"	345	"Asia"	22	3.5
+"Mali"	15302	"Africa"	47.1	11.2
+"Malta"	429	"Europe"	9.2	7.5
+"Marshall Islands"	53	"Oceania"	27.2	6.6
+"Mauritania"	3890	"Africa"	34.1	7.8
+"Mauritius"	1244	"Africa"	11.5	7.4
+"Mexico"	122332	"Americas"	18.4	5.3
+"Monaco"	38	"Europe"	6.8	8.7
+"Mongolia"	2839	"Asia"	22.7	6.7
+"Montenegro"	621	"Europe"	11.6	9.5
+"Morocco"	33008	"Africa"	22.7	6.4
+"Mozambique"	25834	"Africa"	38.9	11.8
+"Myanmar"	53259	"Asia"	17.2	8.4
+"Namibia"	2303	"Africa"	26	5.7
+"Nauru"	10	"Oceania"	26.4	3.5
+"Nepal"	27797	"Asia"	21	6.6
+"Netherlands"	16759	"Europe"	10.7	8.3
+"New Zealand"	4506	"Oceania"	13.8	6.3
+"Nicaragua"	6080	"Americas"	22.7	4.8
+"Niger"	17831	"Africa"	49.7	10.2
+"Nigeria"	173615	"Africa"	41.2	11.9
+"Niue"	1	"Oceania"	NA	5.9
+"Norway"	5043	"Europe"	12.4	8.1
+"Oman"	3632	"Asia"	20.9	2.8
+"Pakistan"	182143	"Asia"	25.2	7.3
+"Palau"	21	"Oceania"	10.9	5.9
+"Panama"	3864	"Americas"	19.4	5
+"Papua New Guinea"	7321	"Oceania"	28.9	7.7
+"Paraguay"	6802	"Americas"	23.7	4.8
+"Peru"	30376	"Americas"	19.7	4.4
+"Philippines"	98394	"Asia"	24.4	5.9
+"Poland"	38217	"Europe"	10.8	10
+"Portugal"	10608	"Europe"	8.7	9.1
+"Qatar"	2169	"Asia"	11	1.3
+"Romania"	21699	"Europe"	10.3	11.8
+"Russian Federation"	142834	"Europe"	11.8	14.8
+"Rwanda"	11777	"Africa"	35.2	6.4
+"Saint Kitts and Nevis"	54	"Americas"	13.8	8.5
+"Saint Lucia"	182	"Americas"	15.4	7
+"Saint Vincent and the Grenadines"	109	"Americas"	16.3	6.5
+"Samoa"	190	"Oceania"	26.2	5.2
+"San Marino"	31	"Europe"	8.8	10.2
+"Sao Tome and Principe"	193	"Africa"	33.9	6.5
+"Saudi Arabia"	28829	"Asia"	19.4	3.2
+"Senegal"	14133	"Africa"	37.7	7
+"Serbia"	9511	"Europe"	9.7	11.9
+"Seychelles"	93	"Africa"	16.6	6.7
+"Sierra Leone"	6092	"Africa"	36.6	16.8
+"Singapore"	5412	"Asia"	9.9	4.5
+"Slovakia"	5450	"Europe"	10.7	9.4
+"Slovenia"	2072	"Europe"	10	9.1
+"Solomon Islands"	561	"Oceania"	30.8	5.4
+"Somalia"	10496	"Africa"	43.8	12.7
+"South Africa"	52776	"Africa"	20.9	11.1
+"South Sudan"	11296	"Africa"	36.1	11.1
+"Spain"	46927	"Europe"	10.4	8.2
+"Sri Lanka"	21273	"Asia"	17.9	6.6
+"Sudan"	37964	"Africa"	33.5	7.8
+"Suriname"	539	"Americas"	17.7	4.6
+"Swaziland"	1250	"Africa"	29.9	11.8
+"Sweden"	9571	"Europe"	12	9.6
+"Switzerland"	8078	"Europe"	10.4	7.7
+"Syrian Arab Republic"	21898	"Asia"	24	3.5
+"Tajikistan"	8208	"Asia"	33	6
+"Thailand"	67010	"Asia"	10.2	7.6
+"Timor-Leste"	1133	"Asia"	35.8	6
+"Togo"	6817	"Africa"	36.4	9.6
+"Tonga"	105	"Oceania"	25.5	6.7
+"Trinidad and Tobago"	1341	"Americas"	14.5	9.6
+"Tunisia"	10997	"Africa"	17.2	5.5
+"Turkey"	74933	"Asia"	16.8	5.7
+"Turkmenistan"	5240	"Asia"	21.3	8.8
+"Tuvalu"	10	"Oceania"	23.6	8.7
+"Uganda"	37579	"Africa"	43.2	9.2
+"Ukraine"	45239	"Europe"	10.8	15.1
+"United Arab Emirates"	9346	"Asia"	14.5	1.1
+"United Kingdom"	63136	"Europe"	12.2	8.9
+"United States"	320051	"Americas"	13.2	8.4
+"Uruguay"	3407	"Americas"	14.5	9.1
+"Uzbekistan"	28934	"Asia"	21.5	6.4
+"Vanuatu"	253	"Oceania"	26.6	4.5
+"Viet Nam"	91680	"Asia"	15.5	5.8
+"Yemen"	24407	"Asia"	31.1	6.7
+"Zambia"	14539	"Africa"	42.8	9.7
+"Zimbabwe"	14150	"Africa"	31.3	9.8
