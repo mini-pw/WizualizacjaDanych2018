@@ -1,0 +1,13 @@
+name: WiZLAlizacja
+title: WiZLAlizacja
+username:
+account: jansawicki
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 935862
+bundleId: 2092687
+url: https://jansawicki.shinyapps.io/WiZLAlizacja/
+when: 1558125675.41249
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData
