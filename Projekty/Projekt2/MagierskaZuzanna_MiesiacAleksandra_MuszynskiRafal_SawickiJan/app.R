@@ -9,6 +9,7 @@ library(gridExtra)
 library(RCurl)
 library(cowplot)
 library(magick)
+library(plot3D)
 
 ui <- dashboardPage(
   skin = "blue",
@@ -31,6 +32,11 @@ ui <- dashboardPage(
     menuItem(
       "Line plot with two y-axis",
       tabName = 'line_plot_2_y_axis',
+      icon = icon("dashboard")
+    ),
+    menuItem(
+      "Bar plot 3D",
+      tabName = 'plot_3D',
       icon = icon("dashboard")
     )
   )),
@@ -166,6 +172,37 @@ ui <- dashboardPage(
                 verbatimTextOutput("line_plot_2_y_axis_original_values"),
                 plotOutput("line_plot_2_y_axis_good"),
                 width = 5
+              )
+            )),
+    tabItem("plot_3D",
+            fluidRow(
+              box(
+                title = "Bad plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = F,
+                plotOutput("bar_plot_3D_bad"),
+                width = 5
+              ),
+              box(
+                title = "Answer",
+                status = "primary",
+                solidHeader = TRUE,
+                collapsible = F,
+                textInput(inputId = "bar_plot_3D_data",
+                          label = "Guess value Drama movies in USA"),
+                plotOutput("3D_plot_answer"),
+                width = 3
+              ),
+              box(
+                title = "Good plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = T,
+                collapsed = T,
+                verbatimTextOutput("bar_plot_3D_values"),
+                plotOutput("bar_plot_3D_good"),
+                width = 4
               )
             ))
   ))
@@ -339,13 +376,13 @@ server <- function(input, output) {
   })
   output[["line_plot_answer"]]<-renderPlot({
     if(input[["line_plot_2_y_axis_data"]]=='Blue'){
-
+      
       ggdraw()+draw_image(notokImage)
     }
     else{if(input[["line_plot_2_y_axis_data"]]=='Red'){
-           ggdraw()+draw_image(okImage) 
+      ggdraw()+draw_image(okImage) 
     }
-
+      
     }
   })
   
@@ -363,6 +400,50 @@ server <- function(input, output) {
       scale_y_continuous(name = "Divorce rate in Marine")
     grid.arrange(plot1, plot2, nrow=2)
   })
+  # BAR PLOT 3D 
+  # ------------------------------------------------------------------------------------------------------------------------------------------
+  
+  movies<- rbind(values = c(4,5,6,4,1),values2 = c(7,5,6,1,4))
+  
+  output[["bar_plot_3D_bad"]]<-renderPlot({
+    hist3D (x = 1:2, y = 1:5, z = movies,
+            bty = "g", phi = 20,  theta = -60,
+            xlab='',ylab='',zlab='',
+            col = "#0072B2", border = "black", shade = 0.8,
+            ticktype = "detailed", space = 0.15, d = 1, cex.axis = 1e-9)
+    
+    text3D(x = 1:2, y = rep(0.5, 2), z = rep(0, 2),
+           labels = c("Poland","USA"),
+           add = TRUE, adj = 0)
+   
+    text3D(x = rep(0.65, 5),   y = 1:5, z = rep(0, 5),
+           labels  = c("Comedy","Action","Romance","Drama","SciFi"),
+           add = TRUE, adj = 1)
+    
+  })
+
+  output[["3D_plot_answer"]]<-renderPlot({
+      if(input[["bar_plot_3D_data"]]==1){
+        
+        ggdraw()+draw_image(okImage)
+      }
+      else{
+        ggdraw()+draw_image(notokImage)
+      }
+  })
+  typ<-c(rep("Comedy",2),rep("Action",2),rep("Romance",2),rep("Drama",2),rep("SciFi",2))
+  condition<- rep(c("Poland","USA"),5)
+  value <- c(4,7,5,5,6,6,4,1,1,4)
+  data<-data.frame(typ,condition,value)
+  
+  output[["bar_plot_3D_good"]]<-renderPlot({
+    
+    ggplot(data,aes( fill = condition, y = value, x = typ))+
+      geom_bar(position = "dodge",stat = "identity")+
+      labs( fill = "Country")+
+      scale_x_discrete(name='')+
+      scale_y_continuous(name = '')
+    })
   
 }
 
