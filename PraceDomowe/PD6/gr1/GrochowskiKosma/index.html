@@ -91,7 +91,7 @@ d3.csv("unemployment.csv", function(d, i, columns) {
       var xPosition = d3.mouse(this)[0] - 5;
       var yPosition = d3.mouse(this)[1] - 5;
       tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-      tooltip.select("text").text( d[1]);
+      tooltip.select("text").text(d.data.Year + " unemployment: " + d[1]);
     });
 
   g.append("g")
@@ -164,13 +164,13 @@ d3.csv("unemployment.csv", function(d, i, columns) {
     .style("display", "none");
       
   tooltip.append("rect")
-    .attr("width", 60)
+    .attr("width", 160)
     .attr("height", 20)
-    .attr("fill", "lightsteelblue")
+    .attr("fill", "green")
     .style("opacity", 0.5);
 
   tooltip.append("text")
-    .attr("x", 30)
+    .attr("x", 80)
     .attr("dy", "1.2em")
     .style("text-anchor", "middle")
     .attr("font-size", "12px")
