@@ -1,0 +1,174 @@
+<!-- Code from d3-graph-gallery.com -->
+<!-- Source: https://www.d3-graph-gallery.com/graph/barplot_button_data_simple.html-->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Add 2 buttons -->
+<h1>Praca domowa 6</h1>
+<button onclick="update(warzywa_2018)">2018</button>
+<button onclick="update(warzywa_2019)">2019</button>
+<input type="number" id="Space_between_bars" value=22>
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<script>
+var allGroup =["pink", "red" ,"blue","green", "black"]
+
+var dropdownButton=d3.select("my_dataviz").append('select')
+dropdownButton // Add a button
+  .selectAll('myOptions') // Next 4 lines add 6 options = 6 colors
+ 	.data(allGroup)
+  .enter()
+	.append('option')
+  .text(function (d) { return d; }) // text showed in the menu
+  .attr("value", function (d) { return d; }) // corresponding value returned by the button
+
+var warzywa_2018= [
+       {warzywo: "pietruszka", cena:3.50},
+        {warzywo:"ziemniaki", cena:0.50},
+    {warzywo:"kapusta biala", cena:0.40},
+ {warzywo:"kapusta czerwona", cena:0.85},
+  {warzywo: "kapusta kiszona", cena:2.50},
+           {warzywo:"cebula", cena:0.60},
+          {warzywo:"marchew", cena:1.00},
+             {warzywo:"pory", cena:2.20},
+          {warzywo:"ogórki", cena:9.00}
+];
+
+var warzywa_2019=[
+       {warzywo: "pietruszka", cena:8.50},
+        {warzywo:"ziemniaki", cena:1.60},
+    {warzywo:"kapusta biala", cena:1.75},
+ {warzywo:"kapusta czerwona", cena:2.85},
+  {warzywo: "kapusta kiszona", cena:3.60},
+           {warzywo:"cebula", cena:2.10},
+          {warzywo:"marchew", cena:1.75},
+             {warzywo:"pory", cena:4.30},
+          {warzywo:"ogórki", cena:9.50}
+];
+
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 30, bottom: 55, left: 60},
+    width = 1460 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")")
+	.text("Value vs Date Graph");;
+
+
+var y = d3.scaleBand()
+  .range([ height,0])
+  .domain(warzywa_2018.map(function(d) { return d.warzywo; }))
+  .padding(0.2);
+svg.append("g")
+  .attr("transform", "translate( 200 ,0)")
+  .call(d3.axisLeft(y))
+  .append("text")
+      .attr("class", "y")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0)
+      .attr("dy", 200)
+      .style("text-anchor", "end")
+      .text("Sepal Length (cm)")
+svg.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left+100)
+      .attr("x",0 - (height/2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Warzywa");  
+  
+
+var x = d3.scaleLinear()
+  .domain([0, 10])
+  .range([ 0, width/3]);
+svg.append("g")
+  .attr("class", "myYaxis")
+  .attr("transform","translate(200," + height + ")")
+  .call(d3.axisBottom(x))
+svg.append("text")             
+      .attr("transform",
+            "translate(" + (width/2-200) + " ," + 
+                           (height + margin.top + 20) + ")")
+      .style("text-anchor", "middle")
+      .text("Cena [PLN]");
+
+function update(data) {
+  var u = svg.selectAll("rect")
+    .data(data)
+  u
+    .enter()
+    .append("rect")
+    .merge(u)
+    .transition()
+    .duration(1000)
+		.attr("x",200)
+      .attr("y", function(d) { return y(d.warzywo); })
+      .attr("height", y.bandwidth())
+      .attr("width", function(d) { return x(d.cena); })
+      .attr("fill", "black")
+}
+// A function that update the color of the circle
+function updateChart(mycolor) {
+  var u = svg.selectAll("rect")
+  u
+    .enter()
+    .append("rect")
+    .merge(u)
+	.transition()
+    .duration(1000)
+    .attr("fill", mycolor)
+}
+
+// When the button is changed, run the updateChart function
+dropdownButton.on("change", function(d) {
+
+    // recover the option that has been chosen
+    var selectedOption = d3.select(this).property("value")
+
+})
+
+var select = d3.select('body')
+  .append('select')
+  	.attr('class','select')
+    .on('change',onchange)
+
+var options = select
+  .selectAll('option')
+	.data(allGroup).enter()
+	.append('option')
+		.text(function (d) { return d; });
+
+function onchange() {
+	// recover the option that has been chosen
+    var selectedOption = d3.select(this).property("value")
+
+    // run the updateChart function with this selected option
+    updateChart(selectedOption)
+// Initialize the plot with the first dataset
+};
+function changeSize() {
+  var u = svg.selectAll("rect")
+  u
+    .enter()
+    .append("rect")
+    .merge(u)
+	.transition()
+    .duration(1000)
+    .attr("height",this.value)
+}
+
+// Add an event listener to the button created in the html part
+d3.select("#Space_between_bars").on("input", changeSize )
+update(warzywa_2018)
+
+</script>
