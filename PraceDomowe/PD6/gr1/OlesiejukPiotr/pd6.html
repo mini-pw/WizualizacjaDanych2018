@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+
+    div.tooltip {
+      position: absolute;
+      text-align: center;
+      /*width: 60px;*/
+      height: 28px;
+      padding: 2px;
+      font: 12px sans-serif;
+      background: lightsteelblue;
+      border: 0px;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    
+</style>
+
+<!-- Based on: https://www.d3-graph-gallery.com/graph/barplot_basic.html -->
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+<script>
+
+
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 30, bottom: 80, left: 60},
+    width = 1400 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
+// Parse the Data
+var data = [
+  {group: 'Bemowo', value: 177},
+  {group:  'Białołęka', value: 295},
+  {group: 'Bielany', value: 623},
+  {group: 'Mokotów', value: 578},
+  {group: 'Ochota', value: 532},
+  {group: 'Praga-Południe', value: 838},
+  {group: 'Praga-Północ', value: 564},
+  {group: 'Rembertów', value: 88},
+  {group: 'Śródmieście', value: 1446},
+  {group: 'Targówek', value: 431},
+  {group: 'Ursus', value: 162},
+  {group: 'Ursynów', value: 195},
+  {group: 'Wawer', value: 294},
+  {group: 'Wesoła', value: 55},
+  {group: 'Wilanów', value: 157},
+  {group: 'Włochy', value: 185},
+  {group: 'Wola', value: 900},
+  {group: 'Żoliborz', value: 400}
+];
+
+data.sort(function(x, y) {
+   return d3.ascending(x.value, y.value);
+});
+
+
+// X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(data.map(function(d) { return d.group; }))
+  .padding(0.2);
+svg.append("g")
+    .style("font-size", "14px")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end");
+
+// Add Y axis
+var y = d3.scaleLinear()
+  .domain([0, 1500])
+  .range([ height, 0]);
+svg.append("g")
+    .style("font-size", "14px")
+  .call(d3.axisLeft(y));
+
+// Bars
+svg.selectAll("mybar")
+  .data(data)
+  .enter()
+  .append("rect")
+    .attr("x", function(d) { return x(d.group); })
+    .attr("y", function(d) { return y(d.value); })
+    .attr("width", x.bandwidth())
+    .attr("height", function(d) { return height - y(d.value); })
+    .attr("fill", "#1b7837")
+    .on("mouseover", function(d) {
+       div.transition()
+         .duration(200)
+         .style("opacity", .9);
+       div.html("<b>" + d.group + "</b><br/>"  
+                        + "Liczba interwencji: " + d.value + "<br/>")
+         .style("left", (d3.event.pageX) + "px")
+         .style("top", (d3.event.pageY - 28) + "px");
+       })
+     .on("mouseout", function(d) {
+       div.transition()
+         .duration(500)
+         .style("opacity", 0);
+       });
+
+
+svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "20px") 
+        .style("text-decoration", "bold")  
+        .text("Liczba interwencji Straży Miejskiej w Warszawie w styczniu br.");
+
+</script>
