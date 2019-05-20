@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<div style="padding-bottom:30px;">
+	<h1>Praca domowa 6</h1>
+	Autor: Marcin Szulc <br>
+	Oryginał: Wojeciech Celej (WizualizacjaDanych2018/PraceDomowe/PD2/gr1/CelejWojciech/)
+</div>
+<div id="plot"></div>
+
+<style type="text/css">
+.axis {
+    font: 14px Arial;	
+}
+
+.title {
+	font-size: 20px;
+}
+
+.axis line, .axis path {
+    shape-rendering: crispEdges;
+    stroke: black;
+    fill: none;
+}
+
+.line {
+	fill: none;
+    stroke-width: 5px;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.focus circle {
+  fill: #F1F3F3;
+  stroke: rgb(0, 41, 102);
+  stroke-width: 5px;
+}
+  
+.hover-line {
+  stroke: rgb(0, 41, 102);
+  stroke-width: 2px;
+  stroke-dasharray: 3,3;
+}
+
+</style>
+
+<script>
+
+
+	var data = {}
+
+	var data_official = [6.6, 5.6, 5.6, 5.3, 4.6, 4.3, 4.0, 4.2, 5.7, 5.8,
+        5.7, 5.3, 4.7, 4.6, 5.0, 7.8, 9.8, 9.1, 8.3, 8.0,
+        6.6, 5.7, 4.9, 4.8, 4.4, 4.0]
+	data_official = data_official.map(function(x, index){return [x / 100, String(1994 + index)]})
+
+	var data_real = [11.8, 10.2, 9.8, 9.4, 8.4, 7.7, 7.1, 7.3, 9.5, 10.0,
+          9.9, 9.3, 8.4, 8.4, 9.2, 14.2, 16.7, 16.2, 15.2, 14.5,
+          12.7, 11.3, 9.9, 9.4, 8.2, 8.1]
+	data_real = data_real.map(function(x, index){return [x / 100, String(1994 + index)]})
+
+	// set the dimensions and margins of the graph
+	var margin = {top: 50, right: 50, bottom: 50, left: 60},
+		width = 1200 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom;
+
+	var x = d3.scaleTime()
+				.domain(d3.extent(data_real, function(d) { return d[1]; }))
+				.range([0, width ]);
+    
+    var y = d3.scaleLinear()
+				.domain([0, d3.max(data_real, function(d) { return d[0]; })])
+				.range([ height, 0 ]);
+
+	var svg = d3.select("#plot")
+		.append("svg")
+			.attr("width", width + margin.left + margin.right)
+			.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+			.attr("transform",
+				"translate(" + margin.left + "," + margin.top + ")");
+		
+	var xAxis = d3.axisBottom(x).tickFormat(d3.format("d"));
+	var yAxis = d3.axisLeft(y);
+
+	var color = d3.scaleOrdinal(d3.schemePaired);
+
+
+	svg.append('g')
+	    .attr('transform', 'translate(0,' + height + ')')
+	    .attr('class', 'main axis date')
+	    .call(xAxis)
+
+	svg.append("text")
+		.attr('class', 'axis')
+		.attr("transform",
+              "translate(" + (width/2) + " ," + 
+                           (height + margin.top) + ")")
+      	.style("text-anchor", "middle")
+		.text("Year");
+
+	svg.append('g')
+	    .attr('transform', 'translate(0,0)')
+	    .attr('class', 'main axis date')
+	    .call(yAxis)
+
+	svg.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr('class', 'axis')
+		.attr("y", 0 - margin.left)
+		.attr("x", 0 - (height / 2))
+		.attr("dy", "1em")
+		.style("text-anchor", "middle")
+		.text("Rate");
+
+	svg.append("text")
+		.attr('class', 'axis title')
+		.attr("x", width/2)
+      	.attr("y", 0 - (margin.top / 2) - 20)
+		.attr("dy", "1em")
+		.style("text-anchor", "middle")
+		.text("Unemployment rate in USA 1994-2019");
+
+	svg.append("g")
+	  .append("path")
+		.attr('class', 'line')
+		.attr('stroke', color("official"))
+		.datum(data_official)
+		.attr("d", d3.line()
+			.x(function(d) { return x(d[1])})
+			.y(function(d) { return y(d[0])})
+			)	
+
+	svg.append("g")
+	  .append("path")
+		.attr('class', 'line')
+		.attr('stroke', color("real"))
+		.datum(data_real)
+		.attr("d", d3.line()
+			.x(function(d) { return x(d[1])})
+			.y(function(d) { return y(d[0])})
+			)	
+
+	var legend = svg.selectAll(".legend")
+		.data(color.domain())
+		.enter().append("g")
+			.attr("class", "legend")
+			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+	legend.append("rect")
+		.attr("x", width - 18)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", color);
+
+	legend.append("text")
+		.attr("x", width - 24)
+		.attr("y", 9)
+		.attr("class", "axis")
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) { return d; });
+	
+	var focus = svg.append("g")
+        .attr("class", "focus")
+        .style("display", "none");
+
+    var real = focus.append("g")
+		.attr("id", "real")
+        .attr("r", 7.5);
+
+	var official = focus.append("g")
+		.attr("id", "official")
+        .attr("r", 7.5);
+
+	real.append("line")
+        .attr("class", "x-hover-line hover-line")
+        .attr("y1", 0)
+        .attr("y2", height);
+
+	real.append("line")
+        .attr("class", "y-hover-line hover-line")
+        .attr("x1", width)
+        .attr("x2", width);
+
+	official.append("circle")
+        .attr("r", 7.5);
+
+	real.append("circle")
+        .attr("r", 7.5);
+
+	official.append("text")
+        .attr("x", 15)
+		.attr("class", "axis")
+      	.attr("dy", ".31em");
+
+	real.append("text")
+        .attr("x", 15)
+		.attr("class", "axis")
+      	.attr("dy", ".31em");
+
+	svg.append("rect")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mouseover", function() { focus.style("display", null); })
+        .on("mouseout", function() { focus.style("display", "none"); })
+        .on("mousemove", mousemove);
+
+	bisectDate = d3.bisector(function(d) { return d[1]; }).left;
+
+	function mousemove() {
+      var x0 = x.invert(d3.mouse(this)[0]),
+          i = bisectDate(data_real, x0, 1),
+          d0 = data_real[i - 1],
+          d1 = data_real[i],
+          d = x0 - d0[1] > d1[1] - x0 ? d1 : d0;
+	  real.attr("transform", "translate(" + x(d[1]) + "," + y(d[0]) + ")");
+      real.select("text").text(function() { return d[0]; });
+      real.select(".x-hover-line").attr("y2", height - y(d[0]));
+      real.select(".y-hover-line").attr("x2", width + width);
+
+      var x1 = x.invert(d3.mouse(this)[0]),
+          i = bisectDate(data_official, x1, 1),
+          d0 = data_official[i - 1],
+          d1 = data_official[i],
+          d = x1 - d0[1] > d1[1] - x1 ? d1 : d0;
+	  official.attr("transform", "translate(" + x(d[1]) + "," + y(d[0]) + ")");
+      official.select("text").text(function() { return d[0]; });
+
+    }
+
+</script>
