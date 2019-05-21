@@ -21,6 +21,26 @@ body {
   stroke: #000;
 }
 
+.hidden {
+  opacity: 0;
+}
+
+.selected {
+  opacity: 0.3;
+}
+
+div.tooltip {
+  overflow: auto;
+  position: absolute;
+  text-align: center;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
 </style>
 <body>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -42,6 +62,10 @@ var svg = d3.select("body").append("svg")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var tip = d3.select("body").append("div")	
+  .attr("class", "tooltip")				
+  .style("opacity", 0);
 
 d3.csv("data.csv", function(error, data) {
   if (error) throw error;
@@ -88,7 +112,25 @@ d3.csv("data.csv", function(error, data) {
       .attr("r", 3.5)
       .attr("cx", function(d) { return x(d.birthRate); })
       .attr("cy", function(d) { return y(d.deathRate); })
-      .style("fill", function(d) { return color(d.continent); });
+      .style("fill", function(d) { return color(d.continent); }).on("mouseover", function(d) {
+        d3.select(this).transition()
+		     .duration(200).attr("r", 9)
+		   tip.transition()
+		     .duration(200)
+		     .style("opacity", .9);
+		   tip.html("<b>" + d.continent + "</b><br/>"  
+		                    + "Birth Rate: " + d.birthRate + "<br/>"
+		                    + "Death Rate: " + d.deathRate + "<br/>")
+		     .style("left", (d3.event.pageX + 10) + "px")
+		     .style("top", (d3.event.pageY - 28) + "px");
+       })
+     .on("mouseout", function(d) {
+        d3.select(this).transition()
+		     .duration(200).attr("r", 3.5)
+       tip.transition()
+         .duration(500)
+         .style("opacity", 0);
+       });
 
   var legend = svg.selectAll(".legend")
       .data(color.domain())
@@ -100,7 +142,17 @@ d3.csv("data.csv", function(error, data) {
       .attr("x", width - 18)
       .attr("width", 18)
       .attr("height", 18)
-      .style("fill", color);
+      .style("fill", color)
+      .on("click", function(c) {
+        d3.select(this).classed("selected", function (d, i) {
+          return !d3.select(this).classed("selected");
+        });
+        d3.selectAll(".dot").filter(function(d) {return d.continent == c;})
+        .classed("hidden", function (d, i) {
+          return !d3.select(this).classed("hidden");
+        });
+      });
+      
 
   legend.append("text")
       .attr("x", width - 24)
