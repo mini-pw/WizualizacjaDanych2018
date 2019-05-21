@@ -1,0 +1,115 @@
+<!-- Code from d3-graph-gallery.com -->
+<!-- Source: https://www.d3-graph-gallery.com/graph/barplot_button_data_simple.html-->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<button onclick='sortIncluded()'>Sortuj</button>
+
+<!-- Add 2 buttons -->
+<div id='buttons'></div>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+
+<script>
+
+var included = [];
+
+d3.csv('data.tsv', function(error, data) {
+	if(error) throw error;
+	
+	data.forEach(function(d){
+		d.income = +d.income
+		d3.select('#buttons')
+			.append('button')
+			.html(d.country)
+			.attr('selected', 0)
+			.style('background', 'lightgreen')
+			.on('click', function(dd){
+				if(this.getAttribute('selected') == 0){
+					this.style.background = 'red';
+					this.setAttribute('selected', 1);
+					included.push(d);
+					updatePlot();
+				} else{
+					this.style.background = 'lightgreen';
+					this.setAttribute('selected', 0);
+					included = included.filter(item => item !== d);
+					updatePlot(d.country);
+				}
+			});
+	});
+});
+
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 30, bottom: 70, left: 60},
+    width = 1700 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// X axis
+var x = d3.scaleBand()
+	.range([0, 0])
+	.padding(0.2);
+  
+svg.append("g")
+  .attr('class', 'xAxis')
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+
+// Add Y axis
+var y = d3.scaleLinear()
+  .domain([0, 35])
+  .range([height, 0]);
+  
+svg.append("g")
+  .attr("class", "myYaxis")
+  .call(d3.axisLeft(y));
+
+function updatePlot(country){
+	x.domain(included.map(item => item.country));
+	x.range([0, included.length * 100]);
+		
+	svg.select('.xAxis')
+		.call(d3.axisBottom(x));
+		
+	svg.select('[country="' + country + '"]')
+		.remove();
+
+	var u = svg.selectAll('rect')
+		.data(included)
+		
+	u
+		.enter()
+		.append('rect')
+		.attr('country', d => d.country)
+		.merge(u)
+		.transition()
+		.duration(1000)
+			.attr("x", function(d) { return x(d.country); })
+			.attr("y", function(d) { return y(d.income); })
+			.attr("width", x.bandwidth())
+			.attr("height", function(d) { return height - y(d.income); })
+			.attr("fill", "#69b3a2");
+}
+
+function sortIncluded(){
+	included.sort(function(a,b){
+		return b.income - a.income;
+	});
+	updatePlot();
+}
+
+</script>

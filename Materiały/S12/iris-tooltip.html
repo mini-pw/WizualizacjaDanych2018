@@ -25,7 +25,7 @@ div.tooltip {
   position: absolute;
   text-align: center;
   /*width: 60px;*/
-  height: 56px;
+  height: 28px;
   padding: 2px;
   font: 12px sans-serif;
   background: lightsteelblue;
@@ -62,21 +62,17 @@ var svg = d3.select("body").append("svg")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-var div = d3.select("body").append("div")	
-    .attr("class", "tooltip")				
-    .style("opacity", 0);
 
-d3.tsv("countries.tsv", function(error, data) {
+d3.tsv("data.tsv", function(error, data) {
   if (error) throw error;
 
   data.forEach(function(d) {
-    d.birthRate = +d.birthRate;
-    d.deathRate = +d.deathRate;
+    d.sepalLength = +d.sepalLength;
+    d.sepalWidth = +d.sepalWidth;
   });
 
-  x.domain(d3.extent(data, function(d) { return d.birthRate; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.deathRate; })).nice();
+  x.domain(d3.extent(data, function(d) { return d.sepalWidth; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.sepalLength; })).nice();
 
   svg.append("g")
       .attr("class", "x axis")
@@ -87,8 +83,12 @@ d3.tsv("countries.tsv", function(error, data) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("Birth rate");
+      .text("Sepal Width (cm)");
 
+  var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+    
   svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
@@ -98,29 +98,22 @@ d3.tsv("countries.tsv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Death rate")
+      .text("Sepal Length (cm)")
 
   svg.selectAll(".dot")
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
       .attr("r", 3.5)
-      .attr("cx", function(d) { return x(d.birthRate); })
-      .attr("cy", function(d) { return y(d.deathRate); })
-      .style("fill", function(d) { return color(d.continent); })
+      .attr("cx", function(d) { return x(d.sepalWidth); })
+      .attr("cy", function(d) { return y(d.sepalLength); })
+      .style("fill", function(d) { return color(d.species); })
       .on("mouseover", function(d) {
        div.transition()
          .duration(200)
          .style("opacity", .9);
-       
-     	  d3.select(this).transition()
-     			.duration(500)
-      		.attr("r", 10)
-         
-       div.html("<b>" + "Country: " + d.country + "<br/>" +
-       		"</b>" + "Continet:" + d.continent + "<br/>" + 
-       		"Death rate: " + d.birthRate + "<br/>" +
-       		"Death rate: " + d.deathRate)
+       div.html("<b>" + d.species + "</b><br/>"  
+                        + "Sepal length: " + d.sepalLength + "<br/>")
          .style("left", (d3.event.pageX) + "px")
          .style("top", (d3.event.pageY - 28) + "px");
        })
@@ -128,9 +121,6 @@ d3.tsv("countries.tsv", function(error, data) {
        div.transition()
          .duration(500)
          .style("opacity", 0);
-        d3.select(this).transition()
-     			.duration(500)
-      		.attr("r", 3.5)
        });
 
   var legend = svg.selectAll(".legend")
