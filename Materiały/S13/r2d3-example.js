@@ -12,3 +12,16 @@ svg.selectAll('rect')
     .attr('height', barHeight)
     .attr('y', function(d, i) { return i * barHeight; })
     .attr('fill', 'steelblue');
+
+var text = svg.selectAll("text")
+  .data(data)
+  .enter()
+  .append("text");
+
+var textLabels = text
+                 .attr("x", function(d) { return d * width - 50; })
+                 .attr('y', function(d, i) { return i * barHeight + 50; })
+                 .text(function (d) { return d; })
+                 .attr("font-family", "sans-serif")
+                 .attr("font-size", "20px")
+                 .attr("fill", "red");
