@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<style>
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+#main {
+  width: 960px;
+}
+.axis .domain {
+  display: none;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  /*width: 60px;*/
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+</style>
+<div id="main">
+<svg width="960" height="700"></svg>
+</div>
+Wykres wykonany na podstawie pracy Wojciecha Celeja. </br>
+Inspiracją był wykres znajdujący się na stronie <a href="https://bl.ocks.org/mjfoster83/7c9bdfd714ab2f2e39dd5c09057a55a0">https://bl.ocks.org/mjfoster83/7c9bdfd714ab2f2e39dd5c09057a55a0</a></br>
+Dodano interakcję w postaci pojawienia się tooltipu w momencie najechania na słupek.
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+// create the svg
+var svg = d3.select("svg"),
+    margin = {top: 80, right: 20, bottom: 180, left: 80},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// set x scale
+var x = d3.scaleBand()
+    .rangeRound([0, width])
+    .paddingInner(0.05)
+    .align(0.1);
+
+// set y scale
+var y = d3.scaleLinear()
+    .rangeRound([height, 0]);
+
+// set the colors
+var z = d3.scaleOrdinal()
+    .range(["#98abc5",  "#a05d56"]);
+
+// load the csv and create the chart
+d3.csv("unemployment.csv", function(d, i, columns) {
+  for (i = 1, t = 0; i < columns.length; ++i) 
+  {
+    d[columns[i]] = +d[columns[i]];
+  }
+  d.Real = d[columns[2]]
+  d[columns[2]] -= d[columns[1]]
+  return d;
+}, function(error, data) {
+  if (error) throw error;
+
+  var keys = data.columns.slice(1);
+
+  data.sort(function(a, b) { return - b.Year + a.Year; });
+  x.domain(data.map(function(d) { return d.Year; }));
+  y.domain([0, d3.max(data, function(d) { return 0.2; })]).nice();
+  z.domain(keys);
+
+  g.append("g")
+    .selectAll("g")
+    .data(d3.stack().keys(keys)(data))
+    .enter().append("g")
+      .attr("fill", function(d) { return z(d.key); })
+    .selectAll("rect")
+    .data(function(d) { return d; })
+    .enter().append("rect")
+      .attr("x", function(d) { return x(d.data.Year); })
+      .attr("y", function(d) { return y(d[1] ); })
+      .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+      .attr("width", x.bandwidth())
+    .on("mouseover", function() { tooltip.style("display", null); })
+    .on("mouseout", function() { tooltip.style("display", "none"); })
+    .on("mousemove", function(d) {
+      console.log(d);
+      var xPosition = d3.mouse(this)[0] - 5;
+      var yPosition = d3.mouse(this)[1] - 5;
+      tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+      tooltip.select("text").text(d.data.Year + " unemployment: " + d[1]);
+    });
+
+  g.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis")
+      .call(d3.axisLeft(y).ticks(3,"%"))
+    .append("text")
+      .attr("x", 2)
+      .attr("y", y(y.ticks().pop()) + 0.5)
+      .attr("dy", "0.32em")
+      .attr("fill", "#000")
+      .attr("font-weight", "bold")
+      .attr("text-anchor", "start");
+
+  var legend = g.append("g")
+      .attr("font-family", "sans-serif")
+      .attr("font-size", 10)
+      .attr("text-anchor", "end")
+    .selectAll("g")
+    .data(keys.slice().reverse())
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 19)
+      .attr("width", 19)
+      .attr("height", 19)
+      .attr("fill", z);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9.5)
+      .attr("dy", "0.32em")
+      .text(function(d) { return d; });
+     
+  
+      
+  g.append("text")             
+      .attr("transform",
+            "translate(" + (width/2) + " ," + 
+                           ( -40) + ")")
+      .style("text-anchor", "middle")
+      .style("font-size", "34px")
+      .text("Unemployment rate in USA 1994-2019");
+
+
+  g.append("text")             
+      .attr("transform",
+            "translate(" + (width/2) + " ," + 
+                           (height +  50) + ")")
+      .style("text-anchor", "middle")
+      .text("Year");
+
+  g.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left/2 - 30)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Rate of unemployment");   
+});
+
+  // Prep the tooltip bits, initial display is hidden
+  var tooltip = svg.append("g")
+    .attr("class", "tooltip")
+    .style("display", "none");
+      
+  tooltip.append("rect")
+    .attr("width", 160)
+    .attr("height", 20)
+    .attr("fill", "green")
+    .style("opacity", 0.5);
+
+  tooltip.append("text")
+    .attr("x", 80)
+    .attr("dy", "1.2em")
+    .style("text-anchor", "middle")
+    .attr("font-size", "12px")
+    .attr("font-weight", "bold");
+
+</script>
