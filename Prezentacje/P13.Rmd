@@ -1,0 +1,50 @@
+---
+title: "Skuteczne wizualizacje"
+author: "Michał Burdukiewicz"
+date: "27 maja 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(plotly)
+#library(dplyr)
+#library(reshape2)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Wizualizacje
+
+<img src="https://infobeautiful4.s3.amazonaws.com/2015/05/2552_What-Makes-a-Good-Infoviz-frame02.png" width="750px">
+
+Źródło: informationisbeautiful.net
+
+## Dobitne wizualizacje
+
+<iframe width="1166" height="656" src="https://www.youtube.com/embed/bRkXPuGAHkE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Scrollytelling
+
+Biblioteki:
+
+ - https://pudding.cool/process/how-to-implement-scrollytelling/demo/scrollstory/
+ - https://pudding.cool/process/introducing-scrollama/
+ - https://wsj.github.io/two-step/
+
+## Scrollytelling
+
+https://www.bloomberg.com/graphics/2018-us-land-use/
+
+## Scrollytelling
+
+https://pudding.cool/2018/08/pockets/
+
+## Scrollytelling
+
+Powerless: What it looks and sounds like when a gas driller overruns your land by Ken Ward Jr., The Charleston Gazette-Mail, and Al Shaw and Mayeta Clark, ProPublica
+
+https://projects.propublica.org/graphics/wva
+
+## Statyczny scrollytelling
+
+https://www.wsj.com/articles/trump-takes-to-twitter-like-clockwork-1516357800

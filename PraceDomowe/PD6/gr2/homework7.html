@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Homework 6</title>
+    <meta charset="utf-8">
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+</head>
+<body>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <h1>Homework 6</h1>
+    <button type="button" class="btn btn-warning" onclick="goTo('https://github.com/mini-pw/WizualizacjaDanych2018/pull/140')">SOURCE</button>
+    <br />
+    <br />
+
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+    <button type="button" class="btn btn-primary btn-lg" onclick="rescale(50); update(data1, '#428bca'); ">CONSUMPTION</button>
+    <button type="button" class="btn btn-info btn-lg" onclick="rescale(5); update(data2, '#5bc0de'); ">PRICES</button>
+
+    <div id="my_dataviz"></div>
+
+    <script>
+
+        // create 2 data_set
+        var data1 = [
+            { group: 2010, value: 39.9 },
+            { group: 2011, value: 39.4 },
+            { group: 2012, value: 42.5 },
+            { group: 2013, value: 41.9 },
+            { group: 2014, value: 44.3 },
+            { group: 2015, value: 40.5 },
+            { group: 2016, value: 40.5 },
+            { group: 2017, value: 44.5 }
+        ];
+
+        var data2 = [
+            { group: 2010, value: 2.73 },
+            { group: 2011, value: 4.07 },
+            { group: 2012, value: 3.96 },
+            { group: 2013, value: 3.60 },
+            { group: 2014, value: 2.50 },
+            { group: 2015, value: 2.23 },
+            { group: 2016, value: 2.87 },
+            { group: 2017, value: 3.04 }
+        ];
+
+        var margin = { top: 50, right: 50, bottom: 50, left: 50 },
+            width = 1280 - margin.left - margin.right,
+            height = 720 - margin.top - margin.bottom;
+
+        var svg = d3.select("#my_dataviz")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+        // X axis
+        var x = d3.scaleBand()
+            .range([0, width])
+            .domain(data1.map(function (d) { return d.group; }))
+            .padding(0.2);
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+
+        // Add Y axis
+        var y = d3.scaleLinear()
+            .domain([0, 50])
+            .range([height, 0]);
+        svg.append("g")
+            .attr("class", "Yaxis")
+            .call(d3.axisLeft(y));
+
+        // Add the line
+        svg.append("path")
+            .datum(data)
+            .attr("d", d3.line()
+                .x(function (d) { return x(d.date) })
+                .y(function (d) { return y(d.value) })
+            )
+
+        // A function that create / update the plot for a given variable:
+        function update(data, color) {
+            var u = svg.selectAll("rect")
+                .data(data)
+
+            u
+                .enter()
+                .append("rect")
+                .merge(u)
+                .attr("x", function (d) { return x(d.group); })
+                .transition()
+                .duration(1000)
+                .attr("y", function (d) { return y(d.value); })
+                .attr("width", x.bandwidth())
+                .attr("height", function (d) { return height - y(d.value); })
+                .attr("fill", color)
+
+            show_trend(data, "#E08DAC");
+        }
+
+        var hide = false;
+
+        // https://www.d3-graph-gallery.com/graph/area_lineDot.html
+        function show_trend(data, color) {
+            d3.selectAll("path").remove();
+            d3.selectAll("circle").remove();
+
+            svg.append("path")
+                .datum(data)
+				.attr("opacity", 0.0)
+				.transition()
+				.duration(2000)
+				.attr("opacity", 1.0)
+                .attr("fill", "none")
+                .attr("stroke", color)
+                .attr("stroke-width", 4)
+                .attr("d", d3.line()
+                    .x(function (d) { return x(d.group) + 55 })
+                    .y(function (d) { return y(d.value) })
+                )
+
+            svg.selectAll("myCircles")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("fill", color)
+                .attr("stroke", "none")
+                .attr("cx", function (d) { return x(d.group) + 55 })
+				.attr("cy", function (d) { return y(d.value) })
+                .attr("opacity", 0.0)
+				.transition()
+				.duration(2000)
+				.attr("opacity", 1.0)
+                .attr("r", 10)
+
+        }
+
+        function rescale(maxY) {
+            y = d3.scaleLinear()
+                .domain([0, maxY])
+                .range([height, 0]);
+
+            svg.selectAll("g.Yaxis")
+                .transition().duration(1000)
+                .call(d3.axisLeft(y));
+        }
+
+        function goTo(link) {
+            location.href = link;
+        }
+
+        // Initialize the plot with the first dataset
+        update(data1, '#428bca')
+
+
+
+    </script>
+
+</body>
+</html>

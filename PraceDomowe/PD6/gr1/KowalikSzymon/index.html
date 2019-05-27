@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  body, label {
+    font-size: 10pt;
+    font-family: arial;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .axis text {
+    fill: black;
+  }
+
+  .dot {
+    stroke: #000;
+  }
+
+  .line {
+    fill: none;
+    stroke-width: 3px;
+  }
+
+  div.tooltip {
+    position: absolute;
+    margin-top: 10px;
+    padding: .55rem 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+    color: #000;
+    border-radius: 50px;
+    background-color: #fff;
+    box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1),
+      0 5px 15px rgba(0, 0, 0, 0.07);
+
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+
+  }
+</style>
+
+<body>
+  <div>
+    <h1>Praca domowa 6</h1>
+    <h3>autor: Szymon Kowalik</h3>
+    <h3>na podstawie PD2 autorstwa Kosmy Grochowskiego</h3>
+    <p>
+      <ul>Interakcje:
+        <li>Hover punktów</li>
+        <li>Hover linii</li>
+      </ul>
+      <ul>Źródła:
+          <li><a href="https://bl.ocks.org/sebg/6f7f1dd55e0c52ce5ee0dac2b2769f4b">https://bl.ocks.org/sebg/6f7f1dd55e0c52ce5ee0dac2b2769f4b</a></li>
+          <li><a href="https://bl.ocks.org/d3noob/402dd382a51a4f6eea487f9a35566de0">https://bl.ocks.org/d3noob/402dd382a51a4f6eea487f9a35566de0</a></li>
+          <li><a href="https://codepen.io/andrejsharapov/pen/XogvWQ">https://codepen.io/andrejsharapov/pen/XogvWQ</a></li>
+        </ul>
+    </p>
+  </div>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script>
+
+    function firstUppercase(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    teams = ["barcelona", "atletico", "real"]
+
+    var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+      width = 960 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    var x = d3.scaleLinear()
+      .range([0, width]);
+
+    var y = d3.scaleLinear()
+      .range([height, 0]);
+
+    var valueline = d3.line()
+      .x(function (d) { return x(d.day); })
+      .y(function (d) { return y(d.points); });
+
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+    var xAxis = d3.axisBottom(x);
+
+    var yAxis = d3.axisLeft(y);
+
+    var svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    d3.csv("data.csv", function (error, data) {
+      if (error) throw error;
+
+      data.forEach(function (d) {
+        d.day = +d.day;
+        d.points = +d.points;
+      });
+
+      x.domain(d3.extent(data, function (d) { return d.day; })).nice();
+      y.domain([0, d3.extent(data, function (d) { return d.points; })[1]]).nice();
+
+      var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+      svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .append("text")
+        .attr("class", "label")
+        .attr("x", width)
+        .attr("y", -6)
+        .style("text-anchor", "end")
+        .style("font-size", "10pt")
+        .text("Match day");
+
+      svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("class", "label")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .style("font-size", "10pt")
+        .text("Points")
+
+      var dataNest = d3.nest()
+        .key(function (d) { return d.team; })
+        .entries(data);
+
+      dataNest.forEach(function (d) {
+        // Add the valueline path.
+        svg.append("path")
+          .attr("class", "line")
+          .attr("d", valueline(d.values))
+          .style("stroke", function () { return color(firstUppercase(d.key)); })
+          .on("mouseover", function (d) {
+            d3.selectAll(".line").transition()
+              .duration(200)
+              .style("opacity", 0.3);
+            d3.select(this).transition()
+              .duration(200)
+              .style("stroke-width", 7);
+          })
+          .on("mouseout", function (d) {
+            d3.selectAll(".line").transition()
+              .duration(200)
+              .style("opacity", 1);
+            d3.select(this).transition()
+              .duration(500)
+              .style("stroke-width", 3);
+          })
+      });
+
+      svg.selectAll(".dot")
+        .data(data)
+        .enter().append("circle")
+        .attr("class", "dot")
+        .attr("r", 3.5)
+        .attr("cx", function (d) { return x(d.day); })
+        .attr("cy", function (d) { return y(d.points); })
+        .style("fill", function (d) { return color(firstUppercase(d.team)); })
+        .on("mouseover", function (d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", 1);
+          div.html("<b>" + firstUppercase(d.team) + "</b><br/>"
+            + "Day: " + d.day + "<br/>"
+            + "Points: " + d.points)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY - 28) + "px");
+        })
+        .on("mouseout", function (d) {
+          div.transition()
+            .duration(200)
+            .style("opacity", 0);
+        });
+
+      var legend = svg.selectAll(".legend")
+        .data(color.domain())
+        .enter().append("g")
+        .attr("class", "legend")
+        .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+
+      legend.append("rect")
+        .attr("x", width - 18)
+        .attr("y", height - 200)
+        .attr("width", 18)
+        .attr("height", 18)
+        .style("fill", color);
+
+      legend.append("text")
+        .attr("x", width - 24)
+        .attr("y", height - 200 + 9)
+        .attr("dy", ".35em")
+        .style("text-anchor", "end")
+        .text(function (d) { return d; });
+
+    });
+
+  </script>
