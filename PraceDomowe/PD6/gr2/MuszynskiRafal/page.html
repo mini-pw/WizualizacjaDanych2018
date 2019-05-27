@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+	<style>
+
+	.axis {
+	  font: 10px sans-serif;
+	}
+
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+	
+	
+  div.tooltip {	
+      position: absolute;
+      text-align: center;
+      width: 60px;
+      height: 14px;
+      padding: 2px;
+      font: 12px sans-serif;
+      background: lightsteelblue;
+      border: 0px;
+      border-radius: 8px;
+      pointer-events: none;
+  }
+
+	</style>
+</head>
+
+<body>
+<h1>Praca domowa 6</h1>
+<p>Autor: Muszyński Rafał</p>
+<p>Aurot oryginału: Katarzyna Kobylińska</p>
+<p>Najedź na słupek by poznać dokładną wartość</p>
+<h2>Liczba interwencji Warszawskiej straży miejskiej</h2>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<script>
+// a mix of http://bl.ocks.org/d3noob/8952219 and http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+
+var margin = {top: 20, right: 20, bottom: 70, left: 90},
+    width = 600 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal().rangeRoundBands([0, height], .05);
+
+var y = d3.scale.linear().range([0, width]);
+
+var colorScale = d3.scale.linear().range(['green', 'red']);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("left");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("bottom");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+          
+// Define the div for the tooltip
+var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
+d3.csv("crime.csv", function(error, data) {
+
+    data.forEach(function(d) {
+        d.interventions = +d.interventions;
+    });
+    
+    function compare( a, b ) {
+      if ( a.interventions < b.interventions ){
+        return 1;
+      }
+      if ( a.interventions > b.interventions ){
+        return -1;
+      }
+      return 0;
+    }
+    
+    data.sort( compare );
+    
+    
+   
+   
+    
+	
+  x.domain(data.map(function(d) { return d.district; }));
+  y.domain([0, d3.max(data, function(d) { return d.interventions; })]);
+  colorScale.domain([0, d3.max(data, function(d) { return d.interventions; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .text("Dzielnica");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("Interwencje policji");
+      
+      
+  function mouseOverHandler(bar){
+    div.transition()		
+      .duration(200)		
+      .style("opacity", .9);		
+    div.html(bar.interventions)	
+      .style("left", (d3.event.pageX) + "px")		
+      .style("top", (d3.event.pageY - 28) + "px");
+  }    
+
+  function mouseOutHandler(bar){
+     div.transition()
+        .duration(500)
+        .style("opacity", 0);
+  }
+  
+  svg.selectAll("bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("y", function(d) { return x(d.district); })
+      .attr("height", x.rangeBand())
+      .attr("x", function(d) { return 0; })
+      .attr("width", function(d) { return y(d.interventions); })
+      .attr("fill", function(d) { return colorScale(d.interventions)})
+      .on("mouseover", mouseOverHandler)
+      .on("mouseout", mouseOutHandler);
+;
+
+});
+
+</script>
+
+</body>
