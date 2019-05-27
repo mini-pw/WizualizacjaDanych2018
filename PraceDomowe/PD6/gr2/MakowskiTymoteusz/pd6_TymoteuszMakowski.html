@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Praca domowa nr 6</title>
+    <meta charset="utf-8">
+    <script src='https://d3js.org/d3.v4.min.js'></script>
+    <style>
+        body {
+            font: 14px sans-serif;
+        }
+    </style>
+</head>
+<body>
+  
+    <h1>Praca domowa nr 6</h1>
+    <h2>Tymoteusz Makowski</h2>
+    
+    <script>
+        var margin = {top: 40, right: 40, bottom: 70, left: 40},
+            width = 960 - margin.left - margin.right,
+            height = 640 - margin.top - margin.bottom;
+            
+        // Zdefiniowanie skal
+        var x = d3.scaleBand().rangeRound([0, width]).padding(.05);
+        var y = d3.scaleLinear().range([height, 0]);
+        //var color = d3.scaleOrdinal(d3.schemeSet2);
+        var color = d3.scaleOrdinal().range(["66C2C2", "FC8D62"]);
+        
+        // Dodanie osi
+        var xAxis = d3.axisBottom(x);
+        var yAxis = d3.axisLeft(y);
+            
+        // Dodanie płótna
+        var svg = d3.select("body").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        var data = [
+            { "dzielnica" : "Bemowo",         "interwencje" : "177",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Bialoleka",      "interwencje" : "295",  "stronaWisly" : "Prawy" },
+            { "dzielnica" : "Bielany",        "interwencje" : "623",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Mokotów",        "interwencje" : "578",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Ochota",         "interwencje" : "532",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Praga-Poludnie", "interwencje" : "838",  "stronaWisly" : "Prawy" },
+            { "dzielnica" : "Praga-Pólnoc",   "interwencje" : "564",  "stronaWisly" : "Prawy" },
+            { "dzielnica" : "Rembertów",      "interwencje" : "88",   "stronaWisly" : "Prawy" },
+            { "dzielnica" : "Sródmiescie",    "interwencje" : "1446", "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Targówek",       "interwencje" : "431",  "stronaWisly" : "Prawy" },
+            { "dzielnica" : "Ursus",          "interwencje" : "162",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Ursynów",        "interwencje" : "195",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Wawer",          "interwencje" : "294",  "stronaWisly" : "Prawy" },
+            { "dzielnica" : "Wesola",         "interwencje" : "55",   "stronaWisly" : "Prawy" },
+            { "dzielnica" : "Wilanów",        "interwencje" : "157",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Wlochy",         "interwencje" : "185",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Wola",           "interwencje" : "900",  "stronaWisly" : "Lewy"  },
+            { "dzielnica" : "Zoliborz",       "interwencje" : "400",  "stronaWisly" : "Lewy"  }
+        ]
+        
+        
+        //d3.tsv("dane.tsv", function(error, data) {
+            //if (error) throw error;
+            
+            // Zrzutowanie danych na liczbowe
+            data.forEach(function(d) {
+                d.interwencje = +d.interwencje;
+            });
+            
+            // Dodanie zakresu osi
+            x.domain(data.map(function(d) { return d.dzielnica; }));
+            y.domain([0, 1600]);
+            
+            // Oś OX
+            svg.append("g")
+                .attr("class", "y axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+              .selectAll("text")
+                .style("text-anchor", "end")
+                .attr("dx", "-0.8em")
+                .attr("dy", "0.15em")
+                .attr("transform", "rotate(-45)");
+                
+            // Oś OY
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+              .selectAll("text");
+            
+            // Słupki na wykresie
+            svg.selectAll("bar")
+                .attr("class", "bar")
+                .data(data)
+              .enter().append("rect")
+                //
+                .style("fill", function(d) { return color(d.stronaWisly); })
+                .style("fill", "steelblue")
+                .attr("x", function(d) { return x(d.dzielnica); })
+                .attr("width", x.bandwidth())
+                .attr("y", function(d) { return y(d.interwencje); })
+                .attr("height", function(d) { return height - y(d.interwencje); })
+                .on("mouseover", function(d) {
+                    d3.select(this).style("fill", function(d) { return color(d.stronaWisly); });
+                    d3.select(this.parentNode)
+                        .append("text")
+                        .attr("class", "mylabel")
+                        .attr("text-anchor", "middle")
+                        .attr("x", function() { return x(d.dzielnica) + x.bandwidth()/2; })
+                        .attr("y", function() { return y(d.interwencje) - 7; })
+                        .style('fill', function() { return color(d.stronaWisly); })
+                        .style("font-weight", "bold")
+                        .text(function() { return d.interwencje; });
+                    d3.selectAll(".legend").style("opacity", 1);
+                })
+                .on("mouseout", function() {
+                    d3.select(this)
+                        .transition("colorfade")
+                        .duration(250)
+                        .style("fill", "steelblue");
+                    d3.selectAll(".mylabel").remove();
+                    d3.selectAll(".legend").style("opacity", 0);
+                });
+                
+            // Dodanie legendy
+            var legend = svg.selectAll(".legend")
+                            .data(color.domain())
+                          .enter().append("g")
+                            .attr("class", "legend")
+                            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; })
+                            .style("opacity", 0);
+                            
+            legend.append("rect")
+                .attr("x", width - 18)
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", color);
+                            
+            legend.append("text")
+                .attr("x", width - 24)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "end")
+                .text(function(d) { return d + " brzeg Wisły"; });
+            
+       // });
+    </script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+
+body {
+  font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  height: 45px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+</style>
+
+<body>
+
+<script src="http://d3js.org/d3.v3.js"></script>
+
+<script>
+
+var margin = {top: 40, right: 140, bottom: 40, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.category10();
+
+var xAxis = d3.svg.axis()
+	.scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.jornada); })
+    .y(function(d) { return y(d.points); });
+
+var svg = d3.select("body")
+	.append("svg")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+	.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("teams_points.tsv", function(error, data) {
+	color.domain(d3.keys(data[0]).filter(function(key) { return key !== "jornada"; }));
+
+	var teams = color.domain().map(function(name) {
+			return {
+				name: name,
+				values: data.map(function(d) {
+					return {jornada: d.jornada, points: +d[name]};
+			})
+		};
+	});
+
+	x.domain(d3.extent(data, function(d) { return d.jornada; }));
+
+	y.domain([
+		d3.min(teams, function(t) { return d3.min(t.values, function(v) { return v.points; }); }),
+		d3.max(teams, function(t) { return d3.max(t.values, function(v) { return v.points; }); })
+	]);
+  
+	svg.append("text")
+		.attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "18px") 
+        .text("Points for top 3 teams in La Liga (after 24th match day)");
+
+	svg.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + height + ")")
+		.call(xAxis)
+	.append("text")
+		.attr("class", "label")
+		.attr("x", width)
+		.attr("y", -6)
+		.style("text-anchor", "end")
+		.style("font-size", "14px")
+		.text("Match day");
+
+	svg.append("g")
+		.attr("class", "y axis")
+		.call(yAxis)
+    .append("text")
+		.attr("class", "label")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6)
+		.attr("dy", ".71em")
+		.style("text-anchor", "end")
+		.style("font-size", "14px")
+		.text("Points");
+
+	var div = d3.select("body")
+		.append("div")	
+			.attr("class", "tooltip")				
+			.style("opacity", 0);
+
+	var team = svg.selectAll(".team")
+		.data(teams)
+    .enter().append("g")
+		.attr("class", "team");
+
+	team.append("path")
+		.attr("class", "line")
+		.attr("d", function(d) { return line(d.values); })
+		.style("stroke", function(d) { return color(d.name); });
+
+	team.selectAll("circle")
+		.data(function(d){return d.values})
+		.enter()
+		.append("circle")
+		.attr("r", 3.5)
+		.attr("cx", function(d) { return x(d.jornada); })
+		.attr("cy", function(d) { return y(d.points); })
+		.style("fill", function(d,i,j) { return color(teams[j].name); })
+		.on("mouseover", function(d, i, j) {
+			div.transition()
+			.duration(200)
+			.style("opacity", .9);
+			div.html("<b>" + teams[j].name + "</b><br/>"  
+						+ "Match day: " + d.jornada + "<br/>"
+						+ "Points: " + d.points + "<br/>")
+			.style("left", (d3.event.pageX + 3) + "px")
+			.style("top", (d3.event.pageY - 28) + "px")
+			.style("padding", "6px")
+			.style("color", "white")
+			.style("background-color", color(teams[j].name));
+		d3.select(this).attr("r", 8);
+		})
+		.on("mouseout", function(d) {
+			div.transition()
+			.duration(500)
+			.style("opacity", 0);
+		d3.select(this).attr("r", 3.5);
+		});;
+	
+	var legend = svg.selectAll(".legend")
+		.data(color.domain())
+    .enter().append("g")
+		.attr("class", "legend")
+		.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+	legend.append("rect")
+		.attr("x", width + 30)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", color);
+
+	legend.append("text")
+		.attr("x", width + 55)
+		.attr("y", 9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "start")
+		.style("font-size", "12px")
+		.text(function(d) { return d; });
+
+});
+
+</script>
