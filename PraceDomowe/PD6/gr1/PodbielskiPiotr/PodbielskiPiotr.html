@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    /* set the CSS */
+    
+    body {
+        font: 12px Arial;
+    }
+    
+    path {
+        stroke: steelblue;
+        stroke-width: 2;
+        fill: none;
+    }
+    
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: grey;
+        stroke-width: 1;
+        shape-rendering: crispEdges;
+    }
+    
+    .legend {
+        font-size: 16px;
+        font-weight: bold;
+        text-anchor: middle;
+    }
+    
+    .legend_like {
+        font-size: 16px;
+        font-weight: bold;
+        text-anchor: middle;
+    }
+    
+    .overlay {
+        fill: none;
+        stroke: none;
+        pointer-events: all;
+    }
+    
+    .focusLine {
+        fill: none;
+        stroke: gray;
+        stroke-width: 0.5px;
+        z-index: 999;
+    }
+    
+    .focusCircle {
+        fill: black;
+    }
+</style>
+
+<body>
+    Oryginał: <a href="https://github.com/mini-pw/WizualizacjaDanych2018/blob/master/PraceDomowe/PD2/gr1/GrochowskiKosma/GrochowskiKosma.Rmd">Kosma Grochowski</a><br />
+    Autor: <a href="https://github.com/VictorAtPL">Piotr Podbielski</a>
+    <br />
+    <!-- load the d3.js library -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <script>
+        // Set the dimensions of the canvas / graph
+        var margin = {
+                top: 30,
+                right: 225,
+                bottom: 20,
+                left: 50
+            },
+            width = 900 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
+
+        // Set the ranges
+        var x = d3.scale.linear().range([0, width]);
+        var y = d3.scale.linear().range([height, 0]);
+
+        // Define the axes
+        var xAxis = d3.svg.axis().scale(x)
+            .orient("bottom").ticks(5);
+
+        var yAxis = d3.svg.axis().scale(y)
+            .orient("left").ticks(5);
+
+        // Define the line
+        var pointsline = d3.svg.line()
+            .x(function(d) {
+                return x(d.matchday);
+            })
+            .y(function(d) {
+                return y(d.total_points);
+            });
+
+        // Adds the svg canvas
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+        // Get the data
+        d3.csv("results.csv", function(error, data) {
+            data.forEach(function(d) {
+                d.matchday = +d.matchday;
+                d.total_points = +d.total_points;
+            });
+
+            // Scale the range of the data
+            var xDomain = d3.extent(data, function(d) {
+                return d.matchday;
+            });
+            var yDomain = [0, d3.max(data, function(d) {
+                return d.total_points;
+            })];
+            x.domain(xDomain);
+            y.domain(yDomain);
+
+            // Nest the entries by symbol
+            var dataNest = d3.nest()
+                .key(function(d) {
+                    return d.team;
+                })
+                .entries(data);
+
+            var color = d3.scale.category20(); // set the colour scale
+
+            legendSpace = height / (dataNest.length + 1); // spacing for legend
+
+            var hovered_matchday = svg.append("text")
+                .attr("x", width + (margin.right / 2) + 5) // spacing
+                .attr("y", (margin.top / 2) + 5 - legendSpace)
+                .attr("class", "legend_like") // style the legend
+                .style("display", "none");
+
+            // Loop through each symbol / key
+            dataNest.forEach(function(d, i) {
+
+                svg.append("path")
+                    .attr("class", "line")
+                    .style("stroke", function() { // Add the colours dynamically
+                        return d.color = color(d.key);
+                    })
+                    .attr("d", pointsline(d.values));
+
+                // Add the Legend
+                svg.append("text")
+                    .attr("x", width + (margin.right / 2) + 5) // spacing
+                    .attr("y", (margin.top / 2) + 5 + i * legendSpace)
+                    .attr("class", "legend") // style the legend
+                    .style("fill", function() { // dynamic colours
+                        return d.color = color(d.key);
+                    })
+                    .text(d.key);
+
+            });
+
+            // Add the X Axis
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+            // Add the Y Axis
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
+
+            // focus tracking
+            var focus = svg.append('g').style('display', 'none');
+
+            focus.append('line')
+                .attr('id', 'focusLineX')
+                .attr('class', 'focusLine');
+            focus.append('line')
+                .attr('id', 'focusLineY')
+                .attr('class', 'focusLine');
+            focus.append('circle')
+                .attr('id', 'focusCircle')
+                .attr('r', 4)
+                .attr('class', 'circle focusCircle');
+
+            var bisectMatchday = d3.bisector(function(d) {
+                return d.matchday;
+            }).left;
+
+            svg.append('rect')
+                .attr('class', 'overlay')
+                .attr('width', width)
+                .attr('height', height)
+                .on('mouseover', function() {
+                    focus.style('display', null);
+                })
+                .on('mouseout', function() {
+                    focus.style('display', 'none');
+                    hovered_matchday.style('display', 'none');
+                })
+                .on('mousemove', function() {
+                    var mouse = d3.mouse(this);
+                    var mouseMatchday = x.invert(mouse[0]);
+                    var mouseTotalpoints = y.invert(mouse[1]);
+                    var i = bisectMatchday(data, mouseMatchday);
+
+                    var d0 = data[i - 1];
+                    var d1 = data[i];
+
+                    // work out which date value is closest to the mouse
+                    var d = mouseMatchday - d0.matchday > d1.matchday - mouseMatchday ? d1 : d0;
+
+                    var total_points_concerned = Math.round(mouseTotalpoints);
+                    var matchday_concerned = d.matchday;
+
+                    var concerned_points = [];
+                    data.forEach(function(d) {
+                        if (d.matchday == matchday_concerned) {
+                            concerned_points.push(d);
+                        }
+                    });
+
+                    var min_diff = Infinity;
+                    var point;
+
+                    concerned_points.forEach(function(d) {
+                        if (Math.abs(d.total_points - total_points_concerned) < min_diff) {
+                            min_diff = Math.abs(d.total_points - total_points_concerned);
+                            point = d;
+                        }
+                    })
+
+                    hovered_matchday.text("Matchday: " + point.matchday + ", points: " + point.total_points).style('display', null);
+
+                    var x_val = x(point.matchday);
+                    var y_val = y(point.total_points);
+
+                    focus.select('#focusCircle')
+                        .attr('cx', x_val)
+                        .attr('cy', y_val);
+                    focus.select('#focusLineX')
+                        .attr('x1', x_val).attr('y1', y(yDomain[0]))
+                        .attr('x2', x_val).attr('y2', y(yDomain[1]));
+                    focus.select('#focusLineY')
+                        .attr('x1', x(xDomain[0])).attr('y1', y_val)
+                        .attr('x2', x(xDomain[1])).attr('y2', y_val);
+
+                    d3.selectAll("text.legend").each(function(d, i) {
+                        var ele = d3.select(this);
+                        ele.style('opacity', 1);
+                        if (ele.text() != point.team) {
+                            ele.style('opacity', 0.3);
+                        }
+                    });
+                });
+
+        });
+    </script>
+</body>
