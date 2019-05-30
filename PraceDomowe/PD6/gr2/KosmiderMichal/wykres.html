@@ -28,12 +28,23 @@ body {
   fill: none;
 }
 
+.tooltip {
+  overflow: auto;
+  position: absolute;
+  text-align: center;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
 </style>
 
 <body>
-    <h1>Liczba zawartych małżeństw na przestrzeni lat</h1>
-    <p>Orginal: WizualizacjaDanych2018/PraceDomowe/PD2/gr2/MuszyńskiRafał/pd2.html</p>
-</body>
+<h1>Liczba zawartych małżeństw na przestrzeni lat</h1>
+<p>Orginal: WizualizacjaDanych2018/PraceDomowe/PD2/gr2/MuszyńskiRafał/pd2.html</p>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script>
@@ -67,6 +78,10 @@ var svg = d3.select("body").append("svg")
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var tip = d3.select("body").append("div")	
+  .attr("class", "tooltip")				
+  .style("opacity", 0);
 
 data.forEach(function(d) {
     d.count = +d.count;
@@ -113,7 +128,27 @@ svg.selectAll(".dot")
        .attr("class", "dot")
        .attr("r", 3.5)
        .attr("cx", function(d) { return x(d.year); })
-       .attr("cy", function(d) { return y(d.count); });
+       .attr("cy", function(d) { return y(d.count); })
+       .on("mouseover", function(d) {
+           d3.select(this).transition()
+		                      .duration(200).attr("r", 9)
+		          .style("opacity", .9);
+		       tip.html("Rok: " + d.year + "<br/>"
+		              + "Liczba: " + d.count + "<br/>")
+		          .style("left", (d3.event.pageX + 11) + "px")
+		          .style("top", (d3.event.pageY - 11) + "px");
+		       tip.transition()
+		          .duration(200)
+              .style("opacity", 1);
+       })
+     .on("mouseout", function(d) {
+        d3.select(this)
+          .transition()
+		      .duration(200).attr("r", 3.5)
+        tip.transition()
+           .duration(500)
+           .style("opacity", 0);
+       });
 
 svg.selectAll(".value")
    .data(data)
@@ -127,4 +162,4 @@ svg.selectAll(".value")
       .text(function(d) { return d.count; });
 
 </script>
-
+</body>
