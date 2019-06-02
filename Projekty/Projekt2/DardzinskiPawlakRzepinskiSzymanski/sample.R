@@ -14,8 +14,7 @@ builder <- create_visualization_case_builder() %>%
   add_qa_case("What is the value for xxx?", 30) %>% 
   add_qa_case("What is the value for yyy?", 60) %>% 
   add_qa_case("What is the value for zzz?", 30) %>% 
-  add_qa_case("What is the value for aaa?", 60) %>% 
-  add_description("Did you know that Pie charts goes blabla...")
+  add_qa_case("What is the value for aaa?", 60)
   
 
 app <- build(builder)
