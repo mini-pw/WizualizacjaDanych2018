@@ -1,0 +1,683 @@
+id,matchday,team,total_points
+1,1,Girona FC,1
+2,1,Real Betis Balompié,0
+3,1,RC Celta de Vigo,1
+4,1,Villarreal CF,0
+5,1,FC Barcelona,3
+6,1,SD Eibar,0
+7,1,Rayo Vallecano de Madrid,0
+8,1,Real Madrid CF,3
+9,1,Valencia CF,1
+10,1,Athletic Club,3
+11,1,Real Valladolid CF,1
+12,1,Levante UD,3
+13,1,RCD Espanyol de Barcelona,1
+14,1,Real Sociedad de Fútbol,3
+15,1,Deportivo Alavés,0
+16,1,SD Huesca,3
+17,1,Sevilla FC,3
+18,1,Getafe CF,0
+19,1,Club Atlético de Madrid,1
+20,1,CD Leganés,0
+21,2,Getafe CF,3
+22,2,CD Leganés,1
+23,2,Deportivo Alavés,1
+24,2,Club Atlético de Madrid,4
+25,2,Real Valladolid CF,1
+26,2,RCD Espanyol de Barcelona,4
+27,2,Sevilla FC,4
+28,2,Girona FC,1
+29,2,Levante UD,3
+30,2,Athletic Club,4
+31,2,SD Eibar,0
+32,2,Real Sociedad de Fútbol,4
+33,2,Real Betis Balompié,1
+34,2,Rayo Vallecano de Madrid,0
+35,2,FC Barcelona,6
+36,2,Valencia CF,1
+37,2,Villarreal CF,1
+38,2,Real Madrid CF,6
+39,2,RC Celta de Vigo,4
+40,2,SD Huesca,4
+41,3,Getafe CF,4
+42,3,Villarreal CF,1
+43,3,SD Eibar,3
+44,3,RC Celta de Vigo,7
+45,3,Real Madrid CF,9
+46,3,Levante UD,4
+47,3,Deportivo Alavés,4
+48,3,FC Barcelona,9
+49,3,Real Betis Balompié,4
+50,3,Rayo Vallecano de Madrid,1
+51,3,Real Valladolid CF,2
+52,3,Girona FC,4
+53,3,Real Sociedad de Fútbol,4
+54,3,Club Atlético de Madrid,4
+55,3,CD Leganés,1
+56,3,Valencia CF,2
+57,3,RCD Espanyol de Barcelona,4
+58,3,SD Huesca,4
+59,3,Sevilla FC,4
+60,3,Athletic Club,5
+61,4,SD Huesca,4
+62,4,Club Atlético de Madrid,5
+63,4,Real Sociedad de Fútbol,4
+64,4,Valencia CF,3
+65,4,Athletic Club,6
+66,4,CD Leganés,1
+67,4,RCD Espanyol de Barcelona,7
+68,4,Real Valladolid CF,2
+69,4,Sevilla FC,4
+70,4,Girona FC,7
+71,4,Rayo Vallecano de Madrid,4
+72,4,SD Eibar,4
+73,4,FC Barcelona,12
+74,4,Real Betis Balompié,5
+75,4,Real Madrid CF,10
+76,4,Villarreal CF,4
+77,4,Levante UD,4
+78,4,Deportivo Alavés,7
+79,4,Getafe CF,7
+80,4,RC Celta de Vigo,7
+81,5,SD Huesca,4
+82,5,Rayo Vallecano de Madrid,4
+83,5,RC Celta de Vigo,8
+84,5,SD Eibar,7
+85,5,Getafe CF,7
+86,5,Real Madrid CF,13
+87,5,Levante UD,4
+88,5,Villarreal CF,5
+89,5,Real Betis Balompié,6
+90,5,FC Barcelona,13
+91,5,Real Sociedad de Fútbol,7
+92,5,Deportivo Alavés,10
+93,5,Real Valladolid CF,3
+94,5,CD Leganés,1
+95,5,Club Atlético de Madrid,8
+96,5,RCD Espanyol de Barcelona,7
+97,5,Sevilla FC,7
+98,5,Valencia CF,4
+99,5,Athletic Club,7
+100,5,Girona FC,8
+101,6,RCD Espanyol de Barcelona,10
+102,6,Real Sociedad de Fútbol,8
+103,6,Club Atlético de Madrid,11
+104,6,Athletic Club,7
+105,6,CD Leganés,4
+106,6,Valencia CF,5
+107,6,Sevilla FC,10
+108,6,Real Valladolid CF,6
+109,6,Deportivo Alavés,11
+110,6,Girona FC,8
+111,6,SD Eibar,7
+112,6,Rayo Vallecano de Madrid,5
+113,6,SD Huesca,4
+114,6,Villarreal CF,8
+115,6,FC Barcelona,13
+116,6,RC Celta de Vigo,9
+117,6,Real Madrid CF,13
+118,6,Levante UD,4
+119,6,Getafe CF,8
+120,6,Real Betis Balompié,9
+121,7,Rayo Vallecano de Madrid,6
+122,7,Real Sociedad de Fútbol,8
+123,7,FC Barcelona,14
+124,7,SD Eibar,7
+125,7,Real Madrid CF,14
+126,7,SD Huesca,5
+127,7,Villarreal CF,8
+128,7,Levante UD,7
+129,7,Real Betis Balompié,12
+130,7,RC Celta de Vigo,10
+131,7,RCD Espanyol de Barcelona,11
+132,7,Valencia CF,8
+133,7,Athletic Club,8
+134,7,Sevilla FC,13
+135,7,Club Atlético de Madrid,12
+136,7,Girona FC,9
+137,7,Real Valladolid CF,9
+138,7,Deportivo Alavés,11
+139,7,CD Leganés,4
+140,7,Getafe CF,9
+141,8,Athletic Club,8
+142,8,Girona FC,9
+143,8,Getafe CF,9
+144,8,Deportivo Alavés,14
+145,8,CD Leganés,7
+146,8,Real Valladolid CF,12
+147,8,Club Atlético de Madrid,15
+148,8,Sevilla FC,16
+149,8,RCD Espanyol de Barcelona,14
+150,8,Valencia CF,9
+151,8,Real Sociedad de Fútbol,11
+152,8,SD Eibar,10
+153,8,Levante UD,10
+154,8,Real Madrid CF,14
+155,8,Rayo Vallecano de Madrid,6
+156,8,SD Huesca,5
+157,8,Real Betis Balompié,12
+158,8,RC Celta de Vigo,10
+159,8,Villarreal CF,8
+160,8,FC Barcelona,15
+161,9,RC Celta de Vigo,10
+162,9,Real Madrid CF,14
+163,9,Valencia CF,10
+164,9,Villarreal CF,9
+165,9,FC Barcelona,18
+166,9,Rayo Vallecano de Madrid,6
+167,9,SD Eibar,11
+168,9,SD Huesca,5
+169,9,Real Betis Balompié,12
+170,9,Real Sociedad de Fútbol,12
+171,9,Deportivo Alavés,17
+172,9,Levante UD,13
+173,9,CD Leganés,8
+174,9,Club Atlético de Madrid,16
+175,9,Sevilla FC,16
+176,9,Getafe CF,12
+177,9,Athletic Club,9
+178,9,RCD Espanyol de Barcelona,17
+179,9,Real Valladolid CF,15
+180,9,Girona FC,10
+181,10,Real Valladolid CF,16
+182,10,Girona FC,13
+183,10,Athletic Club,10
+184,10,Levante UD,16
+185,10,RC Celta de Vigo,13
+186,10,Club Atlético de Madrid,19
+187,10,Getafe CF,15
+188,10,FC Barcelona,21
+189,10,Deportivo Alavés,20
+190,10,Sevilla FC,19
+191,10,RCD Espanyol de Barcelona,18
+192,10,Rayo Vallecano de Madrid,6
+193,10,Valencia CF,11
+194,10,CD Leganés,8
+195,10,SD Eibar,11
+196,10,Real Sociedad de Fútbol,12
+197,10,Real Betis Balompié,12
+198,10,Real Madrid CF,14
+199,10,Villarreal CF,9
+200,10,SD Huesca,5
+201,11,CD Leganés,9
+202,11,Real Madrid CF,17
+203,11,Valencia CF,11
+204,11,Rayo Vallecano de Madrid,6
+205,11,SD Eibar,14
+206,11,Villarreal CF,10
+207,11,Real Sociedad de Fútbol,13
+208,11,SD Huesca,6
+209,11,Real Betis Balompié,13
+210,11,RCD Espanyol de Barcelona,21
+211,11,Club Atlético de Madrid,20
+212,11,Real Valladolid CF,16
+213,11,Girona FC,16
+214,11,FC Barcelona,24
+215,11,Deportivo Alavés,20
+216,11,Levante UD,17
+217,11,Sevilla FC,20
+218,11,Getafe CF,16
+219,11,RC Celta de Vigo,14
+220,11,Athletic Club,10
+221,12,Levante UD,17
+222,12,Real Valladolid CF,17
+223,12,Getafe CF,16
+224,12,Club Atlético de Madrid,23
+225,12,Girona FC,17
+226,12,Deportivo Alavés,23
+227,12,FC Barcelona,24
+228,12,Sevilla FC,23
+229,12,Rayo Vallecano de Madrid,7
+230,12,RC Celta de Vigo,14
+231,12,Real Sociedad de Fútbol,16
+232,12,SD Eibar,15
+233,12,Valencia CF,14
+234,12,Athletic Club,10
+235,12,CD Leganés,10
+236,12,SD Huesca,6
+237,12,Real Betis Balompié,16
+238,12,RCD Espanyol de Barcelona,21
+239,12,Villarreal CF,11
+240,12,Real Madrid CF,20
+241,13,CD Leganés,13
+242,13,SD Eibar,18
+243,13,Valencia CF,17
+244,13,SD Huesca,7
+245,13,Club Atlético de Madrid,24
+246,13,Athletic Club,11
+247,13,Sevilla FC,26
+248,13,RCD Espanyol de Barcelona,21
+249,13,Villarreal CF,14
+250,13,Real Sociedad de Fútbol,19
+251,13,Deportivo Alavés,23
+252,13,Real Madrid CF,20
+253,13,Rayo Vallecano de Madrid,7
+254,13,Levante UD,18
+255,13,FC Barcelona,25
+256,13,Getafe CF,17
+257,13,Real Valladolid CF,17
+258,13,Girona FC,20
+259,13,Real Betis Balompié,16
+260,13,RC Celta de Vigo,14
+261,14,Rayo Vallecano de Madrid,10
+262,14,RC Celta de Vigo,17
+263,14,Real Valladolid CF,17
+264,14,Getafe CF,20
+265,14,Real Madrid CF,23
+266,14,Real Betis Balompié,19
+267,14,Girona FC,21
+268,14,FC Barcelona,28
+269,14,Deportivo Alavés,24
+270,14,Levante UD,21
+271,14,SD Eibar,18
+272,14,SD Huesca,7
+273,14,CD Leganés,16
+274,14,RCD Espanyol de Barcelona,21
+275,14,Valencia CF,17
+276,14,Real Sociedad de Fútbol,19
+277,14,Club Atlético de Madrid,25
+278,14,Villarreal CF,14
+279,14,Sevilla FC,27
+280,14,Athletic Club,11
+281,15,CD Leganés,17
+282,15,Club Atlético de Madrid,28
+283,15,Valencia CF,18
+284,15,Villarreal CF,14
+285,15,RCD Espanyol de Barcelona,21
+286,15,SD Eibar,19
+287,15,SD Huesca,7
+288,15,Real Sociedad de Fútbol,19
+289,15,Real Betis Balompié,22
+290,15,Athletic Club,14
+291,15,Getafe CF,21
+292,15,Deportivo Alavés,24
+293,15,Sevilla FC,28
+294,15,RC Celta de Vigo,20
+295,15,FC Barcelona,31
+296,15,Levante UD,22
+297,15,Real Madrid CF,26
+298,15,Real Valladolid CF,20
+299,15,Rayo Vallecano de Madrid,10
+300,15,Girona FC,21
+301,16,RC Celta de Vigo,21
+302,16,Getafe CF,24
+303,16,Real Valladolid CF,20
+304,16,Real Madrid CF,29
+305,16,SD Eibar,20
+306,16,Sevilla FC,31
+307,16,RCD Espanyol de Barcelona,21
+308,16,SD Huesca,8
+309,16,Levante UD,22
+310,16,Deportivo Alavés,25
+311,16,CD Leganés,18
+312,16,Real Sociedad de Fútbol,19
+313,16,Club Atlético de Madrid,31
+314,16,Rayo Vallecano de Madrid,10
+315,16,Valencia CF,19
+316,16,Girona FC,21
+317,16,Real Betis Balompié,25
+318,16,Villarreal CF,15
+319,16,FC Barcelona,34
+320,16,Athletic Club,15
+321,17,Girona FC,22
+322,17,Real Sociedad de Fútbol,19
+323,17,Real Betis Balompié,26
+324,17,Club Atlético de Madrid,34
+325,17,FC Barcelona,37
+326,17,Athletic Club,16
+327,17,Valencia CF,22
+328,17,CD Leganés,19
+329,17,Rayo Vallecano de Madrid,13
+330,17,Villarreal CF,16
+331,17,Getafe CF,25
+332,17,Deportivo Alavés,28
+333,17,SD Eibar,21
+334,17,RCD Espanyol de Barcelona,21
+335,17,RC Celta de Vigo,21
+336,17,Real Valladolid CF,21
+337,17,SD Huesca,8
+338,17,Sevilla FC,32
+339,17,Levante UD,22
+340,17,Real Madrid CF,30
+341,18,Levante UD,23
+342,18,RCD Espanyol de Barcelona,24
+343,18,Real Valladolid CF,21
+344,18,Deportivo Alavés,31
+345,18,SD Huesca,11
+346,18,SD Eibar,22
+347,18,Sevilla FC,33
+348,18,Real Madrid CF,30
+349,18,Getafe CF,25
+350,18,RC Celta de Vigo,21
+351,18,Girona FC,23
+352,18,CD Leganés,19
+353,18,Rayo Vallecano de Madrid,16
+354,18,Valencia CF,22
+355,18,Real Betis Balompié,26
+356,18,Villarreal CF,17
+357,18,Club Atlético de Madrid,35
+358,18,Real Sociedad de Fútbol,22
+359,18,FC Barcelona,40
+360,18,Athletic Club,19
+361,19,Rayo Vallecano de Madrid,19
+362,19,CD Leganés,22
+363,19,Valencia CF,23
+364,19,Girona FC,24
+365,19,Villarreal CF,17
+366,19,Club Atlético de Madrid,38
+367,19,Athletic Club,22
+368,19,FC Barcelona,43
+369,19,Real Betis Balompié,26
+370,19,Real Sociedad de Fútbol,25
+371,19,RC Celta de Vigo,21
+372,19,SD Huesca,11
+373,19,Real Valladolid CF,22
+374,19,Deportivo Alavés,32
+375,19,Getafe CF,28
+376,19,Levante UD,23
+377,19,Sevilla FC,33
+378,19,SD Eibar,22
+379,19,Real Madrid CF,33
+380,19,RCD Espanyol de Barcelona,24
+381,20,Getafe CF,31
+382,20,Real Madrid CF,36
+383,20,SD Huesca,11
+384,20,RC Celta de Vigo,21
+385,20,Real Betis Balompié,29
+386,20,Villarreal CF,18
+387,20,Levante UD,26
+388,20,Rayo Vallecano de Madrid,20
+389,20,FC Barcelona,46
+390,20,SD Eibar,25
+391,20,Deportivo Alavés,32
+392,20,Sevilla FC,33
+393,20,Club Atlético de Madrid,41
+394,20,Valencia CF,26
+395,20,Girona FC,24
+396,20,Athletic Club,23
+397,20,Real Valladolid CF,22
+398,20,Real Sociedad de Fútbol,26
+399,20,CD Leganés,22
+400,20,RCD Espanyol de Barcelona,24
+401,21,Sevilla FC,36
+402,21,Club Atlético de Madrid,44
+403,21,CD Leganés,23
+404,21,Valencia CF,29
+405,21,Real Valladolid CF,25
+406,21,Girona FC,24
+407,21,Athletic Club,26
+408,21,Real Sociedad de Fútbol,27
+409,21,RCD Espanyol de Barcelona,24
+410,21,Deportivo Alavés,32
+411,21,Levante UD,26
+412,21,Getafe CF,31
+413,21,SD Eibar,26
+414,21,Villarreal CF,18
+415,21,RC Celta de Vigo,21
+416,21,FC Barcelona,49
+417,21,Real Betis Balompié,29
+418,21,SD Huesca,12
+419,21,Real Madrid CF,39
+420,21,Rayo Vallecano de Madrid,23
+421,22,SD Huesca,15
+422,22,Levante UD,27
+423,22,Real Sociedad de Fútbol,30
+424,22,FC Barcelona,50
+425,22,RC Celta de Vigo,24
+426,22,Villarreal CF,19
+427,22,Real Betis Balompié,32
+428,22,SD Eibar,29
+429,22,Real Madrid CF,42
+430,22,Rayo Vallecano de Madrid,23
+431,22,Real Valladolid CF,25
+432,22,Getafe CF,32
+433,22,Athletic Club,26
+434,22,Valencia CF,30
+435,22,Sevilla FC,36
+436,22,RCD Espanyol de Barcelona,25
+437,22,Club Atlético de Madrid,44
+438,22,Girona FC,24
+439,22,Deportivo Alavés,32
+440,22,CD Leganés,26
+441,23,Real Valladolid CF,26
+442,23,Getafe CF,35
+443,23,Club Atlético de Madrid,44
+444,23,RCD Espanyol de Barcelona,28
+445,23,Girona FC,24
+446,23,CD Leganés,29
+447,23,Valencia CF,31
+448,23,Sevilla FC,37
+449,23,Athletic Club,27
+450,23,Deportivo Alavés,35
+451,23,Villarreal CF,20
+452,23,RC Celta de Vigo,24
+453,23,Real Madrid CF,45
+454,23,Rayo Vallecano de Madrid,23
+455,23,SD Huesca,18
+456,23,Real Betis Balompié,32
+457,23,Real Sociedad de Fútbol,31
+458,23,SD Eibar,30
+459,23,FC Barcelona,51
+460,23,Levante UD,27
+461,24,SD Eibar,31
+462,24,RC Celta de Vigo,24
+463,24,Rayo Vallecano de Madrid,23
+464,24,Real Sociedad de Fútbol,34
+465,24,FC Barcelona,54
+466,24,Real Madrid CF,45
+467,24,Valencia CF,32
+468,24,Villarreal CF,23
+469,24,Real Betis Balompié,33
+470,24,SD Huesca,18
+471,24,Getafe CF,36
+472,24,Levante UD,30
+473,24,Club Atlético de Madrid,47
+474,24,CD Leganés,29
+475,24,Real Valladolid CF,26
+476,24,Girona FC,27
+477,24,RCD Espanyol de Barcelona,29
+478,24,Sevilla FC,37
+479,24,Deportivo Alavés,36
+480,24,Athletic Club,30
+481,25,RCD Espanyol de Barcelona,30
+482,25,Getafe CF,39
+483,25,Sevilla FC,37
+484,25,Deportivo Alavés,37
+485,25,Athletic Club,33
+486,25,CD Leganés,30
+487,25,Club Atlético de Madrid,50
+488,25,Real Valladolid CF,26
+489,25,Levante UD,30
+490,25,Girona FC,28
+491,25,SD Huesca,19
+492,25,Rayo Vallecano de Madrid,23
+493,25,FC Barcelona,57
+494,25,RC Celta de Vigo,25
+495,25,SD Eibar,31
+496,25,Valencia CF,33
+497,25,Villarreal CF,23
+498,25,Real Betis Balompié,36
+499,25,Real Madrid CF,48
+500,25,Real Sociedad de Fútbol,35
+501,26,Rayo Vallecano de Madrid,23
+502,26,RCD Espanyol de Barcelona,33
+503,26,Villarreal CF,23
+504,26,SD Huesca,22
+505,26,Real Madrid CF,48
+506,26,SD Eibar,34
+507,26,Real Betis Balompié,36
+508,26,Real Sociedad de Fútbol,35
+509,26,Valencia CF,36
+510,26,CD Leganés,33
+511,26,Girona FC,31
+512,26,Real Valladolid CF,26
+513,26,Deportivo Alavés,40
+514,26,Sevilla FC,37
+515,26,FC Barcelona,60
+516,26,RC Celta de Vigo,25
+517,26,Getafe CF,42
+518,26,Club Atlético de Madrid,53
+519,26,Athletic Club,33
+520,26,Levante UD,30
+521,27,Athletic Club,34
+522,27,Deportivo Alavés,41
+523,27,Club Atlético de Madrid,56
+524,27,FC Barcelona,63
+525,27,Getafe CF,45
+526,27,RC Celta de Vigo,25
+527,27,Girona FC,31
+528,27,Levante UD,30
+529,27,Sevilla FC,40
+530,27,Real Valladolid CF,26
+531,27,RCD Espanyol de Barcelona,34
+532,27,SD Eibar,35
+533,27,CD Leganés,33
+534,27,Rayo Vallecano de Madrid,23
+535,27,SD Huesca,22
+536,27,Real Betis Balompié,39
+537,27,Valencia CF,39
+538,27,Villarreal CF,26
+539,27,Real Sociedad de Fútbol,35
+540,27,Real Madrid CF,51
+541,28,Real Sociedad de Fútbol,36
+542,28,SD Huesca,22
+543,28,Real Madrid CF,54
+544,28,Athletic Club,37
+545,28,CD Leganés,33
+546,28,SD Eibar,35
+547,28,RCD Espanyol de Barcelona,34
+548,28,Valencia CF,40
+549,28,Villarreal CF,29
+550,28,Real Betis Balompié,39
+551,28,Levante UD,31
+552,28,Deportivo Alavés,44
+553,28,RC Celta de Vigo,25
+554,28,Club Atlético de Madrid,56
+555,28,Girona FC,34
+556,28,Real Valladolid CF,29
+557,28,Sevilla FC,43
+558,28,Getafe CF,46
+559,28,Rayo Vallecano de Madrid,23
+560,28,FC Barcelona,66
+561,29,Girona FC,34
+562,29,Getafe CF,46
+563,29,FC Barcelona,69
+564,29,RC Celta de Vigo,28
+565,29,Deportivo Alavés,44
+566,29,Levante UD,32
+567,29,Rayo Vallecano de Madrid,24
+568,29,Sevilla FC,43
+569,29,Real Valladolid CF,30
+570,29,Real Madrid CF,57
+571,29,Athletic Club,40
+572,29,CD Leganés,36
+573,29,RCD Espanyol de Barcelona,34
+574,29,Villarreal CF,29
+575,29,Club Atlético de Madrid,59
+576,29,SD Eibar,36
+577,29,Real Betis Balompié,40
+578,29,Valencia CF,43
+579,29,Real Sociedad de Fútbol,37
+580,29,SD Huesca,22
+581,30,Club Atlético de Madrid,62
+582,30,RCD Espanyol de Barcelona,35
+583,30,Villarreal CF,30
+584,30,Athletic Club,43
+585,30,SD Huesca,23
+586,30,SD Eibar,39
+587,30,Valencia CF,46
+588,30,Sevilla FC,46
+589,30,CD Leganés,39
+590,30,Real Sociedad de Fútbol,40
+591,30,Girona FC,34
+592,30,Getafe CF,47
+593,30,FC Barcelona,70
+594,30,Levante UD,32
+595,30,RC Celta de Vigo,29
+596,30,Rayo Vallecano de Madrid,24
+597,30,Real Madrid CF,57
+598,30,Deportivo Alavés,44
+599,30,Real Valladolid CF,30
+600,30,Real Betis Balompié,40
+601,31,Girona FC,34
+602,31,Real Madrid CF,60
+603,31,Rayo Vallecano de Madrid,27
+604,31,FC Barcelona,73
+605,31,Deportivo Alavés,45
+606,31,Getafe CF,50
+607,31,Real Valladolid CF,30
+608,31,Levante UD,33
+609,31,RC Celta de Vigo,32
+610,31,Real Betis Balompié,43
+611,31,RCD Espanyol de Barcelona,38
+612,31,SD Eibar,39
+613,31,Valencia CF,46
+614,31,Club Atlético de Madrid,62
+615,31,CD Leganés,40
+616,31,Athletic Club,43
+617,31,Sevilla FC,49
+618,31,SD Huesca,24
+619,31,Real Sociedad de Fútbol,40
+620,31,Villarreal CF,30
+621,32,RCD Espanyol de Barcelona,41
+622,32,SD Huesca,25
+623,32,Club Atlético de Madrid,65
+624,32,Sevilla FC,52
+625,32,Real Valladolid CF,31
+626,32,Athletic Club,46
+627,32,Real Sociedad de Fútbol,41
+628,32,Girona FC,34
+629,32,Valencia CF,49
+630,32,CD Leganés,41
+631,32,Deportivo Alavés,45
+632,32,FC Barcelona,74
+633,32,RC Celta de Vigo,32
+634,32,Real Betis Balompié,43
+635,32,Getafe CF,51
+636,32,Rayo Vallecano de Madrid,27
+637,32,SD Eibar,40
+638,32,Villarreal CF,33
+639,32,Levante UD,33
+640,32,Real Madrid CF,61
+641,33,Deportivo Alavés,46
+642,33,RC Celta de Vigo,35
+643,33,SD Eibar,40
+644,33,Rayo Vallecano de Madrid,28
+645,33,FC Barcelona,77
+646,33,Levante UD,34
+647,33,Getafe CF,54
+648,33,Real Madrid CF,64
+649,33,Villarreal CF,36
+650,33,Real Betis Balompié,43
+651,33,Real Valladolid CF,32
+652,33,Girona FC,34
+653,33,Club Atlético de Madrid,68
+654,33,SD Huesca,26
+655,33,Real Sociedad de Fútbol,41
+656,33,RCD Espanyol de Barcelona,42
+657,33,Sevilla FC,52
+658,33,Athletic Club,46
+659,33,CD Leganés,41
+660,33,Valencia CF,52
+661,34,SD Huesca,29
+662,34,Real Valladolid CF,35
+663,34,Deportivo Alavés,46
+664,34,Club Atlético de Madrid,71
+665,34,RCD Espanyol de Barcelona,43
+666,34,CD Leganés,41
+667,34,Levante UD,37
+668,34,Sevilla FC,55
+669,34,Real Sociedad de Fútbol,41
+670,34,Getafe CF,55
+671,34,SD Eibar,40
+672,34,Girona FC,34
+673,34,FC Barcelona,80
+674,34,Valencia CF,52
+675,34,RC Celta de Vigo,36
+676,34,Athletic Club,49
+677,34,Real Betis Balompié,43
+678,34,Rayo Vallecano de Madrid,28
+679,34,Villarreal CF,39
+680,34,Real Madrid CF,65
+681,35,Athletic Club,50
+682,35,Deportivo Alavés,47
