@@ -38,6 +38,16 @@ ui <- dashboardPage(
       "Bar plot 3D",
       tabName = 'plot_3D',
       icon = icon("dashboard")
+    ),
+    menuItem(
+      "Stacked bar plot",
+      tabName = 'stacked_bar_plot',
+      icon = icon("dashboard")
+    ),
+    menuItem(
+      "Polar plot",
+      tabName = 'polar_plot',
+      icon = icon("dashboard")
     )
   )),
   dashboardBody(tabItems(
@@ -204,7 +214,74 @@ ui <- dashboardPage(
                 plotOutput("bar_plot_3D_good"),
                 width = 4
               )
+            )),
+    tabItem('stacked_bar_plot',
+            fluidRow(
+              box(
+                title = "Bad plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = F,
+                plotOutput("stacked_bar_plot_bad"),
+                width = 5
+              ),
+              box(
+                title = "Answer",
+                status = "primary",
+                solidHeader = TRUE,
+                collapsible = F,
+                selectInput(inputId = "stacked_bar_plot_input",
+                            label = "When is the value of group B the highest?",
+                            choices = c("day", "Monday", "Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")),
+                verbatimTextOutput("stacked_bar_plot_ans"),
+                width = 3
+              )
+            ),
+          fluidRow(
+            box(
+              title = "Good plot",
+              status = "primary",
+              solidHeader = T,
+              collapsible = T,
+              collapsed = T,
+              plotOutput("stacked_bar_plot_good"),
+              width = 5
             ))
+          ),
+    tabItem('polar_plot',
+            fluidRow(
+              box(
+                title = "Bad plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = F,
+                plotOutput("polar_plot_bad"),
+                width = 5
+              ),
+              box(
+                title = "Answer",
+                status = "primary",
+                solidHeader = TRUE,
+                collapsible = F,
+                selectInput(inputId = "polar_plot_input",
+                            label = "When is the ratio of F to C?",
+                            choices = c("ratio", 1, 2, 3, 4, 5, 6)),
+                verbatimTextOutput("polar_plot_ans"),
+                width = 3
+              )
+            ),
+            fluidRow(
+              box(
+                title = "Good plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = T,
+                collapsed = T,
+                plotOutput("polar_plot_good"),
+                width = 5
+              ))
+    )
+            
   ))
 )
 
@@ -444,6 +521,83 @@ server <- function(input, output) {
       scale_x_discrete(name='')+
       scale_y_continuous(name = '')
     })
+  
+  # STACKED BAR PLOT 
+  # ------------------------------------------------------------------------------------------------------------------------------------------
+  
+  stacked_days <- c("Monday", "Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday")
+  stacked_day <- unlist(lapply(stacked_days, function(x){rep(x , 4)}))
+  
+  # day=c(rep("Monday" , 4) , rep("Tuesday" , 4) , rep("Wednesday" , 4) , rep("Thursday" , 4), rep("Friday", 4),rep("Saturday" , 4),rep("Sunday" , 4) )
+  stacked_group=rep(c("A" , "B" , "C", "D") , 7)
+  stacked_value=c( 14, 2, 6, 2, 
+                   15, 4, 1, 3,
+                   13, 8, 8, 8,
+                   16, 4, 20, 19,
+                   14, 7 ,16, 13,
+                   15, 6, 2, 1,
+                   13, 3, 1, 12)
+  stacked_data=data.frame(stacked_day, stacked_group, stacked_value)
+  
+  stacked_base <- ggplot(stacked_data, aes(fill=stacked_group, y=stacked_value, x=factor(stacked_day, levels = stacked_days)) ) +
+    xlab('day') +
+    ylab('value') +
+    labs(fill = 'group')
+  
+  output[['stacked_bar_plot_bad']] <- renderPlot({
+    # Stacked
+    stacked_base + geom_bar( stat="identity")
+  })
+  
+  output[['stacked_bar_plot_good']] <- renderPlot({
+    # Grouped
+    stacked_base + geom_bar(position="dodge", stat="identity")
+  })
+  
+  output[['stacked_bar_plot_ans']] <- renderText({
+    ifelse(input[['stacked_bar_plot_input']] == 'day', 'answer..', 
+           ifelse(input[['stacked_bar_plot_input']] == 'Wednesday', 
+                  "Good answer!",
+                  "Bad, correct answer is Wednesday"))
+  })
+  
+  # POLAR PLOT 
+  # ------------------------------------------------------------------------------------------------------------------------------------------
+  
+  polar_values <- c(4,5,5,6,8,10)
+  polar_labels <- c('A', 'B', 'C', 'D', 'E', 'F')
+  
+  polar_df <- data.frame(polar_values, polar_labels)
+  
+  polar_base_plot <- ggplot(df, aes(x = factor(polar_labels), y = polar_values, fill = polar_labels)) +
+    geom_bar(stat = 'identity', width = 1) +
+    xlab('label') +
+    ylab('value') +
+    labs(fill = 'labels')
+  
+  
+  
+  output[['polar_plot_bad']] <- renderPlot({
+    polar_base_plot +
+      coord_polar() +
+      theme(axis.title.y=element_blank(),
+            axis.text.y=element_blank(),
+            axis.ticks.y=element_blank()) +
+      theme(axis.title.x=element_blank(),
+            axis.ticks.x=element_blank())
+      
+  })
+  
+  output[['polar_plot_good']] <- renderPlot({
+    polar_base_plot
+  })
+  
+  output[['polar_plot_ans']] <- renderText({
+   ifelse(input[['polar_plot_input']] == 'ratio', 'answer..', 
+           ifelse(input[['polar_plot_input']] == "2", 
+                  "Good answer!",
+                  "Bad, correct answer is 2"))
+  })
   
 }
 
