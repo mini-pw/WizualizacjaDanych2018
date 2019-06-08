@@ -10,6 +10,14 @@ library(RCurl)
 library(cowplot)
 library(magick)
 library(plot3D)
+library(spData)
+library(maptools)
+
+us = st_transform(us_states, 2163)
+us = us %>% 
+  left_join(us_states_df, by = c("NAME" = "state"))
+us$poverty_rate = us$poverty_level_15 / us$total_pop_15
+us_carto = cartogram_cont(us, "total_pop_15", itermax=10)
 
 ui <- dashboardPage(
   skin = "blue",
@@ -47,6 +55,16 @@ ui <- dashboardPage(
     menuItem(
       "Polar plot",
       tabName = 'polar_plot',
+      icon = icon("dashboard")
+    ),
+    menuItem(
+      "Cartogram",
+      tabName = 'cartogram',
+      icon = icon("dashboard")
+    ),
+    menuItem(
+      "Colors",
+      tabName = 'color',
       icon = icon("dashboard")
     )
   )),
@@ -278,6 +296,72 @@ ui <- dashboardPage(
                 collapsible = T,
                 collapsed = T,
                 plotOutput("polar_plot_good"),
+                width = 5
+              ))
+    ),
+    tabItem('cartogram',
+            fluidRow(
+              box(
+                title = "Bad plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = F,
+                plotOutput("cartogram_bad"),
+                width = 5
+              ),
+              box(
+                title = "Answer",
+                status = "primary",
+                solidHeader = TRUE,
+                collapsible = F,
+                selectInput(inputId = "cartogram_input",
+                            label = "What is the poverty rate in Colorado?",
+                            choices = c("rate", "0.08 to 0.10", "0.10 to 0.12", "0.12 to 0.14", "0.14 to 0.16", "0.16 to 0.18", "0.18 to 0.20", "0.20 to 0.22")),
+                verbatimTextOutput("cartogram_ans"),
+                width = 3
+              )
+            ),
+            fluidRow(
+              box(
+                title = "Good plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = T,
+                collapsed = T,
+                plotOutput("cartogram_good"),
+                width = 5
+              ))
+    ),
+    tabItem('color',
+            fluidRow(
+              box(
+                title = "Bad plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = F,
+                plotOutput("color_bad"),
+                width = 5
+              ),
+              box(
+                title = "Answer",
+                status = "primary",
+                solidHeader = TRUE,
+                collapsible = F,
+                selectInput(inputId = "color_input",
+                            label = "What was the population in Congo in 2005?",
+                            choices = c("population", "0 mln to 15 mln", "15 mln to 30 mln", "30 mln to 45 mln", "45 mln to 60 mln", "60 mln to 75 mln", "75 mln to 90 mln")),
+                verbatimTextOutput("color_ans"),
+                width = 3
+              )
+            ),
+            fluidRow(
+              box(
+                title = "Good plot",
+                status = "primary",
+                solidHeader = T,
+                collapsible = T,
+                collapsed = T,
+                plotOutput("color_good"),
                 width = 5
               ))
     )
@@ -569,7 +653,7 @@ server <- function(input, output) {
   
   polar_df <- data.frame(polar_values, polar_labels)
   
-  polar_base_plot <- ggplot(df, aes(x = factor(polar_labels), y = polar_values, fill = polar_labels)) +
+  polar_base_plot <- ggplot(polar_df, aes(x = factor(polar_labels), y = polar_values, fill = polar_labels)) +
     geom_bar(stat = 'identity', width = 1) +
     xlab('label') +
     ylab('value') +
@@ -599,6 +683,57 @@ server <- function(input, output) {
                   "Bad, correct answer is 2"))
   })
   
+  
+  # CARTOGRAM
+  # ------------------------------------------------------------------------------------------------------------------------------------------
+  
+  
+  output[['cartogram_bad']] <- renderPlot({
+    tm_shape(us_carto) + tm_polygons("poverty_rate", title = "Poverty rate") + tm_layout(frame = F, legend.outside = T)
+  })
+  
+  output[['cartogram_good']] <- renderPlot({
+    tm_shape(us) + tm_polygons("poverty_rate", title = "Poverty rate") + tm_layout(frame = F, legend.outside = T)
+  })
+  
+  output[['cartogram_ans']] <- renderText({
+    ifelse(input[['cartogram_input']] == 'rate', 'answer..', 
+           ifelse(input[['cartogram_input']] == "0.12 to 0.14", 
+                  "Good answer!",
+                  "Bad, correct answer is 0.12 to 0.14"))
+  })
+  
+  # COLOR
+  # ------------------------------------------------------------------------------------------------------------------------------------------
+  
+  data(wrld_simpl)
+  afr=wrld_simpl[wrld_simpl$REGION==2,]
+  
+  bad_palette <- c("#feebe2", "#fa9fb5")
+  good_palette <- brewer.pal(6, "RdPu")
+  
+  output[['color_bad']] <- renderPlot({
+    tm_shape(afr) + 
+      tm_polygons("POP2005", title = "Population in 2005",
+                  breaks = c(0, 15000000, 30000000, 45000000, 60000000, 75000000, 90000000),
+                  palette = bad_palette) +
+      tm_layout(frame = F, legend.outside = T)
+    })
+  
+  output[['color_good']] <- renderPlot({
+    tm_shape(afr) + 
+      tm_polygons("POP2005", title = "Population in 2005",
+                  breaks = c(0, 15000000, 30000000, 45000000, 60000000, 75000000, 90000000),
+                  palette = good_palette) +
+      tm_layout(frame = F, legend.outside = T)
+    })
+  
+  output[['color_ans']] <- renderText({
+    ifelse(input[['color_input']] == 'population', 'answer..', 
+           ifelse(input[['color_input']] == "45 mln to 60 mln", 
+                  "Good answer!",
+                  "Bad, correct answer is 45 mln to 60 mln"))
+  })
 }
 
 shinyApp(ui, server)
