@@ -2,6 +2,9 @@
 # Double-axes plot
 ######################################################################
 
+library(magrittr)
+source("./builder.R")
+
 pd <- read.csv("plot-double_axes.csv")
 
 # https://blog.datawrapper.de/dualaxis/
@@ -20,7 +23,7 @@ to_trillion <- function(b) { paste0(round(b / 10^12, 0), "T")}
 
 ratio <- max(pd$World) / max(pd$Germany)
 
-ggplot() + 
+bad_plot <- ggplot() + 
   geom_line(mapping = aes(x = pd$Year, y = pd$World), color = "grey") +
   geom_line(mapping = aes(x = pd$Year, y = pd$Germany*ratio), color = "blue") + 
   scale_y_continuous(name = "World", labels = to_trillion,
@@ -41,5 +44,15 @@ new_pd <- mutate(pd) %>%
   select(Year, Germany_Change, World_Change) %>% 
   gather(key, value, Germany_Change, World_Change)
 
-ggplot(new_pd, aes(x=Year, y=value, colour=key)) +
+good_plot <- ggplot(new_pd, aes(x=Year, y=value, colour=key)) +
   geom_line()
+
+builder <- create_visualization_case_builder() %>% 
+  add_good_plot(good_plot) %>% 
+  add_bad_plot(bad_plot) %>% 
+  add_qa_case("How much global GDP increased until 2014?", 80) %>% 
+  add_qa_case("How much GDP of Germany increased until 2014?", 40)
+
+
+app <- build(builder)
+shinyApp(app$ui, app$server)

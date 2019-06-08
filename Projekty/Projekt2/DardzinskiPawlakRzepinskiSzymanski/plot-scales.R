@@ -2,18 +2,23 @@
 # Scale importance
 ######################################################################
 
+library(magrittr)
+source("./builder.R")
+
 trial <- c("A","B","C")
 people <- c(10, 100, 1000)
-
 pd <- data.frame(trial, people)
 
-# bad
-ggplot(pd, aes(x=trial, y=people)) + geom_bar(stat="identity")
+bad_plot <- ggplot(pd, aes(x=trial, y=people)) + geom_bar(stat="identity")
 
-# good
-ggplot(pd, aes(x=trial, y=people)) + geom_bar(stat="identity") + scale_y_log10()
+good_plot <- ggplot(pd, aes(x=trial, y=people)) + geom_bar(stat="identity") + scale_y_log10()
 
-# The value of trial A?
-# The value of trial B?
+builder <- create_visualization_case_builder() %>% 
+  add_bad_plot(bad_plot) %>% 
+  add_good_plot(good_plot) %>% 
+  add_qa_case("What is the value of trial A?", 10) %>% 
+  add_qa_case("What is the value of trial B?", 100)
 
-# Scales are important!
+
+app <- build(builder)
+shinyApp(app$ui, app$server)
