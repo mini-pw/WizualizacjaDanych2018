@@ -12,6 +12,10 @@ library(magick)
 library(plot3D)
 library(spData)
 library(maptools)
+library(sf)
+library(cartogram)
+library(RColorBrewer)
+library(tmap)
 
 us = st_transform(us_states, 2163)
 us = us %>% 
@@ -408,6 +412,7 @@ server <- function(input, output) {
            )) +
       geom_bar(stat = "identity") +
       ylim(c(0, 100)) +
+      labs(x = "x", y = "Value") +
       coord_polar("y", start = 0) +
       ggtitle("Your guess") +
       theme_minimal()
