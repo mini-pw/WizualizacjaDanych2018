@@ -23,44 +23,35 @@ source("./builder.R")
 ## Pie Chart madness
 
 ```{r echo=FALSE}
-pie_chart <- ggplot(mtcars, aes(x = "", y = cyl, fill = cyl)) +
-  geom_bar(stat="identity") +
-  coord_polar("y", start=0)
+mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF")
+count.data <- data.frame(
+  class = c("1st", "2nd", "3rd", "Crew"),
+  n = c(325, 285, 706, 885),
+  prop = c(14.8, 12.9, 32.1, 40.2)
+)
 
-bar_chart <- ggplot(mtcars, aes(x=cyl, fill=cyl)) +
-  geom_bar()
+
+pie_chart <- ggplot(count.data, aes(x = "", y = prop, fill = class)) +
+  geom_bar(width = 1, stat = "identity", color = "white") +
+  coord_polar("y", start = 0)+
+  scale_fill_manual(values = mycols)
+
+bar_chart <- ggplot(count.data, aes(x = class, y = prop, fill = class)) +
+  geom_bar(width = 1, stat = "identity", color = "white") +
+  scale_fill_manual(values = mycols)
 
 builder <- create_visualization_case_builder() %>% 
   add_good_plot(bar_chart) %>% 
   add_bad_plot(pie_chart) %>% 
-  add_qa_case("What is the value for xxx?", 30) %>% 
-  add_qa_case("What is the value for yyy?", 60) %>% 
-  add_qa_case("What is the value for zzz?", 30) %>% 
-  add_qa_case("What is the value for aaa?", 60)
+  add_qa_case("What is the value for the 1st class?", "14.8 %") %>% 
+  add_qa_case("What is the value for the 2nd class?", "12.9 %") %>% 
+  add_qa_case("What is the value for the 3rd class?", "32.1 %") %>% 
+  add_qa_case("What is the value for the Crew?", "40.2 %")
 
 app <- build(builder)
 shinyApp(app$ui, app$server)
 ```
 
-## Pie char madness returns
-
-```{r echo=FALSE}
-pie_chart <- ggplot(mtcars, aes(x = "", y = cyl, fill = cyl)) +
-  geom_bar(stat="identity") +
-  coord_polar("y", start=0)
-
-bar_chart <- ggplot(mtcars, aes(x=cyl, fill=cyl)) +
-  geom_bar()
-
-builder <- create_visualization_case_builder() %>% 
-  add_good_plot(bar_chart) %>% 
-  add_bad_plot(pie_chart) %>% 
-  add_qa_case("What is the value for xxx?", 30) %>% 
-  add_qa_case("What is the value for aaa?", 60)
-
-app <- build(builder)
-shinyApp(app$ui, app$server)
-```
 
 ## Order - so simple, so brilliant
 
@@ -279,6 +270,7 @@ builder <- create_visualization_case_builder() %>%
 
 app <- build(builder)
 shinyApp(app$ui, app$server)
+```
 
 
 ## Area plot
@@ -311,3 +303,4 @@ builder <- create_visualization_case_builder() %>%
   
 app <- build(builder)
 shinyApp(app$ui, app$server)
+```
