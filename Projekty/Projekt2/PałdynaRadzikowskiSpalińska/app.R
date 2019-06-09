@@ -29,7 +29,6 @@ ui <- dashboardPage(
         ),
         sidebarMenu(
             id = "tabs",
-            menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
             menuItem("O aplikacji", icon = icon("info-circle"), tabName = "about", badgeLabel = "new", badgeColor = "green"),
             menuItem("Wykresy", icon = icon("bar-chart-o"), startExpanded = TRUE,
                      menuSubItem("Elastyczne sondaze", tabName = "subitem1"),
@@ -206,7 +205,8 @@ ui <- dashboardPage(
                     percepcje danych przedstawionych na wykresie.",br(), " Aplikcja zawiera dziewiec wykresow, ktore przedstawiaja
                     czeste bledy wizualizacyjne, a takze pola, w ktorych uzytkownik moze zapisywac wartosci odczytane 
                     z wykresu. Ponadto uzytkownik ma mozliwosc przejscia w tryb sprawdzania, gdzie porowna wprowadzone 
-                    przez siebie wartosci z rzeczywistymi oraz zobaczy porownanie poprawnego wykresu z niepoprawnym.")
+                    przez siebie wartosci z rzeczywistymi oraz zobaczy porownanie poprawnego wykresu z niepoprawnym."), br(),
+                    h4("Wykresy wybiera sie z lewego menu. Kazda pozycja zawiera wykres bazowy, pytanie o tenze wykres, wykres poprawiony oraz podsumowanie.")
             )
         )
     )
