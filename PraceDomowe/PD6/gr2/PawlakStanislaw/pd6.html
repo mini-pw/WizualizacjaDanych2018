@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+  <meta charset="utf-8">
+    <style>
+    
+    body {
+      font: 10px sans-serif;
+    }
+  .bar { fill: steelblue; }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+      shape-rendering: crispEdges;
+  }
+  
+  .axis text {
+    fill: black;
+  }
+  
+  .dot {
+    stroke: #000;
+  }
+  
+  .toolTip {
+  position: absolute;
+  display: none;
+  min-width: 80px;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #6F257F;
+  padding: 14px;
+  text-align: center;
+  }
+  
+  </style>
+    <body>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+    
+    //źródło: https://bl.ocks.org/sebg/6f7f1dd55e0c52ce5ee0dac2b2769f4b
+  
+  var margin = {top: 40, right: 20, bottom: 30, left: 40},
+  width = 1060 - margin.left - margin.right,
+  height = 500 - margin.top - margin.bottom;
+  
+  var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+  
+  var x = d3.scaleBand()
+          .range([0, width])
+          .padding(0.3);
+  
+  var y = d3.scaleLinear()
+  .range([height, 0]);
+  
+  var color = d3.scaleOrdinal("blue");
+  
+  var xAxis = d3.axisBottom(x);
+  
+  var yAxis = d3.axisLeft(y);
+  
+  var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+  
+  d3.tsv("interventions.tsv", function(error, data) {
+    if (error) throw error;
+    
+    data.forEach(function(d) {
+      d.Interventions = +d.Interventions;
+    });
+    
+    x.domain(data.map(function(d) { return d.Districts; }));
+    y.domain([0, d3.max(data, function(d) { return d.Interventions; })]);
+    
+    
+    
+    svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .append("text")
+    .attr("class", "label")
+    .attr("x", width)
+    .attr("y", -6);
+    
+    svg.append("g")
+    .attr("class", "y axis")
+    .call(yAxis)
+    .append("text")
+    .attr("class", "label")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", ".71em")
+    .style("text-anchor", "end")
+    .text("Liczba interwencji")
+    
+    
+    svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.Districts); })
+      .attr("width", x.bandwidth())
+      .attr("y", function(d) { return y(d.Interventions); })
+      .attr("height", function(d) { return height - y(d.Interventions); })
+      .on("mousemove", function(d){
+            tooltip
+              .style("left", d3.event.pageX - 50 + "px")
+              .style("top", d3.event.pageY - 70 + "px")
+              .style("display", "inline-block")
+              .html((d.Districts) + "<br>" + (d.Interventions) + " interventions.");
+        })
+    		.on("mouseout", function(d){ tooltip.style("display", "none");});
+    
+    svg.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text("Liczba interwencji Straży Miejeskiej m.st. Warszawy w styczniu 2019 \r\nw podziale na dzielnice");
+  });
+  
+  </script>
+    
