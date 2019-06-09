@@ -1,0 +1,5 @@
+Link do aplikacji: https://ryszard-szymaski.shinyapps.io/dardzinskipawlakrzepinskiszymanski/
+
+W celu zapewnienia najlepszych wrażeń wizualnych wskazane jest przeglądanie prezentacji w trybie pełnego ekranu. Warto również dopasować wartość zoom tak, żeby na całym slajdzie widoczny widget shiny.
+
+W niektórych przypadkach należy poczekać aż wykresy się poprawnie załadują (w niektórych wypadkach wyświetlany jest error, jednak proszę go zignorować -- shinydashboards oraz dokumenty shiny nie są na dzisiejszy dzień idealnie zintegrowane).

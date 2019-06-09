@@ -1,5 +1,5 @@
 ---
-title: "Consequences of bad data visualization - feel it on your own skin..."
+title: "Consequences of bad data visualization"
 author: "Marcin Dardziński, Stanisław Pawlak, Paweł Rzepiński, Ryszard Szymański"
 output:
   slidy_presentation:
@@ -298,7 +298,8 @@ bad_plot <- ggplot(data, aes(x=name, y=1, size=gdp)) +
   ylim(0.9,1.1)
 
 good_plot <- ggplot(data, aes(x=reorder(name, -gdp), y=gdp)) +
-  geom_bar(stat="identity", fill="#69b3a2")
+  geom_bar(stat="identity", fill="#69b3a2") + 
+  xlab("")
 
 # US GDP vs China GDP? How many times more?
 # Ordering, area vs radius for circle plots
@@ -312,3 +313,7 @@ builder <- create_visualization_case_builder() %>%
 app <- build(builder)
 shinyApp(app$ui, app$server)
 ```
+
+##
+
+<h1>Thank you for your attention!</h1>

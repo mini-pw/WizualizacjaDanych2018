@@ -17,7 +17,7 @@ brexit_example <- function() {
     geom_bar(stat = "identity", width = 0.4) +
     ggtitle("Brexit by whether politicians are doing a good job") +
     ylab("Are politicians are doing a good job?") +
-    xlab("Is it a good or bad idea to leave the EU") +
+    xlab("Is it a good or bad idea to leave the EU?") +
     theme(legend.position="bottom") +
     scale_fill_brewer() + 
     labs(fill = "",
@@ -37,7 +37,7 @@ brexit_example <- function() {
     add_good_plot(good) %>% 
     add_bad_plot(bad) %>% 
     add_qa_case("To which axis does the legend refer to?", "Y-axis") %>% 
-    add_qa_case("What did the author want to show", "I don't know either, but probably correlation between support of Brexit and politicians' assesment")
+    add_qa_case("What did the author want to show?", "I don't know either, but probably correlation between support of Brexit and politicians' assesment")
   
   return (builder)
 }
