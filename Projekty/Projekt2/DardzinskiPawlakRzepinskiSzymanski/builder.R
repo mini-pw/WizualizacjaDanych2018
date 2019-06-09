@@ -67,7 +67,8 @@ build <- function(my_builder) {
         fluidRow(
           create_questions_box(my_builder),
           create_bad_plot_box(),
-          div(id="good_plot_box", create_good_plot_box())
+          div(id="good_plot_box", create_good_plot_box()),
+          create_results_box()
         )
       )
     )
@@ -75,14 +76,21 @@ build <- function(my_builder) {
 
   server <- function(input, output, session) {
     my_builder # needs to be added so it can be referenced in the server function
+    answer_comparison <- reactive({
+      user_answers <- sapply(seq_along(my_builder$questions), function(id) input[[sprintf("question_%s", id)]])
+      data.frame(
+        yours = user_answers,
+        correct = my_builder$answers
+      )
+    })
     
-    lapply(seq_along(my_builder$answers), function(id) hide(sprintf("answer_%s", id)))
+    hide("results")
     
     hide(id = "good_plot_box")
     hide(id = "fun_fact_box")
     
     onclick("check", {
-      lapply(seq_along(my_builder$answers), function(id) toggle(sprintf("answer_%s", id)))
+      toggle("results")
       toggle("good_plot_box")
       toggle("fun_fact_box")
     })
@@ -93,6 +101,10 @@ build <- function(my_builder) {
     
     output$good_plot <- renderPlot({
       my_builder$good_plot
+    })
+    
+    output$results <- DT::renderDataTable({
+      DT::datatable(answer_comparison())
     })
   }
 

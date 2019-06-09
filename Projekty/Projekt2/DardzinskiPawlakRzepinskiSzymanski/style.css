@@ -1,4 +1,8 @@
-.shiny-frame{
+.shiny-frame {
   width: 100%;
   height: 100%;
+}
+
+.skin-blue {
+  font-size: 20px;
 }
