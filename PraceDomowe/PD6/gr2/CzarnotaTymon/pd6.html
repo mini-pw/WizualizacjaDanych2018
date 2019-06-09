@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+	<style>
+    
+    path { 
+    stroke: red;
+    stroke-width: 2;
+    fill: none;
+    }
+
+	.axis {
+	  font: 10px sans-serif;
+      font-weight: bold;
+	}
+
+    
+	.axis path,
+	.axis line {
+	  fill: none;
+	  stroke: #000;
+	  shape-rendering: crispEdges;
+	}
+
+    .d3-tip {
+     line-height: 1;
+     padding: 15px;
+     background: rgba(0, 0, 0, 0.75);
+     border-radius: 0.5px;
+    }
+
+
+    .bar {
+     fill: skyblue;
+    }
+
+    .bar:hover {
+     fill: lightslategray ;
+    }
+
+	</style>
+</head>
+
+<body>
+    
+<h3>Sugar Consumption per capita in Poland  </h3>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+<script>
+
+
+
+var margin = {top: 40, right: 20, bottom: 70, left: 40},
+    width =  960 - margin.left - margin.right,
+    height = 540 - margin.top - margin.bottom;
+
+
+var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+var y = d3.scale.linear().range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(20);
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-8, 0])
+  .html(function(d) {
+    return "<span style='color:red'>" + d.amount + "</span>";
+  })
+
+
+var svg1 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+svg1.call(tip);
+
+d3.csv("bar-data.csv", function(error, data) {
+
+    data.forEach(function(d) {
+        d.date = +d.date;
+        d.amount = +d.amount;
+    });
+	
+  x.domain(data.map(function(d) { return d.date; }));
+  y.domain([0, d3.max(data, function(d) { return d.amount; })]);
+
+  svg1.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+
+
+  svg1.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("dy", ".90em")
+      .style("text-anchor", "end")
+      .text("In kilograms");
+
+  svg1.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.date); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.amount); })
+      .attr("height", function(d) { return height - y(d.amount); })
+      .on("mouseover", function(d) {
+          tip.show(d, this);
+        })
+      .on('mouseout', tip.hide)
+    
+});
+</script>
+
+<h3> Cena cukru w Polsce </h3>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+//////////////////////////////////////////////////////////////
+//////////////////////////Line Chart//////////////////////////
+//////////////////////////////////////////////////////////////
+
+var x = d3.scale.ordinal().rangeRoundBands([0, width], 0.5);
+
+var svg2 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", 
+          "translate(" + margin.left + "," + margin.top + ")");
+
+var	valueline = d3.svg.line()
+	.x(function(d) { return x(d.date); })
+	.y(function(d) { return y(d.price); });
+
+
+d3.csv("line-data.csv", function(error, data) {
+
+data.forEach(function(d) {
+    d.date = +d.date;
+    d.price = +d.price;
+});
+
+x.domain(data.map(function(d) { return d.date; }));
+y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+svg2.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis)
+
+
+svg2.append("g")
+  .attr("class", "y axis")
+  .call(yAxis)
+.append("text")
+  .attr("transform","rotate(-90)" )
+  .attr("dy", ".90em")
+  .style("text-anchor", "end")
+  .text("In Zlotys per kilogram");
+  
+
+  svg2.append("path")	
+		.attr("class", "line")
+		.attr("d", valueline(data));
+
+});
+
+</script>
+
+</body>
