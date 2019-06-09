@@ -3,8 +3,8 @@ title: "project2-poc"
 author: "Ryszard Szymański"
 date: "May 21, 2019"
 output:
-  ioslides_presentation:
-    widescreen: true
+  slidy_presentation:
+    css: style.css
 runtime: shiny
 ---
 
@@ -20,7 +20,7 @@ This R Markdown presentation is made interactive using Shiny. The viewers of the
 
 To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
 
-## Pie chart madness
+## Pie Chart madness
 
 ```{r echo=FALSE}
 pie_chart <- ggplot(mtcars, aes(x = "", y = cyl, fill = cyl)) +
