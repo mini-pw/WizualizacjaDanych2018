@@ -61,3 +61,11 @@ builder <- create_visualization_case_builder() %>%
 app <- build(builder)
 shinyApp(app$ui, app$server)
 ```
+
+## Stacked plots
+```{r echo=FALSE}
+source('stacked.R')
+
+app <- stacked_example() %>% build()
+shinyApp(app$ui, app$server)
+```
