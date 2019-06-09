@@ -36,8 +36,7 @@ create_form <- function(questions, answers) {
     create_form_part <- function(id, q, a) {
       splitLayout(
         cellWidths = c("60%", "40%"),
-          textInput(inputId = sprintf("question_%s", id), label = q),
-          h2(id = sprintf("answer_%s", id), a)
+          textInput(inputId = sprintf("question_%s", id), label = q)
       )
     }
     
@@ -48,6 +47,19 @@ create_form <- function(questions, answers) {
       Map(create_form_part, ids, questions, answers, USE.NAMES = FALSE),
       actionButton(inputId = "check", label = "Check", class = "btn-primary")
     )
+}
+
+
+create_results_box <- function() {
+  div(
+    id = "results",
+    box(
+      title = "Results",
+      solidHeader = TRUE,
+      status = "info",
+      DT::dataTableOutput("results")
+    )
+  )
 }
 
 
