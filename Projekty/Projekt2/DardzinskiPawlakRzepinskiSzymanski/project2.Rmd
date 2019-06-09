@@ -159,6 +159,14 @@ app <- stacked_example() %>% build()
 shinyApp(app$ui, app$server)
 ```
 
+## Misleading captions
+```{r echo=FALSE}
+source('brexit.R')
+
+app <- brexit_example() %>% build()
+shinyApp(app$ui, app$server)
+```
+
 ## Double axes
 ```{r echo=FALSE, message=FALSE}
 
