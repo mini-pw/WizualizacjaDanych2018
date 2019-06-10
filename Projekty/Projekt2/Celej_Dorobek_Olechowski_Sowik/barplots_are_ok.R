@@ -43,3 +43,4 @@ second_ok <- ggplot(data = live_scorers, aes(x = Player, y = Value)) +
 second_bad <- function() {
   pie3D(live_scorers$Value, labels = live_scorers$Player, explode=0.4, labelcex = 1)
 }
+

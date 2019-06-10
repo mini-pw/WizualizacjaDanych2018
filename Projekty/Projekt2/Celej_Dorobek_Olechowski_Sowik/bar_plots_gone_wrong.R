@@ -8,36 +8,42 @@ library(fmsb)
 library(ggforce)
 library(plotrix)
 
-share_types <- c('A', 'B', 'C', 'D', 'E')
+Producer <- c('Samsung', 'Huawei', 'Xiami', 'LG', 'Apple' )
 usa_un <- c(10, 15, 20, 25, 30)
 usa <- usa_un/sum(usa_un)
 uk_un <- c(8, 12, 12, 28, 40)
 uk <- uk_un/sum(uk_un)
 
-market_share <- data.frame(share_types, usa, uk)
-market_share_narrow <-gather(market_share, "country", "share", usa, uk)
-market <-market_share_narrow %>% mutate(pct=share*100)
+market_share <- data.frame(Producer, usa, uk)
+market_share_narrow <-gather(market_share, "Country", "Share", usa, uk)
+market <-market_share_narrow %>% mutate(pct=Share*100)
 
 # Stacked bar plot jest dobrą alternatywą dla diagramów kołowych, widać, do jakiej wartości sumują się składowe, 
 # ale utrudnia porównanie odpowiadających sobie składowych, w tym przypadku jaka jest różnica pomiędzy składową 
 # D dla obu słupków
 market_stacked <- market %>% 
-  ggplot(aes(x=country, fill=share_types, y=share)) +
+  ggplot(aes(x=Country, fill=Producer, y=Share)) +
   geom_bar(stat='identity', position='stack', width=0.4)  +
   scale_y_continuous(labels = scales::percent) +
-  ggtitle('Market share in USA and UK') +
+  ggtitle('Smartphone market share in USA and UK') +
   theme_hc() +
   scale_fill_hc()
 
 # Jeśli ważne jest porównanie pomiędzy poszczególnymi składowymi, to lepiej ustawić je obok siebie przy zerze
 # kosztem tego, że nie widać, że składowe sumują się do 100%
 market_dodge <- market %>% 
-  ggplot(aes(x=share_types, fill=country, y=share)) +
+  ggplot(aes(x=Producer, fill=Country, y=Share)) +
   geom_bar(stat='identity', position='dodge', width=0.4)  +
   scale_y_continuous(labels = scales::percent) +
-  ggtitle('Market share in USA and UK') +
+  ggtitle('Smartphone market share in USA and UK') +
   theme_hc() +
   scale_fill_hc()
+
+uk_usa_difference <- market_share %>% 
+  filter(Producer == 'LG') %>% 
+  mutate(diff = (uk - usa) *100) %>% 
+  pull(diff)
+
 
 party = c('A', 'B')
 support = c(28.09, 28.25)/100
@@ -63,13 +69,16 @@ scale_in_zero <- political_support %>%
   theme_hc() +
   scale_fill_hc()
 
-twogrp<-c(rnorm(3)+4,rnorm(2)+120)
+#x_gap <- c('mxnet', 'deeplearning4j', 'Caffe', 'Pytorch', 'Tensorflow', 'Keras')
+x_gap <- 1:6 #c('mxnet', 'deeplearning4j', 'Caffe', 'Pytorch', 'Tensorflow', 'Keras')
+twogrp<-c( 125,120,112, 5, 4,3)
+twogrp_df = data.frame(x_gap, twogrp)
 gap_in_scale <- function() {
-  gap.barplot(twogrp,gap=c(8,116),xlab="Index",ytics=c(3,6,17,20),
-              ylab="Group values",main="Barplot with gap")
+  gap.barplot(twogrp, xaxlab=x_gap,gap=c(8,111),xlab="Category",ytics=c(3,6,17,120),
+              ylab="Occurrences",main="Barplot with gap")
 }
+gap_in_scale()
 
-x_gap <- 1:length(twogrp)
 y_gap <-twogrp
 data_gap = data.frame(x_gap, y_gap) 
 data_gap %>% ggplot(aes(x=x_gap, y=y_gap, fill=as.factor(x_gap))) +
@@ -82,7 +91,8 @@ data_gap %>% ggplot(aes(x=x_gap, y=y_gap, fill=as.factor(x_gap))) +
 zoomed_plot <- ggplot(data_gap) + 
   aes(x = x_gap, y = y_gap, fill=as.factor(x_gap)) +
   geom_col() +
-  facet_zoom(ylim = c(0, 10), xlim=c(0.3,3.35)) +
+  facet_zoom(ylim = c(0, 10), xlim=c(3.7,6.35)) +
+  labs(x = "Category", y = "Occurrences", fill="") +
   theme_hc() +
   scale_fill_hc()
 
@@ -127,3 +137,4 @@ barplot_school_subjects <- school_subjects %>% slice(3) %>% t() %>% as.data.fram
   ylim(0,20) +
   ylab("mark") +
   xlab("")
+

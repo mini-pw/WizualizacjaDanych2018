@@ -126,3 +126,4 @@ six_ok <- ggplot(df, aes(x=Czas, y=Wartosc, group=Firma, colour=Firma)) +
     scale_x_continuous(breaks=c(2001:2010)) + scale_colour_hc()
 # Zły przykład
 six_bad <- p +  scale_color_hue(l=2, c=12)
+

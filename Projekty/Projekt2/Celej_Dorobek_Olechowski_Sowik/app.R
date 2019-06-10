@@ -47,28 +47,36 @@ ui <- dashboardPage(
                        box(title = "Barplot", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot2good"), width = 5)),
-              titlePanel("TITLE 3"),
-              fluidRow(column(2),
-                       box(title = "-------", status = "primary",
+              titlePanel("Stacked barplot vs dodged barplot: Market share in USA and UK"),
+              fluidRow(column(2,                           
+                              textInput("textInput3", "How many more percent of matket share LG has in UK compared to USA?", value="0"),
+                              verbatimTextOutput("textOutput3", placeholder = TRUE)),
+                       box(title = "Stacked barplot", status = "primary",
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot3bad"), width = 5),
-                       box(title = "----------", status = "primary", collapsed = TRUE,
+                       box(title = "Dodged barplots", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot3good"), width = 5)),
-              titlePanel("TITLE 4"),
-              fluidRow(column(2),
-                       box(title = "--------", status = "primary",
+              titlePanel("Gap barplot vs zoomed facet: results with large discrepancies"),
+              fluidRow(column(2,                           
+                              textInput("textInput4", "How many more occurrences of category 2 than category 4?", value="0"),
+                              verbatimTextOutput("textOutput4", placeholder = TRUE)),
+                       box(title = "Gap barplot", status = "primary",
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot4bad"), width = 5),
-                       box(title = "--------", status = "primary", collapsed = TRUE,
+                       box(title = "Zoomed facet", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot4good"), width = 5)),
-              titlePanel("TITLE 5"),
-              fluidRow(column(2),
-                       box(title = "---------", status = "primary",
+              titlePanel("Spider plot vs barplot: University subjects popularity"),
+              fluidRow(column(2,                           
+                              selectInput("selectInput5", label = "Which subjecy is 5th in popularity?", 
+                                          choices = c("don't know", "physics", "music", "statistics", "french"), 
+                                          selected = NULL),
+                              verbatimTextOutput("textOutput5", placeholder = FALSE)),
+                       box(title = "Spider plot", status = "primary",
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot5bad"), width = 5),
-                       box(title = "--------", status = "primary", collapsed = TRUE,
+                       box(title = "Barplot", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot5good"), width = 5)),
               titlePanel("TITLE 6"),
@@ -128,10 +136,39 @@ server <- function(input, output) {
     })
   output$plot3bad <- renderPlot(market_stacked)
   output$plot3good<- renderPlot(market_dodge)
+  output$textOutput3 <- renderText({
+    
+    if(input$textInput3==uk_usa_difference) {
+      "Your answer is correct."
+    } else {
+      paste0("Your answer is incorrect.\nProvide proper value.")
+    }
+    
+  })
   output$plot4bad <- renderPlot(gap_in_scale())
   output$plot4good <- renderPlot(zoomed_plot)
+  output$textOutput4 <- renderText({
+    
+    if(input$textInput4==24) {
+      "Your answer is correct."
+    } else {
+      paste0("Your answer is incorrect.\nProvide proper value.")
+    }
+    
+  })
   output$plot5bad <- renderPlot(plot_radar_chart())
   output$plot5good <- renderPlot(barplot_school_subjects)
+  output$textOutput5 <- renderText({
+    if(input$selectInput5=="statistics") {
+      "Your answer is correct.\nDo you think that this usage of spider chart is useful?"
+    }
+    else if(input$selectInput5=="don't know") {
+      "Select your answer."
+    }
+    else {
+      "Your answer is incorrect.\nCheck barplot!"
+    }
+    })
   output$plot6bad <- renderPlot(six_bad)
   output$plot6good <- renderPlot(six_ok)
   output$plot7bad <- renderPlot(seven_bad)
