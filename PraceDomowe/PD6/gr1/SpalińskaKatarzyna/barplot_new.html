@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- 
+Wykres powstał na podstawie pracy domowej:
+
+https://github.com/mini-pw/WizualizacjaDanych2018/tree/master/PraceDomowe/PD2/gr1/MagierskaZuzanna
+-->
+
+
+<div id="my_dataviz" height=400 width=450></div>
+
+<div>
+  <svg id="my_dataviz3" height=300 width=450></svg>
+</div>
+
+<style>
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+</style>
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+
+// dataset
+var data1 = [
+   {console: "Nintendo Switch", manufacturer: "Nintendo", consoles_sold: 3482388},
+   {console: "PlayStation 4", manufacturer: "Sony Interactive Entertainment", consoles_sold: 1695227},
+   {console: "Nintendo 3DS", manufacturer: "Nintendo", consoles_sold: 566420},
+   {console: "PS Vita", manufacturer: "Sony Interactive Entertainment", consoles_sold: 181728},
+   {console: "Xbox One", manufacturer: "Microsoft", consoles_sold: 15339}
+];
+
+
+
+var margin = {top: 30, right: 30, bottom: 70, left: 60},
+    width = 460 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+// tooltip
+var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
+
+// legend
+var SVG = d3.select("#my_dataviz3")
+
+var keys = ["Nintendo","Sony Interactive Entertainment", "Microsoft"]
+var color = ["#E70009","#2e6db4","#7fba00"]
+
+var size = 20
+SVG.selectAll("mydots")
+  .data(keys)
+  .enter()
+  .append("rect")
+    .attr("x", 100)
+    .attr("y", function(d,i){ return 50 + i*(size+5)}) 
+    .attr("width", size)
+    .attr("height", size)
+    .style("fill", function(d,i){ return color[i]})
+
+
+SVG.selectAll("mylabels")
+  .data(keys)
+  .enter()
+  .append("text")
+    .attr("x", 100 + size*1.2)
+    .attr("y", function(d,i){ return 50 + i*(size+5) + (size/2)}) 
+    .style("fill", "black")
+    .text(function(d){ return d})
+    .attr("text-anchor", "left")
+    .style("alignment-baseline", "middle")
+
+
+// X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(data1.map(function(d) { return d.console; }))
+  .padding(0.2);
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("dy", "0.7em")
+    .attr("dx", "-4em")
+    .attr("transform", "rotate(-45)");
+
+
+// Y axis
+var y = d3.scaleLinear()
+  .domain([0, 3500000])
+  .range([ height, 0]);
+svg.append("g")
+  .attr("class", "myYaxis")
+  .call(d3.axisLeft(y));
+  
+
+// A function that create the plot:
+function update(data) {
+
+  var u = svg.selectAll("rect")
+    .data(data)
+
+  u
+    .enter()
+    .append("rect")
+    .on("mouseover", function(d) {
+       div.transition()
+         .duration(200)
+         .style("opacity", .9);
+       div.html("<b>" + d.console + "</b><br/>"  
+                        + "Consoles sold: " + d.consoles_sold + "<br/>")
+         .style("left", (d3.event.pageX) + "px")
+         .style("top", (d3.event.pageY - 28) + "px");
+       })
+     .on("mouseout", function(d) {
+       div.transition()
+         .duration(500)
+         .style("opacity", 0);
+       })
+    .merge(u)
+    .transition()
+    .duration(1000)
+      .attr("x", function(d) { return x(d.console); })
+      .attr("y", function(d) { return y(d.consoles_sold); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.consoles_sold); })
+      .attr("fill", function(d){ 
+         if (d.manufacturer == "Nintendo") { return "#E70009"; }
+	 if (d.manufacturer == "Sony Interactive Entertainment") { return "#2e6db4"; }
+	 if (d.manufacturer == "Microsoft") { return "#7fba00"; }
+           return "black";
+       })
+    
+
+}
+
+// Initialize the plot
+update(data1)
+
+</script>

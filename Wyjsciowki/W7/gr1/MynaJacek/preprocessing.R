@@ -1,0 +1,2 @@
+data <- SmarterPoland::countries %>% group_by(continent) %>% summarise(avg_death = mean(death.rate))
+data2 <-  SmarterPoland::countries %>% na.omit() %>% group_by(continent) %>% summarise(avg_birth = mean(birth.rate))

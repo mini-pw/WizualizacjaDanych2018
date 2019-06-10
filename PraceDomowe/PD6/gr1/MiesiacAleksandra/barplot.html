@@ -1,0 +1,120 @@
+<!-- Code from d3-graph-gallery.com -->
+<!-- Source: https://www.d3-graph-gallery.com/graph/barplot_button_data_simple.html-->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Add 2 buttons -->
+<button onclick="update(data1)">Dni</button>
+<button onclick="update(data2)">Annual Concentration</button>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+
+<script>
+// create 2 data_set
+var data1 = [
+   {group: "Tallin", value: 4},
+   {group: "Amsterdam", value: 4},
+   {group: "Tartu", value: 3},
+   {group: "Pitesti", value: 32},
+   {group: "Sint Maartensbrug ", value: 22},
+   {group: "Warsaw", value: 86},
+   {group: "Trencin", value: 35},
+   {group: "Aviles", value: 127},
+   {group: "Bratislava", value: 23},
+   {group: "Cracow ", value: 164},
+   {group: "Sajoszentpeter", value: 76},
+   {group: "Bern", value: 2},
+   {group: "Budapest", value: 46},
+   {group: "Bucarest", value: 41},
+   {group: "Lugano ", value: 9},
+   {group: "Vidin", value: 166},
+   {group: "Madrid", value: 20},
+   {group: "Sofia", value: 71},
+   {group: "Dramjak", value: 67},
+   {group: "Korce ", value: 61},
+   {group: "Tetovo", value: 293},
+   {group: "Skopje ", value: 162}
+];
+var data2 = [
+   {group: "Tallin", value: 15.7},
+   {group: "Amsterdam", value: 22.5},
+   {group: "Tartu", value: 16.8},
+   {group: "Pitesti", value: 33.9},
+   {group: "Sint Maartensbrug ", value: 27.6},
+   {group: "Warsaw", value: 41.6},
+   {group: "Trencin", value: 29.4},
+   {group: "Aviles", value: 45.8},
+   {group: "Bratislava", value: 29.1},
+   {group: "Cracow ", value: 56.7},
+   {group: "Sajoszentpeter", value: 35.9},
+   {group: "Bern", value: 19.3},
+   {group: "Budapest", value: 33.5},
+   {group: "Bucarest", value: 35.5},
+   {group: "Lugano ", value: 19.9},
+   {group: "Vidin", value: 61.1},
+   {group: "Madrid", value: 24.0},
+   {group: "Sofia", value:  40.0},
+   {group: "Dramjak", value: 33.7},
+   {group: "Korce ", value:  40.2},
+   {group: "Tetovo", value: 97.3},
+   {group: "Skopje ", value: 84.1}
+];
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 30, bottom: 70, left: 60},
+    width = 1400 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+// X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .domain(data1.map(function(d) { return d.group; }))
+  .padding(0.2);
+svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+  .call(d3.axisBottom(x))     
+svg.append("text")             
+    .attr("transform",
+            "translate(" + (width/2) + " ," + 
+                           (height + margin.top + 20) + ")")
+    .style("text-anchor", "middle")
+    .text("Miasta");
+
+// Add Y axis
+var y = d3.scaleLinear()
+  .domain([0,200])
+  .range([ height, 0]);
+svg.append("g")
+  .attr("class", "myYaxis")
+  .call(d3.axisLeft(y));
+
+// A function that create / update the plot for a given variable:
+function update(data) {
+  var u = svg.selectAll("rect")
+    .data(data)
+  u
+    .enter()
+    .append("rect")
+    .merge(u)
+    .transition()
+    .duration(1000)
+      .attr("x", function(d) { return x(d.group); })
+      .attr("y", function(d) { return y(d.value); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.value); })
+      .attr("fill", "#69b3a2")
+}
+// Initialize the plot with the first dataset
+update(data1)
+</script>
