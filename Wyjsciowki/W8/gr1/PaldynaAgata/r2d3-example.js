@@ -20,8 +20,8 @@ var text = svg.selectAll("text")
 
 var textLabels = text
                  .attr("x", function(d) { return d * width - 50; })
-                 .attr('y', function(d, i) { return i * barHeight + 50; })
+                 .attr('y', function(d, i) { return i * barHeight + 0.5 * barHeight; })
                  .text(function (d) { return d; })
                  .attr("font-family", "sans-serif")
                  .attr("font-size", "20px")
-                 .attr("fill", "red");
+                 .attr("fill", "black");

@@ -5,6 +5,7 @@
 
 var barHeight = Math.ceil(height / data.length);
 
+
 svg.selectAll('rect')
   .data(data)
   .enter().append('rect')
@@ -12,16 +13,18 @@ svg.selectAll('rect')
     .attr('height', barHeight)
     .attr('y', function(d, i) { return i * barHeight; })
     .attr('fill', 'steelblue');
-
-var text = svg.selectAll("text")
+    
+var text = svg.selectAll('text')
   .data(data)
   .enter()
-  .append("text");
-
+  .append('text');
+  
 var textLabels = text
-                 .attr("x", function(d) { return d * width - 50; })
-                 .attr('y', function(d, i) { return i * barHeight + 50; })
-                 .text(function (d) { return d; })
-                 .attr("font-family", "sans-serif")
-                 .attr("font-size", "20px")
-                 .attr("fill", "red");
+    .text(function(d, i) {return d;})
+    .attr("text-anchor", "middle")
+    .attr("x", function(d) {return 0.5*d*width;})
+    .attr("y", function(d, i) {return i*barHeight + barHeight/2;})
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "12px")
+    .attr("fill", "black");
+  

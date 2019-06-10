@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  fill: black;
+}
+
+.dot {
+  stroke: #000;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  /*width: 60px;*/
+  height: 45px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+</style>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+  //źródło: https://bl.ocks.org/sebg/6f7f1dd55e0c52ce5ee0dac2b2769f4b
+
+ document.write("Odtworzylem wykres z PD2 GrochowskiKosma"); 
+  
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var data = [
+   {day: 10, value: 21, team: 'barcelona'},
+   {day: 11, value: 24, team: 'barcelona'},
+   {day: 12, value: 24, team: 'barcelona'},
+   {day: 13, value: 25, team: 'barcelona'},
+   {day: 14, value: 28, team: 'barcelona'},
+   {day: 15, value: 31, team: 'barcelona'},
+   {day: 16, value: 34, team: 'barcelona'},
+   {day: 17, value: 37, team: 'barcelona'},
+   {day: 18, value: 40, team: 'barcelona'},
+   {day: 19, value: 43, team: 'barcelona'},
+   {day: 20, value: 46, team: 'barcelona'},
+   {day: 21, value: 49, team: 'barcelona'},
+   {day: 22, value: 50, team: 'barcelona'},
+   {day: 23, value: 51, team: 'barcelona'},
+   {day: 24, value: 54, team: 'barcelona'},
+   {day: 10, value: 14, team: 'real'},
+   {day: 11, value: 17, team: 'real'},
+   {day: 12, value: 20, team: 'real'},
+   {day: 13, value: 20, team: 'real'},
+   {day: 14, value: 23, team: 'real'},
+   {day: 15, value: 26, team: 'real'},
+   {day: 16, value: 29, team: 'real'},
+   {day: 17, value: 30, team: 'real'},
+   {day: 18, value: 30, team: 'real'},
+   {day: 19, value: 33, team: 'real'},
+   {day: 20, value: 36, team: 'real'},
+   {day: 21, value: 39, team: 'real'},
+   {day: 22, value: 42, team: 'real'},
+   {day: 23, value: 45, team: 'real'},
+   {day: 24, value: 45, team: 'real'},
+   {day: 10, value: 19, team: 'atletico'},
+   {day: 11, value: 20, team: 'atletico'},
+   {day: 12, value: 23, team: 'atletico'},
+   {day: 13, value: 24, team: 'atletico'},
+   {day: 14, value: 25, team: 'atletico'},
+   {day: 15, value: 28, team: 'atletico'},
+   {day: 16, value: 31, team: 'atletico'},
+   {day: 17, value: 34, team: 'atletico'},
+   {day: 18, value: 35, team: 'atletico'},
+   {day: 19, value: 38, team: 'atletico'},
+   {day: 20, value: 41, team: 'atletico'},
+   {day: 21, value: 44, team: 'atletico'},
+   {day: 22, value: 44, team: 'atletico'},
+   {day: 23, value: 44, team: 'atletico'},
+   {day: 24, value: 47, team: 'atletico'}
+];
+console.log(data);
+
+var x = d3.scaleLinear()
+    .range([0, width])
+    .domain([9, 26]);
+
+var y = d3.scaleLinear()
+    .range([height, 0])
+    .domain([10, 60]);
+
+var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+var xAxis = d3.axisBottom(x);
+
+var yAxis = d3.axisLeft(y);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("day");
+
+  var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+    
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Points")
+
+  svg.selectAll(".dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", 3.5)
+      .attr("cx", function(d) { return x(d.day); })
+      .attr("cy", function(d) { return y(d.value); })
+      .style("fill", function(d) { return color(d.team); })
+      .on("mouseover", function(d) {
+       div.transition()
+         .duration(200)
+         .style("opacity", .9);
+       div.html("<b>" + d.team + "</b><br/>"  
+                        + "Points: " + d.value + "<br/>"
+                        + "<b>" + "Day: " + d.day + "<br/>")
+         .style("left", (d3.event.pageX) + "px")
+         .style("top", (d3.event.pageY - 28) + "px");
+       })
+     .on("mouseout", function(d) {
+       div.transition()
+         .duration(500)
+         .style("opacity", 0);
+       });
+
+  var legend = svg.selectAll(".legend")
+      .data(color.domain())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+
+</script>

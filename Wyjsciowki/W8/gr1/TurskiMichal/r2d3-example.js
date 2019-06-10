@@ -17,10 +17,12 @@ var text = svg.selectAll("text")
   .data(data)
   .enter()
   .append("text");
+  
+var offset = 80
 
 var textLabels = text
-                 .attr("x", function(d) { return d * width - 50; })
-                 .attr('y', function(d, i) { return i * barHeight + 50; })
+                 .attr("x", function(d) { return d * width - offset; })
+                 .attr('y', function(d, i) { return i * barHeight + barHeight/2; })
                  .text(function (d) { return d; })
                  .attr("font-family", "sans-serif")
                  .attr("font-size", "20px")

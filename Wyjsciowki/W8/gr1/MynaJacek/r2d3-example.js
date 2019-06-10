@@ -19,9 +19,9 @@ var text = svg.selectAll("text")
   .append("text");
 
 var textLabels = text
-                 .attr("x", function(d) { return d * width - 50; })
-                 .attr('y', function(d, i) { return i * barHeight + 50; })
-                 .text(function (d) { return d; })
+                 .attr("x", function(d) { return d * width + 10; })
+                 .attr('y', function(d, i) { return i * barHeight + barHeight / 2; })
+                 .text(function (d) { return d.toFixed(4); })
                  .attr("font-family", "sans-serif")
                  .attr("font-size", "20px")
                  .attr("fill", "red");

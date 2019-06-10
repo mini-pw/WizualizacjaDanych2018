@@ -7,31 +7,32 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 
 <!-- Add 2 buttons -->
-<button onclick="update(data1)">Death</button>
-<button onclick="update(data2)">Birth</button>
+<button onclick="update(data1)">Death rate</button>
+<button onclick="update(data2)">Birth rate</button>
 
 <!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+<div id="my_dataviz" style="position: absolute; z-index: -1"></div>
 
 
 <script>
 
   // create 2 data_set
   var data1 = [
-    { group: "Africa", value: 33.7 },
-    { group: "Americas", value: 18.0 },
-    { group: "Asia", value: 19.9 },
-    { group: "Europe", value: 10.7 },
-    { group: "Oceania", value: 22.3 }
-
-  ];
-  var data2 = [
     { group: "Africa", value: 9.25 },
     { group: "Americas", value: 6.36 },
     { group: "Asia", value: 5.89 },
     { group: "Europe", value: 9.99 },
-    { group: "Oceania", value: 6.21 }
+    { group: "Oceania", value: 6.19 }
   ];
+
+  var data2 = [
+    { group: "Africa", value: 33.7 },
+    { group: "Americas", value: 18.0 },
+    { group: "Asia", value: 19.9 },
+    { group: "Europe", value: 10.7 },
+    { group: "Oceania", value: 0 }
+  ];
+
 
   // set the dimensions and margins of the graph
   var margin = { top: 30, right: 30, bottom: 70, left: 60 },
@@ -58,7 +59,7 @@
 
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([0, 20])
+    .domain([0, 35])
     .range([height, 0]);
   svg.append("g")
     .attr("class", "myYaxis")
@@ -80,10 +81,19 @@
       .attr("y", function (d) { return y(d.value); })
       .attr("width", x.bandwidth())
       .attr("height", function (d) { return height - y(d.value); })
-      .attr("fill", "#69b3a2")
+      .attr("fill", "dodgerblue")
   }
 
   // Initialize the plot with the first dataset
-  update(data1)
+  update(data1);
 
+
+
+</script>
+
+<script src="confetti.js"></script>
+
+<script>
+  maxParticleCount = 10000;
+  startConfetti();
 </script>

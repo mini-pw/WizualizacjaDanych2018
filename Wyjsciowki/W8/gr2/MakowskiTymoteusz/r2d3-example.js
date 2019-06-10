@@ -12,6 +12,11 @@ svg.selectAll('rect')
     .attr('height', barHeight)
     .attr('y', function(d, i) { return i * barHeight; })
     .attr('fill', 'steelblue');
+    
+var x = d3.scaleLinear()
+  .domain([ 0, 1 ])
+  //.domain([ 0, function(d) { return max(d*width); } ])
+  .range([ 0, width ]);
 
 var text = svg.selectAll("text")
   .data(data)
@@ -19,9 +24,14 @@ var text = svg.selectAll("text")
   .append("text");
 
 var textLabels = text
-                 .attr("x", function(d) { return d * width - 50; })
-                 .attr('y', function(d, i) { return i * barHeight + 50; })
+                 .attr("x", function(d) { return d * width / 2; })
+                 .attr('y', function(d, i) { return (i+0.5) * barHeight; })
                  .text(function (d) { return d; })
                  .attr("font-family", "sans-serif")
                  .attr("font-size", "20px")
                  .attr("fill", "red");
+
+svg.append("g")
+  //.attr("class", "axis axis--x")
+  .attr("transform", "translate(0," + 0 + ")")
+  .call(d3.axisBottom(x));

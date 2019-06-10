@@ -5,6 +5,13 @@
 
 var barHeight = Math.ceil(height / data.length);
 
+var x = d3.scaleLinear()
+    .range([0, width]);
+
+var xAxis = d3.axisBottom(x);
+
+x.domain([0, d3.max(data)]).nice();
+
 svg.selectAll('rect')
   .data(data)
   .enter().append('rect')
@@ -20,8 +27,12 @@ var text = svg.selectAll("text")
 
 var textLabels = text
                  .attr("x", function(d) { return d * width - 50; })
-                 .attr('y', function(d, i) { return i * barHeight + 50; })
+                 .attr('y', function(d, i) { return i * barHeight + barHeight/2 + 8; })
                  .text(function (d) { return d; })
                  .attr("font-family", "sans-serif")
                  .attr("font-size", "20px")
                  .attr("fill", "red");
+
+svg.append("g")
+  //.attr("transform", "translate(0," + 500 + ")")
+    .call(xAxis)
