@@ -17,15 +17,15 @@ knitr::opts_chunk$set(echo = FALSE)
 
 10.06.2019: termin oddania projektu 2.
 
-Maksymalna liczba punktów do uzyskania: 27.
+Maksymalna liczba punktów do uzyskania: 19
 
 ## Zakończenie zajęć
 
-Za ten projekt można otrzymać od 0 do 27 punktów:
+Za ten projekt można otrzymać od 0 do 19 punktów:
 
-* 0-10 punktów: przygotowanie estetycznych i informatywnych wizualizacji,
-* 0-10 punktów: właściwe zastosowanie interaktywności,
-* 0-7 punktów: estetyka i pomysłowość aranżacji wizualizacji oraz ich opisów w jedną całość, jaką jest strona lub aplikacja.
+* 0-7 punktów: przygotowanie estetycznych i informatywnych wizualizacji,
+* 0-7 punktów: właściwe zastosowanie interaktywności,
+* 0-5 punktów: estetyka i pomysłowość aranżacji wizualizacji oraz ich opisów w jedną całość, jaką jest strona lub aplikacja.
 
 ## Zakończenie zajęć
 
