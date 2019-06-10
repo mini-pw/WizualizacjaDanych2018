@@ -3,9 +3,9 @@ library(shinydashboard)
 library(ggplot2)
 
 
-source('barplots_are_ok.R')
-source('bar_plots_gone_wrong.R')
-source('last_three.R')
+source('./barplots_are_ok.R')
+source('./bar_plots_gone_wrong.R')
+source('./last_three.R')
 
 
 ui <- dashboardPage(
@@ -79,28 +79,40 @@ ui <- dashboardPage(
                        box(title = "Barplot", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot5good"), width = 5)),
-              titlePanel("TITLE 6"),
-              fluidRow(column(2),
-                       box(title = "----------", status = "primary",
+              titlePanel("Colors"),
+              fluidRow(column(2,                         
+                              selectInput("selectInput6", label = "Which company was the most valuable at the end of 2009?", 
+                                          choices = c("don't know", "A", "B", "C"), 
+                                            selected = NULL),
+                              verbatimTextOutput("textOutput6", placeholder = FALSE)),
+                       box(title = "Similar colors", status = "primary",
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot6bad"), width = 5),
-                       box(title = "--------", status = "primary", collapsed = TRUE,
+                       box(title = "Differentiable colors", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot6good"), width = 5)),
-              titlePanel("TITLE 7"),
-              fluidRow(column(2),
-                       box(title = "--------", status = "primary",
+              titlePanel("Unnecesary third dimention"),
+              fluidRow(column(2,                         
+                              selectInput("selectInput7", label = "What is the value of income in small family in small city?", 
+                                          choices = c("don't know", "5", "6", "7"), 
+                                          selected = NULL),
+                              verbatimTextOutput("textOutput7", placeholder = FALSE)),
+                       box(title = "3D barplot", status = "primary",
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot7bad"), width = 5),
-                       box(title = "----------", status = "primary", collapsed = TRUE,
+                       box(title = "Colored curves", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot7good"), width = 5)),
-              titlePanel("TITLE 8"),
-              fluidRow(column(2),
-                       box(title = "---------", status = "primary",
+              titlePanel("Cropped scale"),
+              fluidRow(column(2,                         
+                              selectInput("selectInput8", label = "How many times party 1 has larger support than part 6?", 
+                                          choices = c("don't know", "12 times larger", "150% larger ", "16% larger"), 
+                                          selected = NULL),
+                              verbatimTextOutput("textOutput8", placeholder = FALSE)),
+                       box(title = "Cropped scale", status = "primary",
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot8bad"), width = 5),
-                       box(title = "-------", status = "primary", collapsed = TRUE,
+                       box(title = "Full Scale", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot8good"), width = 5))
       ),
@@ -171,10 +183,43 @@ server <- function(input, output) {
     })
   output$plot6bad <- renderPlot(six_bad)
   output$plot6good <- renderPlot(six_ok)
+  output$textOutput6 <- renderText({
+    if(input$selectInput6=="A") {
+      "Your answer is correct.\nDo you think that this usage of spider chart is useful?"
+    }
+    else if(input$selectInput5=="don't know") {
+      "Select your answer."
+    }
+    else {
+      "Your answer is incorrect.\nCheck barplot!"
+    }
+  })
   output$plot7bad <- renderPlot(seven_bad)
   output$plot7good <- renderPlot(seven_ok)
+  output$textOutput7 <- renderText({
+    if(input$selectInput7=="6") {
+      "Your answer is correct.\nDo you think that this usage of spider chart is useful?"
+    }
+    else if(input$selectInput7=="don't know") {
+      "Select your answer."
+    }
+    else {
+      "Your answer is incorrect.\nCheck barplot!"
+    }
+  })
   output$plot8bad <- renderPlot(eight_bad)
   output$plot8good <- renderPlot(eight_ok)
+  output$textOutput7 <- renderText({
+    if(input$selectInput7=="16% larger") {
+      "Your answer is correct.\nDo you think that this usage of spider chart is useful?"
+    }
+    else if(input$selectInput7=="don't know") {
+      "Select your answer."
+    }
+    else {
+      "Your answer is incorrect.\nCheck barplot!"
+    }
+  })
 }
 
 shinyApp(ui, server)
