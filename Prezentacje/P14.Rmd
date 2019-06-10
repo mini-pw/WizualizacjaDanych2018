@@ -1,0 +1,90 @@
+---
+title: "Podsumowanie"
+author: "Michał Burdukiewicz"
+date: "10 czerwca 2019"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(plotly)
+#library(dplyr)
+#library(reshape2)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Zakończenie zajęć
+
+10.06.2019: termin oddania projektu 2.
+
+Maksymalna liczba punktów do uzyskania: 27.
+
+## Zakończenie zajęć
+
+Za ten projekt można otrzymać od 0 do 27 punktów:
+
+* 0-10 punktów: przygotowanie estetycznych i informatywnych wizualizacji,
+* 0-10 punktów: właściwe zastosowanie interaktywności,
+* 0-7 punktów: estetyka i pomysłowość aranżacji wizualizacji oraz ich opisów w jedną całość, jaką jest strona lub aplikacja.
+
+## Zakończenie zajęć
+
+11.06.2019: wstawienie ocen z prezentacji i ocenianie projektu 2.
+
+12.06.2019: 10-12, sala 44, dyskusja o ocenach, wstawianie ocen do indeksów (jeśli jest taka konieczność).
+
+14.06.2019: udostępnienie ankiety oceny przedmiotu.
+
+## Workflow wizualizacji
+
+<a href="https://cdn-images-1.medium.com/max/800/1*KAhyk7D2KBkSvLOElj_Cvg.png"><img src="https://cdn-images-1.medium.com/max/800/1*KAhyk7D2KBkSvLOElj_Cvg.png" width="600px"></a>
+
+Źródło: https://towardsdatascience.com/6-reasons-why-data-visualisation-projects-fail-1ea7a56d7602.
+
+## Wykorzystywane wizualizacje
+
+<a href="https://www.tapclicks.com/wp-content/uploads/Charts-and-Graphs-Guide-1024x768.jpg"><img src="https://www.tapclicks.com/wp-content/uploads/Charts-and-Graphs-Guide-1024x768.jpg" width="600px"></a>
+
+Źródło: https://www.tapclicks.com/the-ultimate-guide-to-data-visualization/.
+
+## Wykorzystywane wizualizacje
+
+<a href="https://scontent-ort2-1.cdninstagram.com/vp/e6f3b33e462ea8d906633c7e4aab0ec0/5D4A960D/t51.2885-15/e35/44566581_2393550667342541_3788655438398995332_n.jpg?_nc_ht=scontent-ort2-1.cdninstagram.com"><img src="https://scontent-ort2-1.cdninstagram.com/vp/e6f3b33e462ea8d906633c7e4aab0ec0/5D4A960D/t51.2885-15/e35/44566581_2393550667342541_3788655438398995332_n.jpg?_nc_ht=scontent-ort2-1.cdninstagram.com" width="600px"></a>
+
+Źródło: nieznane.
+
+## Błędy wizualizacji
+
+<a href="http://www.biecek.pl/Eseje/grafika/percepcja/bledy.png"><img src="http://www.biecek.pl/Eseje/grafika/percepcja/bledy.png" width="700px"></a>
+
+Źródło: http://www.biecek.pl/Eseje/indexObraz.html.
+
+## Błędy wizualizacji
+
+<a href="https://www.dataquest.io/wp-content/uploads/2019/01/full-180529_considercolor12.png"><img src="https://www.dataquest.io/wp-content/uploads/2019/01/full-180529_considercolor12.png" width="700px"></a>
+
+Źródło: https://www.dataquest.io/blog/what-to-consider-when-choosing-colors-for-data-visualization/.
+
+## Najlepsze wizualizacje
+
+https://magierskaz.shinyapps.io/PracaDomowa5/
+
+## Najlepsze wizualizacje
+
+https://ppodbielski-pw.shinyapps.io/Podbielski_Piotr_Shiny_App/
+
+## Najlepsze wizualizacje
+
+https://htmlpreview.github.io/?https://github.com/mini-pw/WizualizacjaDanych2018/blob/master/PraceDomowe/PD3/gr1/MagierskaZuzanna/MagierskaZuzanna.html
+
+## Najlepsze wizualizacje
+
+https://github.com/mini-pw/WizualizacjaDanych2018/blob/master/Projekty/Projekt1/KowalikSzymon_MynaJacek/infografika.pdf
+
+## Najlepsze wizualizacje
+
+https://github.com/mini-pw/WizualizacjaDanych2018/blob/master/Projekty/Projekt1/MalkinskiMikolaj_SawickiJan/Project1.pdf
+
+## Najlepsze wizualizacje
+
+https://github.com/mini-pw/WizualizacjaDanych2018/blob/master/Projekty/Projekt1/Spali%C5%84skaKatarzyna_CelejWojciech_TurskiMicha%C5%82/Blue%20Wood.pdf
