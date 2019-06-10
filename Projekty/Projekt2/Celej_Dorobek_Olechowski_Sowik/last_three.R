@@ -111,7 +111,7 @@ df <- read.table(text='Czas Firma Wartosc
    ', header=TRUE)
 
 # Dobry przykład
-nine_ok <- ggplot(df, aes(x=Czas, y=Wartosc, group=Firma, colour=Firma)) +
+six_ok <- ggplot(df, aes(x=Czas, y=Wartosc, group=Firma, colour=Firma)) +
     geom_line(size=2)+
     theme(legend.position = c(0.9, 0.9))+
     theme (
@@ -125,4 +125,4 @@ nine_ok <- ggplot(df, aes(x=Czas, y=Wartosc, group=Firma, colour=Firma)) +
          subtitle="W ostatnich latach ich funkcjonowania")+
     scale_x_continuous(breaks=c(2001:2010)) + scale_colour_hc()
 # Zły przykład
-nine_bad <- p +  scale_color_hue(l=2, c=12)
+six_bad <- p +  scale_color_hue(l=2, c=12)
