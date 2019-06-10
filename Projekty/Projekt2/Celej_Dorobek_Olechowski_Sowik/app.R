@@ -1,33 +1,12 @@
 library(shiny)
 library(shinydashboard)
-library(dplyr)
 library(ggplot2)
-library(ggthemes)
-library(waffle)
-library(plotrix)
-library(ggthreed)
 
 
-live_matches = data.frame(Result = c("Win", "Draw", "Loss"), Value = c(30, 7, 1))
-live_matches$Result = factor(live_matches$Result, levels = live_matches$Result)
+source('barplots_are_ok.R')
+source('bar_plots_gone_wrong.R')
+source('last_three.R')
 
-live_scorers = data.frame(Player = c("Mohamed Salah",
-                                     "Sadio Mane",
-                                     "Roberto Firmino",
-                                     "Xerdan Shaqiri",
-                                     "James Milner",
-                                     "Virgil van Dijk",
-                                     "Georginio Wijnaldum",
-                                     "Divock Origi",
-                                     "Daniel Sturridge",
-                                     "Naby Keita",
-                                     "Fabinho",
-                                     "Jordan Henderson",
-                                     "Trent Alexander-Arnold",
-                                     "Joel Matip",
-                                     "Dejan Lovren"),
-                          Value = c(22, 22, 12, 6, 5, 4, 3, 3, 2, 2, 1, 1, 1, 1, 1))
-live_scorers$Player = factor(live_scorers$Player, levels = live_scorers$Player)
 
 ui <- dashboardPage(
   skin = "black",
@@ -68,18 +47,62 @@ ui <- dashboardPage(
                        box(title = "Barplot", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
                            plotOutput("plot2good"), width = 5)),
-              fluidRow(box(title = "plot5", status = "primary",
+              titlePanel("TITLE 3"),
+              fluidRow(column(2),
+                       box(title = "-------", status = "primary",
                            solidHeader = TRUE, collapsible = TRUE, 
-                           plotOutput("plot5"), width = 6),
-                       box(title = "plot6", status = "primary",
+                           plotOutput("plot3bad"), width = 5),
+                       box(title = "----------", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
-                           plotOutput("plot6"), width = 6)),
-              fluidRow(box(title = "plot7", status = "primary",
+                           plotOutput("plot3good"), width = 5)),
+              titlePanel("TITLE 4"),
+              fluidRow(column(2),
+                       box(title = "--------", status = "primary",
                            solidHeader = TRUE, collapsible = TRUE, 
-                           plotOutput("plot7"), width = 6),
-                       box(title = "plot8", status = "primary",
+                           plotOutput("plot4bad"), width = 5),
+                       box(title = "--------", status = "primary", collapsed = TRUE,
                            solidHeader = TRUE, collapsible = TRUE, 
-                           plotOutput("plot8"), width = 6))
+                           plotOutput("plot4good"), width = 5)),
+              titlePanel("TITLE 5"),
+              fluidRow(column(2),
+                       box(title = "-------", status = "primary",
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot5bad"), width = 5),
+                       box(title = "-------", status = "primary", collapsed = TRUE,
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot5good"), width = 5)),
+              titlePanel("TITLE 6"),
+              fluidRow(column(2),
+                       box(title = "---------", status = "primary",
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot6bad"), width = 5),
+                       box(title = "--------", status = "primary", collapsed = TRUE,
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot6good"), width = 5)),
+              titlePanel("TITLE 7"),
+              fluidRow(column(2),
+                       box(title = "----------", status = "primary",
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot7bad"), width = 5),
+                       box(title = "--------", status = "primary", collapsed = TRUE,
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot7good"), width = 5)),
+              titlePanel("TITLE 8"),
+              fluidRow(column(2),
+                       box(title = "--------", status = "primary",
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot8bad"), width = 5),
+                       box(title = "----------", status = "primary", collapsed = TRUE,
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot8good"), width = 5)),
+              titlePanel("TITLE 9"),
+              fluidRow(column(2),
+                       box(title = "---------", status = "primary",
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot9bad"), width = 5),
+                       box(title = "-------", status = "primary", collapsed = TRUE,
+                           solidHeader = TRUE, collapsible = TRUE, 
+                           plotOutput("plot9good"), width = 5))
       ),
       tabItem("about",
               "App developed for WD project. Bad plots on the left, collapsed (good) on the right."
@@ -88,40 +111,30 @@ ui <- dashboardPage(
   )
 )
 server <- function(input, output) {
-  output$plot1good <- renderPlot({
-    ggplot(data = live_matches, aes(x = Result, y = Value)) +
-      geom_bar(stat = "identity") +
-      theme_hc()
-    })
-  
-  output$plot1bad <- renderPlot({
-    waffle(live_matches$Value, rows = 5) +
-      scale_fill_manual(name = "Result: ", labels = c("Win", "Draw", "Loss", ""),
-                        values = c("#414046", "#7CB5EC", "#90EC7D", "#FFFFFF")) +
-      theme(legend.text = element_text(size = 15), legend.title = element_text(size=17),
-            legend.position = "right")
-  })
+  output$plot1good <- renderPlot(first_ok)
+  output$plot1bad <- renderPlot(first_bad)
   output$textOutput1 <- renderText({
-    input$textInput1})
-  
-  output$plot2good <- renderPlot({
-    ggplot(data = live_scorers, aes(x = Player, y = Value)) +
-      geom_bar(stat = "identity") +
-      scale_y_continuous(expand = expand_scale(add = c(0, 8))) +
-      theme(axis.text.x = element_text(angle = 90, vjust = 0.4)) +
-      theme_hc()
-  })
-  output$plot2bad <- renderPlot({
-    pie3D(live_scorers$Value, labels = live_scorers$Player, explode=0.4, labelcex = 1)
-  })
+    input$textInput1
+    })
+  output$plot2good <- renderPlot(second_ok)
+  output$plot2bad <- renderPlot(second_bad())
   output$textOutput2 <- renderText({
-    input$selectInput2})
-  
-  output$plot4 <- renderPlot(ggplot())
-  output$plot5 <- renderPlot(ggplot())
-  output$plot6 <- renderPlot(ggplot())
-  output$plot7 <- renderPlot(ggplot())
-  output$plot8 <- renderPlot(ggplot())
+    input$selectInput2
+    })
+  output$plot3bad <- renderPlot(market_stacked)
+  output$plot3good<- renderPlot(market_dodge)
+  output$plot4bad <- renderPlot(scale_not_in_zero)
+  output$plot4good <- renderPlot(scale_in_zero)
+  output$plot5bad <- renderPlot(gap_in_scale())
+  output$plot5good <- renderPlot(zoomed_plot)
+  output$plot6bad <- renderPlot(plot_radar_chart())
+  output$plot6good <- renderPlot(barplot_school_subjects)
+  output$plot7bad <- renderPlot(seven_bad)
+  output$plot7good <- renderPlot(seven_ok)
+  output$plot8bad <- renderPlot(eight_bad)
+  output$plot8good <- renderPlot(eight_ok)
+  output$plot9bad <- renderPlot(nine_bad)
+  output$plot9good <- renderPlot(nine_ok)
 }
 
 shinyApp(ui, server)
