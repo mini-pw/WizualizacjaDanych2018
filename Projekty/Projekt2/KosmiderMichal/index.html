@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js" integrity="sha256-7/yoZS3548fXSRXqc/xYzjsmuW3sFKzuvOCHd06Pmps=" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,400,500,600,700&display=swap&subset=latin-ext" rel="stylesheet">
+    <script src="./ccodes.js" charset="utf-8"></script>
+    <style media="screen">
+      * {
+        font-family: 'Montserrat', sans-serif;
+      }
+      html, body, svg {
+        margin: 0;
+        height: 100%;
+      }
+      div.tooltip {
+        position: absolute;
+        overflow: auto;
+        background-color: #CCC;
+        padding: 7px;
+      }
+      .tooltip h1 {
+        font-size: 1em;
+      }
+      .controlls {
+        position: absolute;
+        bottom: 0;
+        width: 400px;
+        height: 128px;
+        background: #CCC;
+        opacity: 0.7;
+        left: 50%;
+        transform: translate(-50%, 0);
+        padding: 7px;
+      }
+      .controlls h1 {
+        margin-left: 10px;
+      }
+      .slider {
+        margin-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+    </div>
+    <svg>
+    </svg>
+    <div id="country-tooltip" class="tooltip" style="opacity: 0;">
+      <h1 class="name"></h1>
+    </div>
+    <div id="army-tooltip" class="tooltip" style="opacity: 0;">
+      <h1 class="name"></h1>
+      <P>Country: <span class="actor"><span></P>
+      <P>Stength: <span class="str"><span></P>
+      <P>Casualties: <span class="cas"><span></P>
+    </div>
+    <div class="controlls">
+      <h1>Battles <span id="year-min">1600</span> to <span id="year-max">1983</span></h1>
+      <input type="text" data-slider-tooltip="hide" data-slider-min="1600" data-slider-max="1983" data-slider-value="[1600, 1983]" class="slider">
+    </div>
+    <script src="logic.js" charset="utf-8"></script>
+  </body>
+</html>
