@@ -54,26 +54,17 @@ dat <- read.table(text='Party     Support
 # Dobry przykład
 eight_ok <- ggplot(dat, aes(x=Party, y=Support, fill=Party)) +
   geom_bar(stat = "identity")+
-  theme(legend.position = c(0.9, 0.9))+
-  theme (
-    legend.title = element_text(size=15),
-    legend.text = element_text(size=15),
-    title = element_text(size=15)
-  )+
+  theme (title = element_text(size=15))+
   labs(title="Political Parties Support") +
-   theme_hc() + scale_fill_hc()
+   theme_hc() + scale_fill_hc() +theme(legend.position = "none")
+
 #Zły przykład
 eight_bad <- ggplot(dat, aes(x=Party, y=Support, fill=Party)) +
   geom_bar(stat = "identity")+
-  theme(legend.position = c(0.9, 0.9))+
-  theme (
-    legend.title = element_text(size=15),
-    legend.text = element_text(size=15),
-    title = element_text(size=15)
-  )+
+  theme (title = element_text(size=15))+
   labs(title="Political Parties Support")+
   coord_cartesian(ylim=c(18000,22000)) +
-   theme_hc() + scale_fill_hc()
+   theme_hc() + scale_fill_hc() +theme(legend.position = "none")
 
 # 5. zlewające się kolory
 
@@ -122,7 +113,7 @@ six_ok <- ggplot(df, aes(x=Time, y=Value, group=Company, colour=Company)) +
     labs(x="Time [Years]",
          y="Market Value[Mln $]",
          title="Companies Value")+
-    scale_x_continuous(breaks=c(2001:2010)) + scale_colour_hc()
+    scale_x_continuous(breaks=c(2001:2010)) + scale_colour_hc() +theme_hc()
 # Zły przykład
 six_bad <- ggplot(df, aes(x=Time, y=Value, group=Company, colour=Company)) +
    geom_line(size=2)+
@@ -135,5 +126,5 @@ six_bad <- ggplot(df, aes(x=Time, y=Value, group=Company, colour=Company)) +
    labs(x="Time [Years]",
         y="Market Value[Mln $]",
         title="Companies Value")+
-   scale_x_continuous(breaks=c(2001:2010)) +  scale_color_hue(l=2, c=12)
+   scale_x_continuous(breaks=c(2001:2010)) +  scale_color_hue(l=2, c=12) + theme_hc()
 

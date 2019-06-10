@@ -26,21 +26,23 @@ live_scorers$Player = factor(live_scorers$Player, levels = live_scorers$Player)
 
 first_ok <- ggplot(data = live_matches, aes(x = Result, y = Value)) +
   geom_bar(stat = "identity") +
-  theme_hc()
+  theme_hc() +
+  labs(title = "Liverpool results in PL 2018/2019")
 
 first_bad <- waffle(live_matches$Value, rows = 5) +
   scale_fill_manual(name = "Result: ", labels = c("Win", "Draw", "Loss", ""),
                     values = c("#414046", "#7CB5EC", "#90EC7D", "#FFFFFF")) +
   theme(legend.text = element_text(size = 15), legend.title = element_text(size=17),
-        legend.position = "right")
+        legend.position = "right") +
+  labs(title = "Liverpool results in PL 2018/2019")
 
 second_ok <- ggplot(data = live_scorers, aes(x = Player, y = Value)) +
   geom_bar(stat = "identity") +
   scale_y_continuous(expand = expand_scale(add = c(0, 8))) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.4)) +
-  theme_hc()
+  theme_hc() + labs(title = "Best Liverpool scorers in season 2018/2019")
 
 second_bad <- function() {
-  pie3D(live_scorers$Value, labels = live_scorers$Player, explode=0.4, labelcex = 1)
+  pie3D(live_scorers$Value, labels = live_scorers$Player, explode=0.4, labelcex = 1, main = "Best Liverpool scorers in season 2018/2019")
 }
 

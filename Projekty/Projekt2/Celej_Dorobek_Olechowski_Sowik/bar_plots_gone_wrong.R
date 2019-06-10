@@ -90,11 +90,11 @@ data_gap %>% ggplot(aes(x=x_gap, y=y_gap, fill=as.factor(x_gap))) +
 
 zoomed_plot <- ggplot(data_gap) + 
   aes(x = x_gap, y = y_gap, fill=as.factor(x_gap)) +
-  geom_col() +
+  geom_bar(stat = "identity") +
   facet_zoom(ylim = c(0, 10), xlim=c(3.7,6.35)) +
   labs(x = "Category", y = "Occurrences", fill="") +
-  theme_hc() +
-  scale_fill_hc()
+  scale_fill_hc() +
+  theme_hc()
 
 
 
