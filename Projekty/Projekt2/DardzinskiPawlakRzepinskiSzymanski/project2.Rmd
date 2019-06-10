@@ -79,7 +79,7 @@ ordered =
 builder <- create_visualization_case_builder() %>% 
   add_good_plot(ordered) %>% 
   add_bad_plot(unordered) %>% 
-  add_qa_case("What is the value Alaska?", 263) %>% 
+  add_qa_case("What is the value for Alaska?", 263) %>% 
   add_qa_case("What State has more assaults: Colorado or Georgia?", "Georgia") %>% 
   add_qa_case("What is the difference?", 7)
 
