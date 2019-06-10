@@ -4,26 +4,26 @@ library(ggthemes)
 
 # 3. niepotrzebny trzeci wymiar w słupkowym
 
-d <- read.table(text='Wielkosc_rodziny   Dochody     Zamieszkanie
-   mała   8   Duże_miasto
-   mała   4   Wieś
-   mała   6.6   Małe_miasto
-   średnia   7   Duże_miasto
-   średnia   3.5   Wieś
-   średnia   5   Małe_miasto
-   duża  7   Duże_miasto
-   duża  5   Wieś
-   duża  4.8   Małe_miasto
+d <- read.table(text='Family_size   Income     Placement
+   small   8   Big_City
+   small   4   Village
+   small   6   Small_City
+   middle   7   Small_City
+   middle   3.5   Village
+   middle   5   Big_City
+   big  7   Big_City
+   big  5   Village
+   big  4   Small_City
    ', header=TRUE)
 
 # Zły pryzkład
 
-seven_bad <- cloud(Dochody~Wielkosc_rodziny+Zamieszkanie, d, panel.3d.cloud=panel.3dbars, col.facet='grey',
+seven_bad <- cloud(Income~Family_size+Placement, d, panel.3d.cloud=panel.3dbars, col.facet='grey',
       xbase=0.2, ybase=0.4, scales=list(arrows=FALSE, col=1),
       par.settings = list(axis.line = list(col = "transparent")))
 
 # Dobry przykład
-seven_ok <- ggplot(d, aes(Wielkosc_rodziny, Dochody, group=Zamieszkanie, colour=Zamieszkanie)) +
+seven_ok <- ggplot(d, aes(Family_size, Income, group=Placement, colour=Placement)) +
   geom_line() +
   geom_point() +
   ylim(0.0, 9.0)+
@@ -34,25 +34,25 @@ seven_ok <- ggplot(d, aes(Wielkosc_rodziny, Dochody, group=Zamieszkanie, colour=
     legend.text = element_text(size=15),
     title = element_text(size=15)
   )+
-  labs(title="Dochody w gospodarstwach domowych",
-       subtitle="Na podstawie zamieszkania i wielkości rodziny") +
+  labs(title="Income in households",
+       subtitle="by placement and family size") +
    theme_hc() + scale_colour_hc()
 
 # 4. ucięcie skali
 
-dat <- read.table(text='Partia     Poparcie
-   Partia1 21485
-   Partia2 20453
-   Partia3 19858
-   Partia4 19240
-   Partia5 18874
-   Partia6 18024
+dat <- read.table(text='Party     Support
+   Party1 21485
+   Party2 20453
+   Party3 19858
+   Party4 19240
+   Party5 18874
+   Party6 18024
    ', header=TRUE)
 
 
 
 # Dobry przykład
-eight_ok <- ggplot(dat, aes(x=Partia, y=Poparcie, fill=Partia)) +
+eight_ok <- ggplot(dat, aes(x=Party, y=Support, fill=Party)) +
   geom_bar(stat = "identity")+
   theme(legend.position = c(0.9, 0.9))+
   theme (
@@ -60,10 +60,10 @@ eight_ok <- ggplot(dat, aes(x=Partia, y=Poparcie, fill=Partia)) +
     legend.text = element_text(size=15),
     title = element_text(size=15)
   )+
-  labs(title="Poparcie partii politycznych") +
+  labs(title="Political Parties Support") +
    theme_hc() + scale_fill_hc()
 #Zły przykład
-eight_bad <- ggplot(dat, aes(x=Partia, y=Poparcie, fill=Partia)) +
+eight_bad <- ggplot(dat, aes(x=Party, y=Support, fill=Party)) +
   geom_bar(stat = "identity")+
   theme(legend.position = c(0.9, 0.9))+
   theme (
@@ -71,13 +71,13 @@ eight_bad <- ggplot(dat, aes(x=Partia, y=Poparcie, fill=Partia)) +
     legend.text = element_text(size=15),
     title = element_text(size=15)
   )+
-  labs(title="Poparcie partii politycznych")+
+  labs(title="Political Parties Support")+
   coord_cartesian(ylim=c(18000,22000)) +
    theme_hc() + scale_fill_hc()
 
 # 5. zlewające się kolory
 
-df <- read.table(text='Czas Firma Wartosc
+df <- read.table(text='Time Company Value
    2001 A  9.5
    2002 A  8.9
    2003 A  9.02
@@ -111,7 +111,7 @@ df <- read.table(text='Czas Firma Wartosc
    ', header=TRUE)
 
 # Dobry przykład
-six_ok <- ggplot(df, aes(x=Czas, y=Wartosc, group=Firma, colour=Firma)) +
+six_ok <- ggplot(df, aes(x=Time, y=Value, group=Company, colour=Company)) +
     geom_line(size=2)+
     theme(legend.position = c(0.9, 0.9))+
     theme (
@@ -119,11 +119,21 @@ six_ok <- ggplot(df, aes(x=Czas, y=Wartosc, group=Firma, colour=Firma)) +
       legend.text = element_text(size=15),
       title = element_text(size=15)
     )+
-    labs(x="Czas [Lata]",
-         y="Cena Rynkowa[Mln $]",
-         title="Wartość rynkowa firmy",
-         subtitle="W ostatnich latach ich funkcjonowania")+
+    labs(x="Time [Years]",
+         y="Market Value[Mln $]",
+         title="Companies Value")+
     scale_x_continuous(breaks=c(2001:2010)) + scale_colour_hc()
 # Zły przykład
-six_bad <- p +  scale_color_hue(l=2, c=12)
+six_bad <- ggplot(df, aes(x=Time, y=Value, group=Company, colour=Company)) +
+   geom_line(size=2)+
+   theme(legend.position = c(0.9, 0.9))+
+   theme (
+      legend.title = element_text(size=15),
+      legend.text = element_text(size=15),
+      title = element_text(size=15)
+   )+
+   labs(x="Time [Years]",
+        y="Market Value[Mln $]",
+        title="Companies Value")+
+   scale_x_continuous(breaks=c(2001:2010)) +  scale_color_hue(l=2, c=12)
 
