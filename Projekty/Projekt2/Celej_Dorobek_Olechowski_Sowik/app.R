@@ -185,9 +185,9 @@ server <- function(input, output) {
   output$plot6good <- renderPlot(six_ok)
   output$textOutput6 <- renderText({
     if(input$selectInput6=="A") {
-      "Your answer is correct.\nDo you think that this usage of spider chart is useful?"
+      "Your answer is correct."
     }
-    else if(input$selectInput5=="don't know") {
+    else if(input$selectInput6=="don't know") {
       "Select your answer."
     }
     else {
@@ -197,10 +197,10 @@ server <- function(input, output) {
   output$plot7bad <- renderPlot(seven_bad)
   output$plot7good <- renderPlot(seven_ok)
   output$textOutput7 <- renderText({
-    if(input$selectInput7=="6") {
-      "Your answer is correct.\nDo you think that this usage of spider chart is useful?"
+    if(input$selectInput7=="6" ) {
+      "Your answer is correct."
     }
-    else if(input$selectInput7=="don't know") {
+    else if(input$selectInput7 == "don't know") {
       "Select your answer."
     }
     else {
@@ -209,15 +209,15 @@ server <- function(input, output) {
   })
   output$plot8bad <- renderPlot(eight_bad)
   output$plot8good <- renderPlot(eight_ok)
-  output$textOutput7 <- renderText({
-    if(input$selectInput7=="16% larger") {
-      "Your answer is correct.\nDo you think that this usage of spider chart is useful?"
+  output$textOutput8 <- renderText({
+    if(input$selectInput8=="16% larger") {
+      "Your answer is correct."
     }
-    else if(input$selectInput7=="don't know") {
+    else if(input$selectInput8=="don't know") {
       "Select your answer."
     }
     else {
-      "Your answer is incorrect.\nCheck barplot!"
+      "You have been fooled.\nThats how politics works."
     }
   })
 }
