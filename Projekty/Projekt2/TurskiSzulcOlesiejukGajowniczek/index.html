@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<style>
+
+body{
+  max-width: 1050px;
+  margin: 0px auto;
+  font-family: Arial;
+  font-size: 18px;
+  text-align: justify
+}
+
+html { 
+  background: url(img/Jan_Matejko,_Bitwa_pod_Grunwaldem4.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+h1{
+  margin: 50px;
+}
+
+h1{
+  text-align: center;
+}
+
+.army-polish {
+  fill: white;
+  stroke:#bf2d2d;
+  stroke-width: 8px;
+}
+
+.army-ger {
+  fill: #2f1199;
+  stroke:#2f1199;
+  stroke-width: 8px;
+}
+
+.army-lit {
+  fill: #bf2d2d;
+  stroke:#bf2d2d;
+  stroke-width: 8px;
+}
+
+
+#container{
+  position: relative;
+}
+
+#sections{
+  width: 370px;
+}
+
+#sections > div{
+  opacity: .2;
+  margin-bottom: 200px;
+}
+#sections > div:last-child{
+  margin-bottom: 30px;
+}
+#sections > div.graph-scroll-active{
+  opacity: 1;
+}
+
+#graph{
+  margin-left: 40px;
+  width: 600px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+  float: right;
+}
+
+@media (max-width: 925px)  {
+  #graph{
+    width: 100%;
+    margin-left: 0px;
+    float: none;
+  }
+
+  #sections{
+    width: auto;
+    position: relative;
+    margin: 0px auto;
+  }
+
+  #sections > div{
+    padding: 10px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    margin-bottom: 80vh;
+  }
+
+  pre{
+    overflow: hidden;
+  }
+
+  h1{
+    margin: 10px;
+  }
+
+}
+
+
+circle{
+  fill: steelblue;
+}
+
+.mono{
+  font-family: monospace;
+}
+
+svg{
+  background-color:  rgb(0,0,0,0);
+}
+</style>
+<div class = 'pageBackground'>
+<body>
+<h1>Bitwa pod Grunwaldem</h1>
+<br> 
+<div id='container' class='container-1'>
+  <div id='graph'></div>
+  <div id='sections'>
+    <div>
+      <h3>Przyczyny konfliktu</h3>
+      Przyczyną Wielkiej Wojny polsko-krzyżackiej było powstanie na Żmudzi. Zostało ono wsparte przez Litwę,
+      co wciągnęło w konflikt Polskę, gdyż oba kraje rządzone były przez tego samego monarchę: Władysława Jagiełłę.
+      <br>
+      <br>
+    </div>
+
+    <div>
+      <h3>Początek wojny</h3>
+        Wojna rozpoczęła się w roku 1409. Początkowo wojska krzyżackie, dowodzone przez wielkiego mistrza Ulricha von Jungingena,
+        korzystając z nieprzygotowania sił polsko-litewskich zajęły ziemie Dobrzyńską.
+        Jesienią zawarto rozejm, który miał obowiązywać do Zielonych Świąt 1410. Obie strony wykorzystały ten czas na przygotowanie do walk.
+        <br>
+        <br>
+    </div>
+
+
+    <div>
+      <h3>Siły wojsk</h3>
+        Po stronie Zakonu do walki przystąpiło 15 tysięcy jeźdźców, z czego 250 spośród nich było zakonnikami.
+        Siły polsko-litewskie składały się z 20 tysięcy konnych pochodzących z Polski oraz 10 tysięcy wystawionych przez Litwę (część z tych sił to wojska zaciężne).
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+  </div>
+
+</div>
+
+<h1>
+  Przebieg walk
+</h1>
+<br> 
+<div id='container' class='container-2'>
+  <div id='graph'></div>
+
+  <div id='sections'>
+    <div>
+      <h3>Początek walki</h3>
+        Wojska stanęły naprzeciw siebie 15 lipca 1410 roku. Prawe skrzydło wojsk sprzymierzonych zajmowały wojska litewskie, lewe stanowiły zaś siły polskie.
+        Do starcia doszło w okolicach południa. Pierwsze do boju ruszyły oddziały litewskie, chwile później dołączyły do nich wojska polskie.
+        W efekcie powstały dwa ośrodki walki.   
+    </div>
+    
+    <div>
+        <h3>Odwrót wojsk litewskich</h3>
+        Po pewnym czasie lepiej wyposażone siły zakonne zaczęły zdobywać przewagę nad wojskiem litewskim.
+        W wyniku tego oddziału na lewym skrzydle armii sprzymierzonych ruszyły do ucieczki.
+        W pogoń za nimi ruszyła znaczna część wojsk krzyżackich.
+        Będąc przekonanymi o odniesionym zwycięstwie przestali oni pilnować szyku, a wkrótce również stracili kontakt z głównymi siłami zakonnymi.
+
+    </div>
+
+    <div>
+        <h3>Rozbicie pogoni przez odwody polskie</h3>
+        Władysław Jagiełło, widząc kryzys na prawym skrzydle, posłał swoje odwody na pomoc siłom litewskim. Rozbiły one zdezorganizowanych rycerzy krzyżackich, niejednokrotnie wracających już z łupami.
+
+    </div>
+
+    <div>
+        <h3>Ostateczne rozstrzygnięcie</h3>
+        Zmuszony do tego przebiegiem bitwy wielki mistrz sięgnął po ostatnie rezerwy. Także król Polski również rzucił do walki swoje odwody.
+        Na pomoc przyszły im przegrupowane siły litewskie. W ten sposób Krzyżacy zostali otoczeni i pokonani a wielki mistrz poległ. Zdobyty został również obóz krzyżacki.
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+  </div>
+</div>
+
+<h1>
+  Skutki bitwy
+</h1>
+<br> 
+<div id='container' class='container-3'>
+  <div id='graph'></div>
+
+  <div id='sections'>
+
+    <div>
+        <h3>Straty po obu stronach</h3>
+        W wyniku bitwy Krzyżacy ponieśli ogromne straty, w odróżnieniu od Korony, która poniosła relatywnie małe straty. 
+        <br> <br> <br> <br> <br> <br> 
+    </div>
+
+    <div>
+        <h3>Zakończenie wojny</h3>
+        Po bitwie siły Władysława Jagiełły przystąpiły do oblężenia Malborka, jednak zdobycie tej najpotężniejszej twierdzy ówczesnej Europy się nie powiodło.
+        Wojnę zakończono podpisaniem w roku 1411 pokoju toruńskiego. Jego postanowienia były korzystne dla Polski i Litwy. Obejmowały między innymi rezygnację Zakonu z roszczeń do Żmudzi
+        oraz pewne, niewielkie nabytki terytorialne Polski.
+        Miał on również duże znaczenie dla pozycji Jagiełły w Europie, ponieważ dzięki niemu król Polski podpisał traktat pokojowy z Zygmuntem Luksemburskim, władcą Węgier.
+        Zabezpieczało to Polskę przed jednoczesną walką z Krzyżakami i Węgrami.
+        <br>
+        <br>
+    </div>
+
+  </div>
+</div>
+<h3 id='source'></h3>
+</body>
+</div>
+<script src="d3v4+jetpack.js"></script>
+<script src="graph-scroll.js"></script>
+<script>
+
+var mariginTop = 90
+var oldWidth = 0
+function render(){
+  if (oldWidth == innerWidth) return
+  oldWidth = innerWidth
+
+  var width = height = d3.select('#graph').node().offsetWidth
+  var r = 40
+
+
+  if (innerWidth <= 925){
+    width = innerWidth
+    height = innerHeight*.7
+  }
+
+  // return console.log(width, height)
+
+  var svg = d3.select('#graph').html('')
+    .append('svg')
+      .attrs({width: width, height: height+mariginTop})
+    .append("g")
+        .attr("transform", "translate(0 ," + mariginTop + ")");
+
+  var image1 = svg.append('image')
+    .attr('xlink:href', 'img/Wladyslaw_Jagiello.jpg')
+    .attr('width', 500)
+    .attr('height', 600)
+  
+  var image2 = svg.append('image')
+    .attr('xlink:href', 'img/Ulryk2.jpg')
+    .attr('width', 500)
+    .attr('height', 600)
+
+  var image3 = svg.append('image')
+    .attr('xlink:href', 'img/sily.png')
+    .attr('width', 600)
+    .attr('height', 391)
+
+  var image1Visiblity = ["visible", "hidden", "hidden"]
+  var image2Visiblity = ["hidden", "visible", "hidden"]
+  var image3Visiblity = ["hidden", "hidden", "visible"]
+  var colors = ['orange', 'purple', 'steelblue', 'pink', 'black']
+  var circleVisiblity = ["hidden", "visible", "visible", "hidden", "hidden"]
+  var imageVisiblity = ["visible", "hidden", "hidden", "hidden", "hidden"]
+  var textVisiblity = ["hidden", "hidden", "visible", "visible", "visible"]
+  var mapVisibility = ["visible", "visible", "visible", "visible", "visible"]
+
+  var gs = d3.graphScroll()
+      .container(d3.select('.container-1'))
+      .graph(d3.selectAll('container-1 #graph'))
+      .eventId('uniqueId1')  // namespace for scroll and resize events
+      .sections(d3.selectAll('.container-1 #sections > div'))
+      // .offset(innerWidth < 900 ? innerHeight - 30 : 200)
+      .on('active', function(i){
+        var pos = [ {cx: width - r, cy: r},
+                    {cx: r,         cy: r},
+                    {cx: width - r, cy: height - r},
+                    {cx: width/2,   cy: height/2} ][i]
+
+        image1.style("visibility", image1Visiblity[i])
+        image2.style("visibility", image2Visiblity[i])
+        image3.style("visibility", image3Visiblity[i])
+      })
+  
+  var mapScale = 1.7
+    
+  var scaleArmyDict = function(armyDict, scale){
+    return armyDict.map(function(d){
+      return {
+        "x": d.x.map(function(dx){return dx * scale}),
+        "y": d.y.map(function(dy){return dy * scale}),
+        "radius": d.radius
+      }
+    })
+  }
+
+  var svg2 = d3.select('.container-2 #graph').html('')
+    .append('svg')
+      .attrs({width: width * mapScale, height: 385 * mapScale + mariginTop})
+    .append("g")
+        .attr("transform", "translate(0 ," + mariginTop + ")");
+  var radiusMult = 1.5
+  var dataArmyPol = [
+      {"x": [178, 171, 171, 155], "y": [285, 285, 285, 220], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [212, 204, 204, 190], "y": [255, 255, 255, 225], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [240, 233, 233, 238], "y": [220, 220, 220, 210], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [265, 260, 260, 240], "y": [185, 185, 185, 175], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [220, 216, 216, 220], "y": [300, 300, 300, 230], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [285, 285, 330, 290], "y": [230, 230, 180, 170], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [412, 412, 370, 370], "y": [190, 190, 140, 140], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 0 * radiusMult]},
+      {"x": [400, 400, 360, 290], "y": [250, 250, 170, 135], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      ]
+
+    dataArmyPol = scaleArmyDict(dataArmyPol, mapScale)
+
+    var dataArmyLit = [
+      {"x": [292, 360, 360, 360], "y": [147, 150, 150, 150], "radius": [9 * radiusMult, 0 * radiusMult, 0 * radiusMult, 0 * radiusMult]},
+      {"x": [315, 355, 355, 355], "y": [115, 120, 120, 120], "radius": [9 * radiusMult, 0 * radiusMult, 0 * radiusMult, 0 * radiusMult]},
+      {"x": [345, 370, 370, 270], "y": [84, 100, 100, 110], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      ]
+
+    dataArmyLit = scaleArmyDict(dataArmyLit, mapScale)
+
+
+    var dataArmyGer = [
+      {"x": [86, 86, 86, 260], "y": [110, 110, 110, 160], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [76, 76, 76, 250], "y": [140, 140, 140, 140], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [150, 156, 156, 160], "y": [258, 265, 265, 195], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [178, 184, 184, 190], "y": [220, 230, 230, 205], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [206, 212, 212, 205], "y": [185, 195, 195, 200], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [230, 235, 235, 215], "y": [150, 165, 165, 190], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 9 * radiusMult]},
+      {"x": [254, 330, 330, 330], "y": [115, 150, 150, 150], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 0 * radiusMult]},
+      {"x": [278, 335, 335, 335], "y": [80, 100, 100, 100], "radius": [9 * radiusMult, 9 * radiusMult, 0 * radiusMult, 0 * radiusMult]},
+      {"x": [308, 355, 355, 355], "y": [50, 80, 80, 80], "radius": [9 * radiusMult, 9 * radiusMult, 9 * radiusMult, 0 * radiusMult]},
+      ]
+
+    dataArmyGer = scaleArmyDict(dataArmyGer, mapScale)
+
+
+  var map = svg2.append('image')
+    .attr('xlink:href', 'mapa.svg')
+    .attr('width', 500 * mapScale)
+    .attr('height', 385 * mapScale)
+
+  
+
+  var armyPol = svg2.append('svg')
+                  .selectAll("circle")
+                    .data(dataArmyPol)
+                    .enter().append("circle").attr("cx", function (d) { return d.x[0]; })
+                              .attr("cy", function (d) { return d.y[0]; })
+                              .attr("r", function (d) { return d.radius[0]; })
+                              .attr("class", "army-polish")
+                              .style("fill", function(d) { return d.color; })
+
+  var armyLit = svg2.append('svg')
+                .selectAll("circle")
+                  .data(dataArmyLit)
+                  .enter().append("circle").attr("cx", function (d) { return d.x[0]; })
+                            .attr("cy", function (d) { return d.y[0]; })
+                            .attr("r", function (d) { return d.radius[0]; })
+                            .attr("class", "army-lit")
+                            .style("fill", function(d) { return d.color; })
+
+  var armyGer = svg2.append('svg')
+                .selectAll("circle")
+                  .data(dataArmyGer)
+                  .enter().append("circle").attr("cx", function (d) { return d.x[0]; })
+                            .attr("cy", function (d) { return d.y[0]; })
+                            .attr("r", function (d) { return d.radius[0]; })
+                            .attr("class", "army-ger")
+                            .style("fill", function(d) { return d.color; })
+
+
+
+  var gs2 = d3.graphScroll()
+      .container(d3.select('.container-2'))
+      .graph(d3.selectAll('.container-2 #graph'))
+      .eventId('uniqueId2')  // namespace for scroll and resize events
+      .sections(d3.selectAll('.container-2 #sections > div'))
+      .on('active', function(i){
+        map.style("visibility", mapVisibility[i])
+        
+        armyPol.transition().duration(1000)
+              .attr("cx", function (d) { return d.x[i]; })
+              .attr("cy", function (d) { return d.y[i]; })
+              .attr("r", function (d) { return d.radius[i]; })
+        
+        armyLit.transition().duration(1000)
+              .attr("cx", function (d) { return d.x[i]; })
+              .attr("cy", function (d) { return d.y[i]; })
+              .attr("r", function (d) { return d.radius[i]; })
+
+
+        armyGer.transition().duration(1000)
+              .attr("cx", function (d) { return d.x[i]; })
+              .attr("cy", function (d) { return d.y[i]; })
+              .attr("r", function (d) { return d.radius[i]; })
+
+
+      })
+
+  var svg3 = d3.select('.container-3 #graph').html('')
+    .append('svg')
+      .attrs({width: width, height: height + mariginTop})
+    .append("g")
+        .attr("transform", "translate(0 ," + mariginTop + ")");
+
+  var path = svg3.append('path')
+
+  var imagePlot = svg3.append('image')
+    .attr('xlink:href', 'img/straty.png')
+    .attr('width', 600)
+    .attr('height', 391)
+
+  var imageCronica = svg3.append('image')
+    .attr('xlink:href', 'img/kronika_konfliktu.jpg')
+    .attr('width', 500)
+    .attr('height', 600)
+
+  var imagePlotVisiblty = ["visible", "hidden"]
+  var imageCronicaVisiblty = ["hidden", "visible"]
+
+  var gs3 = d3.graphScroll()
+      .container(d3.select('.container-3'))
+      .graph(d3.selectAll('.container-3 #graph'))
+      .eventId('uniqueId3')  // namespace for scroll and resize events
+      .sections(d3.selectAll('.container-3 #sections > div'))
+      .on('active', function(i){
+        
+
+        imagePlot.style("visibility", imagePlotVisiblty[i])
+        imageCronica.style("visibility", imageCronicaVisiblty[i])
+
+      })
+
+  d3.select('#source')
+      .styles({'margin-bottom': window.innerHeight - 730 + 'px', padding: '50px'})
+}
+render()
+d3.select(window).on('resize', render)
+
+
+</script>

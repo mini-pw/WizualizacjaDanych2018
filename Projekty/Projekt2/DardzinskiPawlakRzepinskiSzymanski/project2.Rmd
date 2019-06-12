@@ -1,0 +1,319 @@
+---
+title: "Consequences of bad data visualization"
+author: "Marcin Dardziński, Stanisław Pawlak, Paweł Rzepiński, Ryszard Szymański"
+output:
+  slidy_presentation:
+    css: style.css
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(magrittr)
+library(dplyr)
+library(tidyverse)
+library(viridis)
+library(patchwork)
+library(tidyverse)
+library(hrbrthemes)
+source("./builder.R")
+```
+
+
+## Pie Chart madness
+
+```{r echo=FALSE}
+mycols <- c("#0073C2FF", "#EFC000FF", "#868686FF", "#CD534CFF")
+count.data <- data.frame(
+  class = c("1st", "2nd", "3rd", "Crew"),
+  n = c(325, 285, 706, 885),
+  prop = c(14.8, 12.9, 32.1, 40.2)
+)
+
+
+pie_chart <- ggplot(count.data, aes(x = "", y = prop, fill = class)) +
+  geom_bar(width = 1, stat = "identity", color = "white") +
+  coord_polar("y", start = 0)+
+  scale_fill_manual(values = mycols)
+
+bar_chart <- ggplot(count.data, aes(x = class, y = prop, fill = class)) +
+  geom_bar(width = 1, stat = "identity", color = "white") +
+  scale_fill_manual(values = mycols)
+
+builder <- create_visualization_case_builder() %>% 
+  add_good_plot(bar_chart) %>% 
+  add_bad_plot(pie_chart) %>% 
+  add_qa_case("What is the value for the 1st class?", "14.8 %") %>% 
+  add_qa_case("What is the value for the 2nd class?", "12.9 %") %>% 
+  add_qa_case("What is the value for the 3rd class?", "32.1 %") %>% 
+  add_qa_case("What is the value for the Crew?", "40.2 %")
+
+app <- build(builder)
+shinyApp(app$ui, app$server)
+```
+
+
+## Order - so simple, so brilliant
+
+```{r echo=FALSE}
+df = data.frame(head(USArrests, 10))
+df = df %>% mutate(names = rownames(df))
+
+unordered = ggplot(df, aes(x=names , y =Assault )) +
+  geom_bar(stat = 'identity') +
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) +
+  xlab("State") +
+  ylab("Assaults")
+
+
+
+ordered =  
+  ggplot(df, aes(x=reorder(names, -Assault) , y=Assault )) +
+  geom_bar(stat = 'identity') +
+  geom_text(aes(label=Assault), vjust= -0.2) +
+  theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) +
+  xlab("State") +
+  ylab("Assaults") 
+  
+
+builder <- create_visualization_case_builder() %>% 
+  add_good_plot(ordered) %>% 
+  add_bad_plot(unordered) %>% 
+  add_qa_case("What is the value for Alaska?", 263) %>% 
+  add_qa_case("What State has more assaults: Colorado or Georgia?", "Georgia") %>% 
+  add_qa_case("What is the difference?", 7)
+
+app <- build(builder)
+shinyApp(app$ui, app$server)
+```
+
+## Fancy Radial barplots
+
+```{r echo=FALSE}
+
+
+df = data.frame(head(USArrests, 5))
+df = df %>% mutate(names = rownames(df))
+
+bad = df %>%
+      arrange(UrbanPop) %>%
+      mutate(names=factor(names, names)) %>%
+      ggplot( aes(x=names, y=UrbanPop) ) +
+      geom_bar(stat="identity") +
+      geom_text(hjust = 1, size = 3, aes(y = 0, label = paste(names," "))) +
+      theme_ipsum() +
+      theme(
+        panel.grid.minor.y = element_blank(),
+        panel.grid.major.y = element_blank(),
+        legend.position="none",
+        axis.text = element_blank()
+      ) +
+      ylab("") +
+      xlab("") +
+      coord_polar(theta = "y") +
+      ylim(0,100) 
+
+good1 =  ggplot(df, aes(x=reorder(names, -UrbanPop) , y=UrbanPop )) +
+      geom_bar(stat = 'identity') +
+      geom_text(aes(label=UrbanPop), vjust= -0.2) +
+      theme(axis.text.x = element_text(angle = 60, vjust = 0.5)) +
+      xlab("State") +
+      ylab("Urban Population")
+
+good2 = df %>%
+        arrange(UrbanPop) %>%
+        mutate(names=factor(names, names)) %>%
+          ggplot( aes(x=names, y=UrbanPop) ) +
+            ggtitle("Percent of Urban Population") +
+            geom_segment( aes(x=names ,xend=names, y=0, yend=UrbanPop), color="grey") +
+            geom_point(size=3) + #color="#69b3a2") +
+            geom_text(aes(label=UrbanPop), vjust= -0.3, hjust= 1.3) +
+            coord_flip() +
+            ylim(0, 100) +
+            theme_ipsum() +
+            theme(
+              panel.grid.minor.y = element_blank(),
+              panel.grid.major.y = element_blank(),
+              legend.position="none"
+            ) +
+            ylab("") +
+            xlab("") 
+
+builder <- create_visualization_case_builder() %>% 
+  add_good_plot(good1) %>% 
+  add_good_plot(good2) %>% 
+  add_bad_plot(bad) %>% 
+  add_qa_case("What is the difference between Arkansas and Alaska?", 2) %>% 
+  add_qa_case("What is the value for Arizona?", 80) %>% 
+  add_qa_case("What is the value for California?", 91)
+
+app <- build(builder)
+shinyApp(app$ui, app$server)
+```
+
+## Stacked plots
+```{r echo=FALSE}
+source('stacked.R')
+
+app <- stacked_example() %>% build()
+shinyApp(app$ui, app$server)
+```
+
+## Misleading captions
+```{r echo=FALSE}
+source('brexit.R')
+
+app <- brexit_example() %>% build()
+shinyApp(app$ui, app$server)
+```
+
+## Double axes
+```{r echo=FALSE, message=FALSE}
+
+pd <- read.csv("plot-double_axes.csv")
+
+to_trillion <- function(b) { paste0(round(b / 10^12, 0), "T")}
+
+ratio <- max(pd$World) / max(pd$Germany)
+
+bad_plot <- ggplot() + 
+  geom_line(mapping = aes(x = pd$Year, y = pd$World), color = "grey") +
+  geom_line(mapping = aes(x = pd$Year, y = pd$Germany*ratio), color = "blue") + 
+  scale_y_continuous(name = "World", labels = to_trillion,
+                     sec.axis = sec_axis(~./ratio, name = "Germany", labels = to_trillion)) + 
+  xlab("Year") +
+  theme(
+    axis.title.y = element_text(color = "grey"),
+    axis.title.y.right = element_text(color = "blue"))
+
+# So while the chart looks likethe German GDP and the global GDP go up at roughly the same rate (at least until 2014), 
+# they don’t. The global GDP increased by 80% until 2014; the GDP of Germany by 40%.
+
+library(dplyr)
+library(tidyr)
+new_pd <- mutate(pd) %>%
+  mutate(Germany_Change = Germany/Germany[1] * 100 - 100, World_Change = World/World[1] * 100 - 100) %>%
+  ungroup %>%
+  select(Year, Germany_Change, World_Change) %>% 
+  gather(key, value, Germany_Change, World_Change)
+
+good_plot <- ggplot(new_pd, aes(x=Year, y=value, colour=key)) +
+  geom_line()
+
+builder <- create_visualization_case_builder() %>% 
+  add_good_plot(good_plot) %>% 
+  add_bad_plot(bad_plot) %>% 
+  add_qa_case("How much global GDP increased until 2014?", 80) %>% 
+  add_qa_case("How much GDP of Germany increased until 2014?", 40)
+
+app <- build(builder)
+shinyApp(app$ui, app$server)
+```
+
+## Fancy Circular barplots
+
+```{r echo=FALSE}
+
+
+df = data.frame(tail(USArrests, 10))
+df = df %>% mutate(names = rownames(df))
+df$id=seq(1, to=nrow(df))
+
+label_df=df
+number_of_bar=nrow(label_df)
+angle= 90 - 360 * (label_df$id-0.5) /number_of_bar     
+label_df$hjust<-ifelse( angle < -90, 1, 0)
+label_df$angle<-ifelse(angle < -90, angle+180, angle)
+
+bad = ggplot(df, aes(x=as.factor(id), y=UrbanPop)) +  
+        geom_bar(stat="identity", alpha=0.5) +
+        scale_fill_viridis(discrete=TRUE) +
+        ylim(-5,100) +
+        theme_minimal() +
+        theme(
+          legend.position = "none",
+          axis.text = element_blank(),
+          axis.title = element_blank(),
+          panel.grid = element_blank(),
+          plot.margin = unit(rep(-1,4), "cm") 
+        ) +
+        coord_polar() + 
+        geom_text(data=label_df, 
+              aes(x=id, y=UrbanPop+10, label=names, hjust=hjust),
+              color="black", 
+              fontface="bold",
+              alpha=0.6, 
+              size=2.5,
+              angle= label_df$angle, 
+              inherit.aes = FALSE ) 
+
+good = ggplot(df, aes(x=as.factor(id), y=UrbanPop)) +  
+        geom_bar(stat="identity", alpha=0.5) +
+        scale_fill_viridis(discrete=TRUE) +
+        ylim(-80,100) +
+        theme_minimal() +
+        theme(
+          legend.position = "none",
+          axis.text = element_blank(),
+          axis.title = element_blank(),
+          panel.grid = element_blank(),
+          plot.margin = unit(rep(-2,4), "cm") 
+        ) +
+        coord_polar() + 
+        geom_text(data=label_df, 
+                  aes(x=id, y=UrbanPop+10, label=paste(names, UrbanPop, sep=" "), hjust=hjust),
+                  color="black", 
+                  fontface="bold",
+                  alpha=0.6, 
+                  size=2.5,
+                  angle= label_df$angle, 
+                  inherit.aes = FALSE ) 
+
+builder <- create_visualization_case_builder() %>% 
+  add_good_plot(good) %>% 
+  add_bad_plot(bad) %>% 
+  add_qa_case("How many times is Virginia greater than Vermont?", 2) %>% 
+  add_qa_case("If Utah Value is 80, what is the value for Washington?", 73) %>% 
+  add_qa_case("Is Texas Value equal with Utah?", "Yes")
+
+app <- build(builder)
+shinyApp(app$ui, app$server)
+```
+
+
+## Area plot
+
+```{r echo=FALSE}
+data <- data.frame(name=c("United States", "China", "Japan", "Germany", "France"),
+                   gdp=c(14.6,5.7,5.3,3.3,2.5) )
+
+bad_plot <- ggplot(data, aes(x=name, y=1, size=gdp)) +
+  geom_point(color="#69b3a2") +
+  geom_text(aes(label=name), size=3) +
+  scale_size_continuous(range=c(5,29.2)) +
+  theme_void() +
+  theme(
+    legend.position="none"
+  ) +
+  ylim(0.9,1.1)
+
+good_plot <- ggplot(data, aes(x=reorder(name, -gdp), y=gdp)) +
+  geom_bar(stat="identity", fill="#69b3a2") + 
+  xlab("")
+
+# US GDP vs China GDP? How many times more?
+# Ordering, area vs radius for circle plots
+
+builder <- create_visualization_case_builder() %>% 
+  add_bad_plot(bad_plot) %>% 
+  add_good_plot(good_plot) %>% 
+  add_qa_case("How many times US GDP is larger than China's?", 2.56)
+  
+  
+app <- build(builder)
+shinyApp(app$ui, app$server)
+```
+
+##
+
+<h1>Thank you for your attention!</h1>

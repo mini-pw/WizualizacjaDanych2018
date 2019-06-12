@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Simple Bar chart</title>
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+        }
+        
+        .bar {
+            fill: #5f89ad;
+        }
+        
+        .axis {
+            font-size: 13px;
+        }
+        
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .axis text {
+            fill: black;
+        }
+        
+        .label {
+            font-size: 13px;
+        }
+        
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            /*width: 60px;*/
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="graphic"></div>
+
+    <script>
+        var data = [{"name": "Bemowo", "value": 177, "citizens": "120 449"},
+                    {"name": "Białołęka", "value": 295, "citizens": "116 127"},
+                    {"name": "Bielany", "value": 623, "citizens": "131 957"},
+                    {"name": "Mokotów", "value": 578, "citizens": "217 815"},
+                    {"name": "Ochota", "value": 532, "citizens": "83 592"},
+                    {"name": "Praga-Południe", "value": 838, "citizens": "178 447"},
+                    {"name": "Praga-Północ", "value": 564, "citizens": "65 904"},
+                    {"name": "Rembertów", "value": 88, "citizens": "24 105"},
+                    {"name": "Śródmieście", "value": 1446, "citizens": "118 301"},
+                    {"name": "Targówek", "value": 431, "citizens": "123 535"},
+                    {"name": "Ursus", "value": 162, "citizens": "58 223"},
+                    {"name": "Ursynów", "value": 195, "citizens": "149 843"},
+                    {"name": "Wawer", "value": 294, "citizens": "74 932"},
+                    {"name": "Wesoła", "value": 55, "citizens": "24 811"},
+                    {"name": "Wilanów", "value": 157, "citizens": "35 170"},
+                    {"name": "Włochy", "value": 185, "citizens": "41 423"},
+                    {"name": "Wola", "value": 900, "citizens": "138 508"},
+                    {"name": "Żoliborz", "value": 400, "citizens": "50 825"}
+                    ];
+
+        data = data.sort(function (a, b) {
+            return d3.descending(a.value, b.value);
+        });
+
+        var margin = {
+            top: 30,
+            right: 50,
+            bottom: 40,
+            left: 100,
+        };
+
+        var width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
+            
+        var svg = d3.select("body").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        var x = d3.scaleLinear()
+            .range([0, width]);
+            
+        var xAxis = d3.axisBottom(x);
+
+        x.domain([0, d3.max(data, function(d) { return d.value; })]).nice();
+        
+        svg.append("g")
+           .attr("class", "x axis")
+           .attr("transform", "translate(0," + height + ")")
+           .call(xAxis)
+           .append("text")
+           .attr("class", "label")
+           .attr("x", width)
+           .attr("y", -6)
+           .style("text-anchor", "end")
+           .text("Liczba interwencji");
+        
+        var y = d3.scaleBand()
+            .domain(data.map(function (d) {
+                return d.name;
+            }))
+            .rangeRound([0, height])
+            .padding(0.1);
+
+        var yAxis = d3.axisLeft(y);
+
+        var gy = svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+
+        var bars = svg.selectAll(".bar")
+            .data(data)
+            .enter()
+            .append("g")
+
+        bars.append("rect")
+            .attr("class", "bar")
+            .attr("y", function (d) {
+                return y(d.name);
+            })
+            .attr("height", y.bandwidth())
+            .attr("x", 0)
+            .attr("width", function (d) {
+                return x(d.value);
+            });
+
+        bars.append("text")
+            .attr("class", "label")
+            .attr("y", function (d) {
+                return y(d.name) + y.bandwidth() / 2 + 4;
+            })
+            .attr("x", function (d) {
+                return x(d.value) + 3;
+            })
+            .text(function (d) {
+                return d.value;
+            });
+            
+        svg.append("text")
+            .attr("x", (width / 2))             
+            .attr("y", 0 - (margin.top / 2))
+            .attr("text-anchor", "middle")  
+            .style("font-size", "16px") 
+            .style("text-decoration", "underline")  
+            .text("Liczba interwencji Straży Miejskiej m.st. Warszawy w Styczniu 2019");
+            
+        var div = d3.select("body").append("div")	
+            .attr("class", "tooltip")				
+            .style("opacity", 0);
+            
+        svg.selectAll(".bar")
+            .data(data)
+            .on("mouseover", function(d) {
+                div.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                div.html("<b>" + "Liczba mieszkańców:" + "</b><br/>"  + d.citizens + "<br/>")
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(d) {
+                div.transition()
+                .duration(500)
+                .style("opacity", 0);
+            });
+        
+    </script>
+
+</body>
+
+</html>
